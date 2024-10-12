@@ -1,0 +1,19 @@
+{
+  "name": "travelgraphy",
+  "version": "1.0.0",
+  "description": "여행 정산 기능 및 간편한 기능을 위한 앱",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ktb-9/frontend.git"
+  },
+  "author": "tess",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ktb-9/frontend/issues"
+  },
+  "homepage": "https://github.com/ktb-9/frontend#readme"
+}
