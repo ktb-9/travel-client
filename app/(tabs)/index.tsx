@@ -1,5 +1,5 @@
 import React from "react";
-import { View, StyleSheet, SafeAreaView } from "react-native";
+import { View, SafeAreaView, Text, ScrollView } from "react-native";
 import Header from "@/components/header/header";
 import { useTheme } from "@/hooks/useTheme";
 import HotPlace from "@/components/common/hotplace/hotplace";
@@ -20,11 +20,31 @@ export default function HomeScreen() {
       {/* 헤더 */}
       <Header toggle={toggleTheme} isDark={isDarkMode} />
       {/* 컴포넌트 */}
-      <View style={styles.content}>
+      <ScrollView contentContainerStyle={styles.content}>
         <UpComming />
+        <Text
+          style={{
+            fontWeight: "bold",
+            fontSize: 20,
+            width: "100%",
+            paddingLeft: 30,
+          }}
+        >
+          핫 플레이스
+        </Text>
         <HotPlace />
+        <Text
+          style={{
+            fontWeight: "bold",
+            fontSize: 20,
+            width: "100%",
+            paddingLeft: 30,
+          }}
+        >
+          추억을 담아
+        </Text>
         <History />
-      </View>
+      </ScrollView>
     </SafeAreaView>
   );
 }
