@@ -5,7 +5,7 @@ import { useTheme } from "@/hooks/useTheme";
 import HotPlace from "@/components/common/hotplace/hotplace";
 import UpComming from "@/components/common/upcomming/upcomming";
 import History from "@/components/common/history/history";
-
+import styles from "./styles";
 export default function HomeScreen() {
   const { isDarkMode, toggleTheme } = useTheme();
 
@@ -28,14 +28,3 @@ export default function HomeScreen() {
     </SafeAreaView>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  content: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-});
