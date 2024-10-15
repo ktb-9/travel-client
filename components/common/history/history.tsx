@@ -1,9 +1,9 @@
 import React, { useRef, useState } from "react";
-import { View, Text, Image, Animated } from "react-native";
+import { View, Text, Image, Animated, Dimensions } from "react-native";
 import styles from "./styles";
 import sokcho from "@/assets/images/sokcho.png";
 import chuncheon from "@/assets/images/chuncheon.png";
-
+const { width } = Dimensions.get("window");
 type DataState = {
   id: string;
   destination: any;
@@ -12,7 +12,7 @@ type DataState = {
   hashTag: string;
 };
 
-const CARD_WIDTH = 185;
+const CARD_WIDTH = width * 0.42;
 const SPACING = 20;
 
 const History = () => {
@@ -39,25 +39,42 @@ const History = () => {
       subDescription: "2024-08-14~2024-06-19",
       hashTag: "#200일 #애인 #달갈비 #자전거",
     },
+    {
+      id: "3",
+      destination: chuncheon,
+      mainDescription: "춘천 여행",
+      subDescription: "2024-08-14~2024-06-19",
+      hashTag: "#200일 #애인 #달갈비 #자전거",
+    },
+    {
+      id: "3",
+      destination: chuncheon,
+      mainDescription: "춘천 여행",
+      subDescription: "2024-08-14~2024-06-19",
+      hashTag: "#200일 #애인 #달갈비 #자전거",
+    },
   ]);
 
   const renderItem = ({ item, index }: { item: DataState; index: number }) => {
+    // inputRange는 카드의 인덱스를 기준으로, 각 카드의 위치를 정의합니다.
     const inputRange = [
-      (index - 1) * (CARD_WIDTH + SPACING),
-      index * (CARD_WIDTH + SPACING),
-      (index + 1) * (CARD_WIDTH + SPACING),
+      (index - 1) * (CARD_WIDTH + SPACING), // 이전 카드의 위치
+      index * (CARD_WIDTH + SPACING), // 현재 카드의 위치
+      (index + 1) * (CARD_WIDTH + SPACING), // 다음 카드의 위치
     ];
 
+    // scale은 스크롤 위치에 따라 카드의 크기를 조정합니다.
     const scale = scrollX.interpolate({
       inputRange,
-      outputRange: [0.9, 1, 0.9],
-      extrapolate: "clamp",
+      outputRange: [0.9, 1, 0.9], // 카드가 중심에 있을 때는 크기가 1, 좌우에 있을 때는 0.9로 줄어듭니다.
+      extrapolate: "clamp", // 범위를 벗어나는 값은 고정(clamp) 처리합니다.
     });
 
+    // opacity는 스크롤 위치에 따라 카드의 투명도를 조정합니다.
     const opacity = scrollX.interpolate({
       inputRange,
-      outputRange: [0.7, 1, 0.7],
-      extrapolate: "clamp",
+      outputRange: [0.7, 1, 0.7], // 카드가 중심에 있을 때는 불투명(1), 좌우에 있을 때는 0.7로 투명해집니다.
+      extrapolate: "clamp", // 범위를 벗어나는 값은 고정(clamp) 처리합니다.
     });
 
     return (
@@ -88,7 +105,12 @@ const History = () => {
         showsHorizontalScrollIndicator={false}
         snapToInterval={CARD_WIDTH + SPACING}
         decelerationRate="fast"
-        contentContainerStyle={styles.cardContainer}
+        contentContainerStyle={{
+          paddingHorizontal: SPACING / 2,
+          paddingRight: width - CARD_WIDTH * 1.25,
+          paddingLeft: width * 0.06,
+        }}
+        scrollEventThrottle={16} // 이벤트 발생 빈도 설정
         onScroll={Animated.event(
           [{ nativeEvent: { contentOffset: { x: scrollX } } }],
           { useNativeDriver: true }

@@ -1,4 +1,5 @@
 import { StyleSheet, Dimensions } from "react-native";
+const { width } = Dimensions.get("window");
 const styles = StyleSheet.create({
   container: {
     width: "100%", // 변경됨
@@ -9,7 +10,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 30, // 추가됨
   },
   box: {
-    width: 185,
+    width: width * 0.42, // 화면 너비의 40%
     borderBlockColor: "black",
     borderRadius: 25,
     marginRight: 20, // 추가됨

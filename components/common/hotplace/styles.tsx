@@ -11,7 +11,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   box: {
-    width: 185,
+    width: "46%",
     borderBlockColor: "black",
     borderRadius: 25,
   },
