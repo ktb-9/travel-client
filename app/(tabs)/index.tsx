@@ -1,29 +1,34 @@
-import { useTheme } from "@/hooks/useTheme";
 import React from "react";
-import { View, Text, TouchableOpacity } from "react-native";
-useTheme;
+import { View, StyleSheet, SafeAreaView } from "react-native";
+import Header from "@/components/header/header";
+import { useTheme } from "@/hooks/useTheme";
 
 export default function HomeScreen() {
   const { isDarkMode, toggleTheme } = useTheme();
 
   return (
-    //화면 스타일 div라고생각하자
-    <View
-      style={{
-        flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
-        backgroundColor: isDarkMode ? "#000" : "#fff",
-      }}
+    //컨테이너
+    <SafeAreaView
+      style={[
+        styles.container,
+        { backgroundColor: isDarkMode ? "#000" : "#fff" },
+      ]}
     >
-      <Text style={{ color: isDarkMode ? "#fff" : "#000" }}>
-        Current theme: {isDarkMode ? "Dark" : "Light"}
-      </Text>
-      <TouchableOpacity onPress={toggleTheme}>
-        <Text style={{ color: isDarkMode ? "#fff" : "#000" }}>
-          Toggle Theme
-        </Text>
-      </TouchableOpacity>
-    </View>
+      {/* 헤더 */}
+      <Header toggle={toggleTheme} isDark={isDarkMode} />
+      {/* 컴포넌트 */}
+      <View style={styles.content}></View>
+    </SafeAreaView>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+  content: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+});

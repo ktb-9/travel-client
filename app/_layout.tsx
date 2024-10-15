@@ -11,7 +11,8 @@ export default function RootLayout() {
   return (
     <QueryClientProvider client={queryClient}>
       <RecoilRoot>
-        <Stack />
+        {/* 상단 탭 없애기 */}
+        <Stack screenOptions={{ headerShown: false }} />
       </RecoilRoot>
     </QueryClientProvider>
   );
