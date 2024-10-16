@@ -1,18 +1,68 @@
 import { StyleSheet, Dimensions } from "react-native";
 const styles = StyleSheet.create({
   container: {
-    width: "90%",
-    height: 250,
-
+    width: "90%", // React Native에서는 px를 생략합니다
+    height: 650,
+    backgroundColor: "#FFFFFF",
+    shadowColor: "#E5E8F5", // 그림자 색상
+    shadowOffset: { width: 0, height: 4 }, // 그림자 오프셋
+    shadowOpacity: 1, // 그림자 불투명도
+    shadowRadius: 30, // 그림자 퍼짐 정도
+    elevation: 10, // 안드로이드 그림자 높이
+    borderRadius: 30,
+    gap: 7,
     display: "flex",
-    gap: 20,
-    flexDirection: "row",
-    alignContent: "center",
-    justifyContent: "center",
   },
+  title: {
+    marginTop: 20,
+    marginLeft: 20,
+    fontSize: 23,
+    fontFamily: "robotoBold",
+  },
+  comment: {
+    marginLeft: 20,
+    width: 100,
+    textAlign: "center",
+    fontSize: 12,
+    fontFamily: "robotoBold",
+    color: "#747476",
+  },
+  wrapper: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "center",
+
+    width: "100%",
+    height: 525,
+    gap: 15,
+    borderRadius: 30,
+  },
+  grid23: {
+    display: "flex",
+    alignItems: "center",
+    gap: 10,
+    width: "45%",
+    height: "60%",
+  },
+
   box: {
-    width: "46%",
+    width: "42%",
+    height: 350,
     borderBlockColor: "black",
+    borderRadius: 20,
+  },
+  box2: {
+    width: "100%",
+    borderBlockColor: "black",
+    height: 170,
+    borderRadius: 25,
+  },
+  box3: {
+    position: "absolute",
+    bottom: 0,
+    width: "90%",
+    borderBlockColor: "black",
+    height: 160,
     borderRadius: 25,
   },
   overlay: {
