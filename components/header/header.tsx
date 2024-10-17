@@ -24,6 +24,7 @@ const Header = ({ toggle, isDark }: header) => {
           광열 <Text style={{ color: "#B4B2B2" }}>님</Text>
         </Text>
       </TouchableOpacity>
+
       <TouchableOpacity onPress={toggle} style={styles.button}>
         <Ionicons
           name={isDark ? "sunny" : "moon"}
