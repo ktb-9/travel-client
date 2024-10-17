@@ -22,7 +22,7 @@ const History = () => {
     NotoBlack: require("@/assets/fonts/NotoSansKR-Black.ttf"),
     robotoBold: require("@/assets/fonts/Roboto-Bold.ttf"),
   });
-  if (!fontsLoaded) return null;
+
   const [data] = useState<DataState[]>([
     {
       id: "1",
