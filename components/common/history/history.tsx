@@ -3,6 +3,7 @@ import { View, Text, Image, Animated, Dimensions } from "react-native";
 import styles from "./styles";
 import sokcho from "@/assets/images/sokcho.png";
 import chuncheon from "@/assets/images/chuncheon.png";
+import { useFonts } from "expo-font";
 const { width } = Dimensions.get("window");
 type DataState = {
   id: string;
@@ -17,6 +18,11 @@ const SPACING = 20;
 
 const History = () => {
   const scrollX = useRef(new Animated.Value(0)).current;
+  const [fontsLoaded] = useFonts({
+    NotoBlack: require("@/assets/fonts/NotoSansKR-Black.ttf"),
+    robotoBold: require("@/assets/fonts/Roboto-Bold.ttf"),
+  });
+  if (!fontsLoaded) return null;
   const [data] = useState<DataState[]>([
     {
       id: "1",
@@ -66,7 +72,7 @@ const History = () => {
     // scale은 스크롤 위치에 따라 카드의 크기를 조정합니다.
     const scale = scrollX.interpolate({
       inputRange,
-      outputRange: [0.9, 1, 0.9], // 카드가 중심에 있을 때는 크기가 1, 좌우에 있을 때는 0.9로 줄어듭니다.
+      outputRange: [0.9, 1, 0.2], // 카드가 중심에 있을 때는 크기가 1, 좌우에 있을 때는 0.9로 줄어듭니다.
       extrapolate: "clamp", // 범위를 벗어나는 값은 고정(clamp) 처리합니다.
     });
 
@@ -100,15 +106,19 @@ const History = () => {
 
   return (
     <View style={styles.container}>
+      <Text style={styles.header1}>추억을 담아</Text>
+      <Text style={styles.header2}>여행을 떠올려 보세요!</Text>
       <Animated.ScrollView
         horizontal
         showsHorizontalScrollIndicator={false}
         snapToInterval={CARD_WIDTH + SPACING}
         decelerationRate="fast"
         contentContainerStyle={{
+          display: "flex",
+          alignItems: "center",
           paddingHorizontal: SPACING / 2,
-          paddingRight: width - CARD_WIDTH * 1.25,
-          paddingLeft: width * 0.06,
+          paddingRight: width - CARD_WIDTH * 1.4,
+          paddingLeft: width * 0.01,
         }}
         scrollEventThrottle={16} // 이벤트 발생 빈도 설정
         onScroll={Animated.event(

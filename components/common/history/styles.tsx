@@ -2,17 +2,22 @@ import { StyleSheet, Dimensions } from "react-native";
 const { width } = Dimensions.get("window");
 const styles = StyleSheet.create({
   container: {
-    width: "100%", // 변경됨
-    height: 250,
+    width: "90%", // React Native에서는 px를 생략합니다
+    height: 380,
+    backgroundColor: "#FFFFFF",
+    shadowColor: "#E5E8F5", // 그림자 색상
+    shadowOffset: { width: 0, height: 4 }, // 그림자 오프셋
+    shadowOpacity: 1, // 그림자 불투명도
+    shadowRadius: 30, // 그림자 퍼짐 정도
+    elevation: 10, // 안드로이드 그림자 높이
+    borderRadius: 30,
   },
-  cardContainer: {
-    flexDirection: "row",
-    paddingHorizontal: 30, // 추가됨
-  },
+
   box: {
     width: width * 0.42, // 화면 너비의 40%
     borderBlockColor: "black",
     borderRadius: 25,
+    height: 250,
     marginRight: 20, // 추가됨
   },
   overlay: {
@@ -51,6 +56,22 @@ const styles = StyleSheet.create({
   subTitle: {
     color: "#E5E5E5",
     fontSize: 12,
+  },
+  header1: {
+    marginTop: 20,
+    marginLeft: 20,
+    fontSize: 23,
+    fontFamily: "robotoBold",
+  },
+  header2: {
+    position: "relative",
+    marginLeft: 15,
+    top: 8,
+    width: 120,
+    textAlign: "center",
+    fontSize: 12,
+    fontFamily: "robotoBold",
+    color: "#747476",
   },
 });
 export default styles;

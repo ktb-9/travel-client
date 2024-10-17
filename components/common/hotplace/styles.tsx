@@ -72,7 +72,7 @@ const styles = StyleSheet.create({
     right: 0,
     bottom: 0,
 
-    backgroundColor: "rgba(76, 74, 74, 0.35)",
+    backgroundColor: "rgba(76, 24, 34, 0.25)",
     borderRadius: 25,
   },
   image: {

@@ -12,7 +12,7 @@ const DestinationCard: React.FC<{ destination: Destination; style?: any }> = ({
   style,
 }) => (
   <View style={[styles.box, style]}>
-    <Image source={destination.image} style={styles.image} />
+    <Image source={destination.image} style={styles.image} resizeMode="cover" />
     <View style={styles.overlay} />
     <View style={styles.content}>
       <Text style={styles.mainTitle}>{destination.mainDescription}</Text>

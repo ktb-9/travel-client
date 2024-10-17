@@ -24,18 +24,7 @@ export default function HomeScreen() {
       <ScrollView contentContainerStyle={styles.content}>
         <Intro />
         <UpComming />
-
         <HotPlace />
-        <Text
-          style={{
-            fontWeight: "bold",
-            fontSize: 20,
-            width: "100%",
-            paddingLeft: 30,
-          }}
-        >
-          추억을 담아
-        </Text>
         <History />
       </ScrollView>
     </SafeAreaView>

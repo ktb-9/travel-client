@@ -4,8 +4,10 @@ import { Ionicons } from "@expo/vector-icons";
 import me from "../../assets/images/me.jpeg";
 import { header } from "@/types/header";
 import styles from "./styles";
+import { useRouter } from "expo-router";
 
 const Header = ({ toggle, isDark }: header) => {
+  const router = useRouter();
   return (
     <View style={styles.header}>
       <TouchableOpacity style={styles.profile}>
@@ -23,6 +25,9 @@ const Header = ({ toggle, isDark }: header) => {
         >
           광열 <Text style={{ color: "#B4B2B2" }}>님</Text>
         </Text>
+      </TouchableOpacity>
+      <TouchableOpacity onPress={() => router.push("/Schedule/createSchedule")}>
+        <Text>일정 생성</Text>
       </TouchableOpacity>
       <TouchableOpacity onPress={toggle} style={styles.button}>
         <Ionicons
