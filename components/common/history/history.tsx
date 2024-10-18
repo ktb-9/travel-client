@@ -83,6 +83,7 @@ const History = () => {
       extrapolate: "clamp", // 범위를 벗어나는 값은 고정(clamp) 처리합니다.
     });
 
+    if (!fontsLoaded) return null;
     return (
       <Animated.View
         style={[

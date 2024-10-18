@@ -1,7 +1,7 @@
 import { View, Text } from "react-native";
 import styles from "./styles";
-import jeju from "@/assets/images/jeju.png";
-import busan from "@/assets/images/busan.png";
+import jeju from "@/assets/images/jeju.gif";
+import busan from "@/assets/images/busan.gif";
 import yeosu from "@/assets/images/yeousu.png";
 import seoul from "@/assets/images/seoul.png";
 import { useFonts } from "expo-font";
@@ -42,7 +42,7 @@ const HotPlace = () => {
     },
   ];
   const [fontsLoaded] = useFonts({
-    NotoBlack: require("@/assets/fonts/NotoSansKR-Black.ttf"),
+    NotoBold: require("@/assets/fonts/NotoSansKR-Black.ttf"),
     robotoBold: require("@/assets/fonts/Roboto-Bold.ttf"),
   });
   if (!fontsLoaded) return null;
