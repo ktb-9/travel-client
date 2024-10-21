@@ -1,11 +1,18 @@
-import { http, HttpResponse } from "msw";
+// mock/axios-mock.ts
+import axios from "axios";
+import MockAdapter from "axios-mock-adapter";
 
-export const handlers = [
-  // Mocking "/api/example" 엔드포인트
-  http.get("/api/example", () => {
-    return HttpResponse.json({
-      message: "This is a mocked response",
-    });
-  }),
-  // 여기에 더 많은 mock 핸들러를 추가할 수 있습니다.
-];
+// API 응답 타입 정의
+interface ExampleResponse {
+  message: string;
+}
+
+// Create a new instance of axios-mock-adapter
+const mock = new MockAdapter(axios, { onNoMatch: "passthrough" });
+
+// Mock API endpoints
+mock.onGet("/api/example").reply<ExampleResponse>(200, {
+  message: "This is a mocked response",
+});
+
+export default mock;
