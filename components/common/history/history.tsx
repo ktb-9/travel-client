@@ -1,67 +1,49 @@
 import React, { useRef, useState } from "react";
-import { View, Text, Image, Animated, Dimensions } from "react-native";
+import {
+  View,
+  Text,
+  Image,
+  Animated,
+  Dimensions,
+  ActivityIndicator,
+} from "react-native";
 import styles from "./styles";
-import sokcho from "@/assets/images/sokcho.png";
-import chuncheon from "@/assets/images/chuncheon.png";
 import { useFonts } from "expo-font";
+import hotPlaceQuery from "@/hooks/api/hotPlaceQuery";
 const { width } = Dimensions.get("window");
-type DataState = {
+
+const CARD_WIDTH = width * 0.42;
+const SPACING = 20;
+
+type HotplaceData = {
   id: string;
   destination: any;
   mainDescription: string;
   subDescription: string;
   hashTag: string;
 };
-
-const CARD_WIDTH = width * 0.42;
-const SPACING = 20;
-
 const History = () => {
   const scrollX = useRef(new Animated.Value(0)).current;
   const [fontsLoaded] = useFonts({
     NotoBlack: require("@/assets/fonts/NotoSansKR-Black.ttf"),
     robotoBold: require("@/assets/fonts/Roboto-Bold.ttf"),
   });
+  const { data, isLoading, isError } = hotPlaceQuery();
 
-  const [data] = useState<DataState[]>([
-    {
-      id: "1",
-      destination: sokcho,
-      mainDescription: "속초 여행",
-      subDescription: "2024-06-18~2024-06-19",
-      hashTag: "#속초 해산물 #속초 포켓몬빵 #속초 헤엄",
-    },
-    {
-      id: "2",
-      destination: chuncheon,
-      mainDescription: "춘천 여행",
-      subDescription: "2024-08-14~2024-06-19",
-      hashTag: "#200일 #애인 #달갈비 #자전거",
-    },
-    {
-      id: "3",
-      destination: chuncheon,
-      mainDescription: "춘천 여행",
-      subDescription: "2024-08-14~2024-06-19",
-      hashTag: "#200일 #애인 #달갈비 #자전거",
-    },
-    {
-      id: "3",
-      destination: chuncheon,
-      mainDescription: "춘천 여행",
-      subDescription: "2024-08-14~2024-06-19",
-      hashTag: "#200일 #애인 #달갈비 #자전거",
-    },
-    {
-      id: "3",
-      destination: chuncheon,
-      mainDescription: "춘천 여행",
-      subDescription: "2024-08-14~2024-06-19",
-      hashTag: "#200일 #애인 #달갈비 #자전거",
-    },
-  ]);
+  if (isLoading) {
+    return <ActivityIndicator size="large" color="#0000ff" />;
+  }
 
-  const renderItem = ({ item, index }: { item: DataState; index: number }) => {
+  if (isError || !data) {
+    return <Text>에러 로딩 업커밍</Text>;
+  }
+  const renderItem = ({
+    item,
+    index,
+  }: {
+    item: HotplaceData;
+    index: number;
+  }) => {
     // inputRange는 카드의 인덱스를 기준으로, 각 카드의 위치를 정의합니다.
     const inputRange = [
       (index - 1) * (CARD_WIDTH + SPACING), // 이전 카드의 위치
@@ -127,7 +109,9 @@ const History = () => {
           { useNativeDriver: true }
         )}
       >
-        {data.map((item, index) => renderItem({ item, index }))}
+        {data.data.map((item: HotplaceData, index: number) =>
+          renderItem({ item, index })
+        )}
       </Animated.ScrollView>
     </View>
   );
