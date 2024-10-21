@@ -1,21 +1,25 @@
-import { Button, ScrollView, Text, TouchableOpacity, View } from "react-native";
+import {
+  ScrollView,
+  Text,
+  TouchableOpacity,
+  View,
+  ActivityIndicator,
+  Image,
+} from "react-native";
 import styles from "./styles";
-import shin from "@/assets/images/shin.png";
-const data = [
-  {
-    id: 1,
-    name: "신짱구",
-    lead: true,
-    image: shin,
-  },
-  {
-    id: 2,
-    name: "김철수",
-    lead: false,
-    image: shin,
-  },
-];
+import inviteQuery from "@/hooks/api/inviteQuery";
+import leader from "@/assets/images/leader.png";
+import companion from "@/assets/images/companion.png";
 const Invite = () => {
+  const { data, isLoading, isError } = inviteQuery();
+
+  if (isLoading) {
+    return <ActivityIndicator size="large" color="#0000ff" />;
+  }
+
+  if (isError || !data) {
+    return <Text>에러 로딩 업커밍</Text>;
+  }
   return (
     <View style={styles.container}>
       <View style={styles.buttonWrapper}>
@@ -25,7 +29,18 @@ const Invite = () => {
       </View>
       <View style={styles.invitedWrapper}>
         <ScrollView contentContainerStyle={styles.listWrapper}>
-          <View style={styles.listItem}></View>
+          {data.data.map((value: any) => (
+            <View style={styles.listItem}>
+              <View style={styles.listContents}>
+                <Image style={styles.profile} source={value.image} />
+                <Text style={styles.name}>{value.name}</Text>
+                <Image
+                  style={styles.lead}
+                  source={value.lead ? leader : companion}
+                />
+              </View>
+            </View>
+          ))}
         </ScrollView>
       </View>
     </View>

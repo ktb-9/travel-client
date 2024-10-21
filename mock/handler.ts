@@ -5,7 +5,10 @@ import daegu from "@/assets/images/daegu.png";
 import jeans from "@/assets/images/jeans.png";
 import sokcho from "@/assets/images/sokcho.png";
 import chuncheon from "@/assets/images/chuncheon.png";
-
+import shin from "@/assets/images/shin.png";
+import chul from "@/assets/images/chul.png";
+import mang from "@/assets/images/mang.png";
+import hoon from "@/assets/images/hoon.png";
 // API 응답 타입 정의
 interface ExampleResponse {
   message: string;
@@ -32,6 +35,15 @@ type DataState = {
   data: HotplaceData[];
 };
 
+interface inviteData {
+  id: number;
+  name: string;
+  lead: boolean;
+  image: any;
+}
+interface inviteDataState {
+  data: inviteData[];
+}
 const mock = new MockAdapter(axios, { onNoMatch: "passthrough" });
 
 mock.onGet("/api/example").reply<ExampleResponse>(200, {
@@ -83,6 +95,34 @@ mock.onGet("/api/hotplace").reply<DataState>(200, {
       mainDescription: "춘천 여행",
       subDescription: "2024-08-14~2024-06-19",
       hashTag: "#200일 #애인 #달갈비 #자전거",
+    },
+  ],
+});
+mock.onGet("/api/invite").reply<inviteDataState>(200, {
+  data: [
+    {
+      id: 1,
+      name: "신짱구",
+      lead: true,
+      image: shin,
+    },
+    {
+      id: 2,
+      name: "김철수",
+      lead: false,
+      image: chul,
+    },
+    {
+      id: 3,
+      name: "맹구",
+      lead: false,
+      image: mang,
+    },
+    {
+      id: 4,
+      name: "훈이",
+      lead: false,
+      image: hoon,
     },
   ],
 });

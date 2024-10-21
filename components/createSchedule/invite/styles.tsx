@@ -22,8 +22,9 @@ const styles = StyleSheet.create({
   },
   buttonText: { color: "#FFFFFF", fontWeight: "bold", fontSize: 11 },
   invitedWrapper: {
+    padding: 30,
     width: "80%",
-    height: 300,
+    height: 250,
     borderTopWidth: 2,
     borderBottomWidth: 2,
     borderBlockColor: "#E4E4E4",
@@ -31,14 +32,27 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   listWrapper: {
-    marginTop: 30,
-    width: width * 0.6,
-    borderWidth: 2,
+    width: "100%",
+    gap: 20,
   },
   listItem: {
     display: "flex",
     flexDirection: "row",
     justifyContent: "space-between",
   },
+  listContents: {
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 7,
+    width: "100%",
+  },
+  profile: {
+    borderRadius: 10,
+    width: 40,
+    height: 40,
+  },
+  name: {},
+  lead: { width: 16, height: 16 },
 });
 export default styles;
