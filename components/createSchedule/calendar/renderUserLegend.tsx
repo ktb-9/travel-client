@@ -9,7 +9,7 @@ const renderUserLegend = (
       <View key={userId} style={styles.legendItem}>
         <View style={[styles.legendColor, { backgroundColor: color }]} />
         <Text style={styles.legendText}>
-          {userId === currentUserId ? "나" : `사용자 ${userId}`}
+          {userId === currentUserId ? "나" : `${userId}`}
         </Text>
       </View>
     ))}

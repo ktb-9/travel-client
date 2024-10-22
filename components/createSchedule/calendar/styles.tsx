@@ -5,22 +5,25 @@ const CELL_SIZE = 40;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#2c2c2c",
   },
   calendar: {
     padding: 10,
+    marginTop: -50,
   },
   title: {
     fontSize: 18,
     fontWeight: "bold",
-    color: "white",
-    marginBottom: 10,
+    color: "#585454",
+    marginBottom: 20,
+    textDecorationLine: "underline",
   },
   header: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
     paddingVertical: 10,
+    backgroundColor: "#2c2c2c",
+    borderRadius: 20,
   },
   headerText: {
     fontSize: 18,
@@ -106,7 +109,6 @@ const styles = StyleSheet.create({
     height: 4,
     borderRadius: 2,
     marginHorizontal: 1,
-    opacity: 0.8,
   },
   firstIndicator: {
     marginLeft: 0,
@@ -116,7 +118,7 @@ const styles = StyleSheet.create({
     flexWrap: "wrap",
     padding: 10,
     justifyContent: "center",
-    backgroundColor: "rgba(0, 0, 0, 0.3)",
+    backgroundColor: "#2c2c2c",
     marginTop: 10,
     borderRadius: 10,
   },
@@ -135,6 +137,73 @@ const styles = StyleSheet.create({
   legendText: {
     fontSize: 12,
     color: "white",
+  },
+
+  overlappingDatesContainer: {
+    marginTop: 20,
+    padding: 10,
+  },
+  subtitle: {
+    fontSize: 16,
+    fontWeight: "bold",
+    marginBottom: 10,
+  },
+  overlappingDate: {
+    backgroundColor: "#f0f0f0",
+    padding: 10,
+    borderRadius: 8,
+    marginBottom: 8,
+  },
+  dateText: {
+    fontSize: 14,
+    color: "#ffffff",
+    fontWeight: "bold",
+  },
+  modalContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(0,0,0,0.5)",
+  },
+  modalContent: {
+    backgroundColor: "white",
+    padding: 20,
+    borderRadius: 10,
+    width: "80%",
+  },
+  modalTitle: {
+    fontSize: 18,
+    fontWeight: "bold",
+    marginBottom: 15,
+  },
+  tripOption: {
+    padding: 15,
+    borderBottomWidth: 1,
+    borderBottomColor: "#eee",
+  },
+  tripOptionText: {
+    fontSize: 16,
+  },
+  closeButton: {
+    marginTop: 15,
+    padding: 10,
+    backgroundColor: "#e0e0e0",
+    borderRadius: 5,
+    alignItems: "center",
+  },
+  closeButtonText: {
+    fontSize: 16,
+  },
+  confirmedTripContainer: {
+    marginTop: 10,
+    padding: 10,
+    backgroundColor: "#18D9BC",
+    borderRadius: 8,
+  },
+  confirmedTripText: {
+    fontSize: 14,
+    fontWeight: "bold",
+    color: "#FFFFFF",
   },
 });
 
