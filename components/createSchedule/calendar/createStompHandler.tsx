@@ -59,7 +59,7 @@ const createStompHandler = ({
 
       setUserDateRanges(initialRanges);
     } catch (error) {
-      console.error("Failed to load initial calendar data:", error);
+      console.error("초기 달력 데이터 조회 실패:", error);
     }
   };
 
