@@ -2,6 +2,7 @@ import { Text, TextInput, View } from "react-native";
 import styles from "./styles";
 import { useState } from "react";
 import Invite from "../invite/invite";
+import Calendar from "../calendar/calendar";
 
 const Content = () => {
   const [groupName, setGroupName] = useState("");
@@ -14,6 +15,7 @@ const Content = () => {
         placeholder="그룹 이름을 입력해주세요..."
       />
       <Invite />
+      <Calendar />
     </View>
   );
 };
