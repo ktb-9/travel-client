@@ -2,7 +2,6 @@ import React, { useRef, useState } from "react";
 import {
   View,
   Text,
-  Image,
   Animated,
   Dimensions,
   ActivityIndicator,
@@ -10,6 +9,7 @@ import {
 import styles from "./styles";
 import { useFonts } from "expo-font";
 import hotPlaceQuery from "@/hooks/api/hotPlaceQuery";
+import renderItem from "./renderItem";
 const { width } = Dimensions.get("window");
 
 const CARD_WIDTH = width * 0.42;
@@ -37,56 +37,7 @@ const History = () => {
   if (isError || !data) {
     return <Text>에러 로딩 업커밍</Text>;
   }
-  const renderItem = ({
-    item,
-    index,
-  }: {
-    item: HotplaceData;
-    index: number;
-  }) => {
-    // inputRange는 카드의 인덱스를 기준으로, 각 카드의 위치를 정의합니다.
-    const inputRange = [
-      (index - 1) * (CARD_WIDTH + SPACING), // 이전 카드의 위치
-      index * (CARD_WIDTH + SPACING), // 현재 카드의 위치
-      (index + 1) * (CARD_WIDTH + SPACING), // 다음 카드의 위치
-    ];
-
-    // scale은 스크롤 위치에 따라 카드의 크기를 조정합니다.
-    const scale = scrollX.interpolate({
-      inputRange,
-      outputRange: [0.9, 1, 0.2], // 카드가 중심에 있을 때는 크기가 1, 좌우에 있을 때는 0.9로 줄어듭니다.
-      extrapolate: "clamp", // 범위를 벗어나는 값은 고정(clamp) 처리합니다.
-    });
-
-    // opacity는 스크롤 위치에 따라 카드의 투명도를 조정합니다.
-    const opacity = scrollX.interpolate({
-      inputRange,
-      outputRange: [0.7, 1, 0.7], // 카드가 중심에 있을 때는 불투명(1), 좌우에 있을 때는 0.7로 투명해집니다.
-      extrapolate: "clamp", // 범위를 벗어나는 값은 고정(clamp) 처리합니다.
-    });
-
-    if (!fontsLoaded) return null;
-    return (
-      <Animated.View
-        style={[
-          styles.box,
-          {
-            transform: [{ scale }],
-            opacity,
-          },
-        ]}
-      >
-        <Image source={item.destination} style={styles.image} />
-        <View style={styles.overlay} />
-        <View style={styles.content}>
-          <Text style={styles.hashTag}>{item.hashTag}</Text>
-          <Text style={styles.mainTitle}>{item.mainDescription}</Text>
-          <Text style={styles.subTitle}>{item.subDescription}</Text>
-        </View>
-      </Animated.View>
-    );
-  };
-
+  if (!fontsLoaded) return null;
   return (
     <View style={styles.container}>
       <Text style={styles.header1}>추억을 담아</Text>
@@ -110,7 +61,7 @@ const History = () => {
         )}
       >
         {data.data.map((item: HotplaceData, index: number) =>
-          renderItem({ item, index })
+          renderItem({ item, index, scrollX })
         )}
       </Animated.ScrollView>
     </View>
