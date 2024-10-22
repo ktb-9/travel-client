@@ -62,6 +62,7 @@ const styles = StyleSheet.create({
     marginLeft: 20,
     fontSize: 23,
     fontFamily: "robotoBold",
+    fontWeight: "bold",
   },
   header2: {
     position: "relative",
