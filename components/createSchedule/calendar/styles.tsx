@@ -205,6 +205,19 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     color: "#FFFFFF",
   },
+  submit: {
+    width: 75,
+    height: 25,
+    borderRadius: 20,
+    backgroundColor: "#B66CD9",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  submitText: {
+    color: "#ffffff",
+    fontWeight: "bold",
+  },
 });
 
 export default styles;

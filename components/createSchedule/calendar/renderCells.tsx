@@ -41,6 +41,11 @@ const renderCells = (
   const rows = [];
   let days = [];
   let day = startDate.clone();
+  // 날짜(day)가 endDate보다 이전인 동안, 일주일 단위로 날짜를 순회
+  // 그 날짜가 현재 달에 속하는지(isCurrentMonth)
+  // 그 날짜가 오늘인지(isToday)
+  // 그 날짜가 일요일인지(isSunday)
+  // 그 날짜가 사용자 일정 범위에 속하는지(usersWithDate)
 
   while (day.isBefore(endDate, "day")) {
     for (let i = 0; i < 7; i++) {

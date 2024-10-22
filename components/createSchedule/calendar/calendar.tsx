@@ -146,6 +146,17 @@ const Calendar = () => {
           </View>
         </View>
       </Modal>
+      <View
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        <TouchableOpacity style={styles.submit}>
+          <Text style={styles.submitText}>일정확정</Text>
+        </TouchableOpacity>
+      </View>
     </SafeAreaView>
   );
 };
