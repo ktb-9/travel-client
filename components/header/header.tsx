@@ -5,14 +5,17 @@ import me from "../../assets/images/me.jpeg";
 import { header } from "@/types/header";
 import styles from "./styles";
 import { useRouter } from "expo-router";
+import { useRecoilValue } from "recoil";
+import { userInfoState_unique } from "@/app/(tabs)";
 
 const Header = ({ toggle, isDark }: header) => {
+  const userInfo = useRecoilValue(userInfoState_unique);
   const router = useRouter();
   return (
     <View style={styles.header}>
       <TouchableOpacity style={styles.profile}>
         <Image
-          source={me}
+          source={{ uri: userInfo.profileImage }}
           style={{ width: 40, height: 40, borderRadius: 20 }}
         />
         <Text
@@ -23,7 +26,7 @@ const Header = ({ toggle, isDark }: header) => {
             color: isDark ? "#fff" : "#000",
           }}
         >
-          광열 <Text style={{ color: "#B4B2B2" }}>님</Text>
+          {userInfo.nickname} <Text style={{ color: "#B4B2B2" }}>님</Text>
         </Text>
       </TouchableOpacity>
       <TouchableOpacity onPress={() => router.push("/Schedule/createSchedule")}>
