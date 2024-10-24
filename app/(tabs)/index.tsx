@@ -1,38 +1,54 @@
-import React, { useEffect } from "react";
-import { View, SafeAreaView, Text, ScrollView } from "react-native";
-import Header from "@/components/header/header";
-import { useTheme } from "@/hooks/useTheme";
-import HotPlace from "@/components/common/hotplace/hotplace";
-import UpComming from "@/components/common/upcomming/upcomming";
-import History from "@/components/common/history/history";
+// Frontend (React Native)
+import React, { useState } from "react";
+import { View, TouchableOpacity, Text, StyleSheet, Image } from "react-native";
+import { WebView } from "react-native-webview";
+import { useRouter } from "expo-router";
+import { useSetRecoilState } from "recoil";
 import styles from "./styles";
-import Intro from "@/components/common/intro/intro";
-import axios from "axios";
-import exampleQuery from "@/hooks/api/exampleQuery";
-export default function HomeScreen() {
-  const { isDarkMode, toggleTheme } = useTheme();
-  if (__DEV__) {
-    require("../../mock/handler");
+import { handleNavigationStateChange } from "@/hooks/api/handleNavigationStateChange";
+import { userInfoState_unique } from "@/recoil/authState";
+import { AXIOS_BASE_URL, REDIRECT_URI } from "@/constants/api";
+import kakao from "@/assets/images/kakao.png";
+export default function LoginScreen() {
+  // 웹뷰 상태
+  const [showWebView, setShowWebView] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const router = useRouter();
+  const setUserInfo = useSetRecoilState(userInfoState_unique);
+
+  const handleKakaoLogin = () => {
+    setError(null);
+    setShowWebView(true);
+  };
+  //   웹뷰 보여주기
+  if (showWebView) {
+    return (
+      <WebView
+        source={{
+          uri: `${AXIOS_BASE_URL}/auth/kakao/login?redirectUri=${encodeURIComponent(
+            REDIRECT_URI
+          )}`,
+        }}
+        onNavigationStateChange={(navState) =>
+          handleNavigationStateChange({
+            navState,
+            setShowWebView,
+            setError,
+            setUserInfo,
+            router,
+          })
+        }
+        style={{ flex: 1 }}
+      />
+    );
   }
-  const { data } = exampleQuery();
-  console.log(data);
+
   return (
-    //컨테이너
-    <SafeAreaView
-      style={[
-        styles.container,
-        { backgroundColor: isDarkMode ? "#000" : "#F8F8FA" },
-      ]}
-    >
-      {/* 헤더 */}
-      <Header toggle={toggleTheme} isDark={isDarkMode} />
-      {/* 컴포넌트 */}
-      <ScrollView contentContainerStyle={styles.content}>
-        <Intro />
-        <UpComming />
-        <HotPlace />
-        <History />
-      </ScrollView>
-    </SafeAreaView>
+    <View style={styles.container}>
+      {error && <Text style={styles.errorText}>{error}</Text>}
+      <TouchableOpacity style={styles.kakaoButton} onPress={handleKakaoLogin}>
+        <Image source={kakao} style={styles.kakaoImage} />
+      </TouchableOpacity>
+    </View>
   );
 }
