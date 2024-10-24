@@ -1,6 +1,6 @@
 // Frontend (React Native)
 import React, { useState } from "react";
-import { View, TouchableOpacity, Text, StyleSheet } from "react-native";
+import { View, TouchableOpacity, Text, StyleSheet, Image } from "react-native";
 import { WebView } from "react-native-webview";
 import { useRouter } from "expo-router";
 import { useSetRecoilState } from "recoil";
@@ -8,6 +8,7 @@ import styles from "./styles";
 import { handleNavigationStateChange } from "@/hooks/api/handleNavigationStateChange";
 import { userInfoState_unique } from "@/recoil/authState";
 import { AXIOS_BASE_URL, REDIRECT_URI } from "@/constants/api";
+import kakao from "@/assets/images/kakao.png";
 export default function LoginScreen() {
   // 웹뷰 상태
   const [showWebView, setShowWebView] = useState(false);
@@ -46,7 +47,7 @@ export default function LoginScreen() {
     <View style={styles.container}>
       {error && <Text style={styles.errorText}>{error}</Text>}
       <TouchableOpacity style={styles.kakaoButton} onPress={handleKakaoLogin}>
-        <Text style={styles.buttonText}>카카오 로그인</Text>
+        <Image source={kakao} style={styles.kakaoImage} />
       </TouchableOpacity>
     </View>
   );
