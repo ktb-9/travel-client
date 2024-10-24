@@ -8,8 +8,7 @@ import History from "@/components/common/history/history";
 import styles from "./styles";
 import Intro from "@/components/common/intro/intro";
 import exampleQuery from "@/hooks/api/exampleQuery";
-import { useRecoilValue } from "recoil";
-import { userInfoState_unique } from "../(tabs)";
+
 export default function HomeScreen() {
   const { isDarkMode, toggleTheme } = useTheme();
   if (__DEV__) {

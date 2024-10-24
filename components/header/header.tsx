@@ -1,12 +1,11 @@
 import React from "react";
 import { View, TouchableOpacity, Text, StyleSheet, Image } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import me from "../../assets/images/me.jpeg";
 import { header } from "@/types/header";
 import styles from "./styles";
 import { useRouter } from "expo-router";
 import { useRecoilValue } from "recoil";
-import { userInfoState_unique } from "@/app/(tabs)";
+import { userInfoState_unique } from "@/recoil/authState";
 
 const Header = ({ toggle, isDark }: header) => {
   const userInfo = useRecoilValue(userInfoState_unique);

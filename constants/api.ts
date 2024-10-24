@@ -1,10 +1,10 @@
-export const BASE_URL = "http://localhost:5173";
+export const BASE_URL = "http://localhost:8081";
+export const REDIRECT_URI = `${BASE_URL}/oauth/kakao/callback`;
 
-export const AXIOS_BASE_URL = "http://localhost:8000";
+export const AXIOS_BASE_URL = "http://localhost:9090";
 
 export const END_POINTS = {
-  REIGISTER: "/api/v1/auth/register",
-  LOGIN: "/api/v1/auth/login",
+  LOGIN: "/auth/oauth/kakao/callback",
 } as const;
 
 export const NETWORK = {
@@ -58,5 +58,6 @@ export const HTTP_ERROR_MESSAGE = {
 export const ERROR_MESSAGE = "오류가 발생했습니다. 잠시 후 다시 시도해주세요.";
 
 export const ACCESS_TOKEN_KEY = "ACCESS_TOKEN";
-export const USER_ID_KEY = "USER_ID";
+
 export const REFRESH_TOKEN_KEY = "REFRESH_TOKEN";
+export const USER_INFO_STATE_KEY = "userInfoState_unique";
