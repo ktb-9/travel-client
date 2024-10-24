@@ -28,6 +28,7 @@ const History = () => {
     NotoBlack: require("@/assets/fonts/NotoSansKR-Black.ttf"),
     robotoBold: require("@/assets/fonts/Roboto-Bold.ttf"),
   });
+
   const { data, isLoading, isError } = hotPlaceQuery();
 
   if (isLoading) {
