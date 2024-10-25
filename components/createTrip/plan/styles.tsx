@@ -1,4 +1,5 @@
 import { StyleSheet, Dimensions } from "react-native";
+const { width } = Dimensions.get("window");
 const styles = StyleSheet.create({
   container: {
     display: "flex",
@@ -20,6 +21,16 @@ const styles = StyleSheet.create({
   },
   content: {
     display: "flex",
+  },
+  contentWraper: {
+    borderWidth: 2,
+    width: width * 0.9,
+    display: "flex",
+    gap: 20,
+  },
+  plusBtn: {
+    width: 30,
+    height: 30,
   },
 });
 export default styles;
