@@ -2,17 +2,22 @@ import { Image, Text, TextInput, TouchableOpacity, View } from "react-native";
 import styles from "./styles";
 import destination from "@/assets/images/destinationLogo.png";
 import marker from "@/assets/images/gps.png";
-const Content = () => {
+import { PlanType } from "../plan";
+import { useState } from "react";
+interface ContentProps {
+  dayInfo: PlanType;
+}
+const Content = ({ dayInfo }: ContentProps) => {
+  const { day, plan } = dayInfo;
+  const [trip, setTrip] = useState("");
+  console.log(trip);
   return (
     <>
       <View style={styles.destinationWrapper}>
         <Image source={destination} style={styles.destinationLogo} />
-        <Text style={styles.destination}>대구</Text>
-        <TouchableOpacity>
-          <Text style={styles.edit}>편집</Text>
-        </TouchableOpacity>
+        <TextInput value={trip} onChangeText={setTrip} />
       </View>
-      <Text style={styles.day}>1일차</Text>
+      <Text style={styles.day}>{day}일차</Text>
       <View style={{ alignItems: "center" }}>
         <View style={styles.locationContainer}>
           <View style={styles.inputWrapper}>
