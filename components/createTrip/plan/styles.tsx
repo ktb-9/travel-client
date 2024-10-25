@@ -5,36 +5,21 @@ const styles = StyleSheet.create({
     width: "100%",
     height: "auto",
     alignItems: "center",
-    gap: 10,
+    gap: 40,
     borderWidth: 2,
   },
-  title: {
-    display: "flex",
-    gap: 5,
-    borderWidth: 2,
+  header: {
     width: "100%",
     padding: 10,
   },
-  groupName: {
+  headerTitle: {
     fontFamily: "NotoSans",
-    fontSize: 30,
+    fontSize: 20,
     fontWeight: "bold",
     color: "#585454",
   },
-  date: {
-    fontFamily: "robotoBold",
-    color: "#939393",
-    fontWeight: "bold",
-  },
-  groupNameWrapper: {
+  content: {
     display: "flex",
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 5,
-  },
-  edit: {
-    color: "#B5BEC6",
-    fontWeight: "bold",
   },
 });
 export default styles;
