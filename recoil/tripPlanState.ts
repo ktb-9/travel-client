@@ -15,9 +15,6 @@ interface DayPlan {
 }
 
 interface TripPlan {
-  groupId: number;
-  groupName: string;
-  date: string;
   days: DayPlan[];
 }
 
@@ -26,9 +23,6 @@ import { atom } from "recoil";
 export const tripPlanState = atom<TripPlan>({
   key: "tripPlanState",
   default: {
-    groupId: 1,
-    groupName: "",
-    date: "",
     days: [
       {
         day: 1,

@@ -4,10 +4,11 @@ import { useFonts } from "expo-font";
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation, useRouter } from "expo-router";
 import { useRecoilState } from "recoil";
+import { tripPlanState } from "@/recoil/tripPlanState";
 
 const Header = () => {
   const navigation = useNavigation();
-
+  const [, setTripPlan] = useRecoilState(tripPlanState);
   const [fontsLoaded] = useFonts({
     NotoBlack: require("@/assets/fonts/NotoSansKR-Bold.ttf"),
     robotoBold: require("@/assets/fonts/Roboto-Bold.ttf"),

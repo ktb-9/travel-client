@@ -25,14 +25,14 @@ const Plan = () => {
       ],
     }));
   };
-  const handleSubmit = () => {
-    setTripPlan((prevPlan) => ({
-      ...prevPlan,
+  const handleSubmit = async () => {
+    const data = {
       date: groupInfo.date,
-      groupId: 1,
+      groupId: groupInfo.groupId,
       groupName: groupInfo.groupName,
-    }));
-    console.log(tripPlan);
+      days: tripPlan.days,
+    };
+    console.log(data);
   };
   return (
     <View style={styles.container}>

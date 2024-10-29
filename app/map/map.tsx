@@ -37,14 +37,13 @@ const KAKAO_API_KEY = MAP_KEY;
 export default function Maps() {
   const router = useRouter();
   const { day } = useLocalSearchParams<{ day: string }>();
-  const [tripPlan, setTripPlan] = useRecoilState(tripPlanState);
+  const [, setTripPlan] = useRecoilState(tripPlanState);
 
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [searchResults, setSearchResults] = useState<SearchResult[]>([]);
   const [selectedLocation, setSelectedLocation] =
     useState<CurrentLocation | null>(null);
-  const [currentLocation, setCurrentLocation] =
-    useState<CurrentLocation | null>(null);
+  const [, setCurrentLocation] = useState<CurrentLocation | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [isSearching, setIsSearching] = useState<boolean>(false);
 
