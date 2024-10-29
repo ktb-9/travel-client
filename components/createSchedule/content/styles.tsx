@@ -1,13 +1,12 @@
-import { StyleSheet, Dimensions } from "react-native";
-const { height } = Dimensions.get("window");
+import { StyleSheet } from "react-native";
 const styles = StyleSheet.create({
   container: {
     display: "flex",
     width: "100%",
     height: "auto",
+    marginBottom: 100,
     alignItems: "center",
     gap: 40,
-    borderWidth: 2,
   },
   inputText: {
     borderBottomWidth: 2,

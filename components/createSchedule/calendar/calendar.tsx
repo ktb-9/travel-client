@@ -13,6 +13,9 @@ import renderUserLegend from "./renderUserLegend";
 import renderOverlappingDates from "./renderOverlappingDates";
 import renderTripOptions from "./renderTripOption";
 import useFindOverlappingDates from "@/hooks/useFindOverlappingDates";
+import { useRecoilState } from "recoil";
+import { createSchdeuleState } from "@/recoil/createSchdeuleState";
+import { useRouter } from "expo-router";
 
 interface UserDateRanges {
   [key: string]: {
@@ -33,7 +36,9 @@ interface ConfirmedTrip {
   nights: number;
 }
 
-const Calendar = () => {
+const Calendar = ({ groupName }: { groupName: string }) => {
+  const router = useRouter();
+  const [, setSchedule] = useRecoilState(createSchdeuleState);
   const [currentMonth, setCurrentMonth] = useState(moment());
   const [userDateRanges, setUserDateRanges] = useState<UserDateRanges>({});
   const [overlappingDates, setOverlappingDates] = useState<OverlappingDates[]>(
@@ -83,6 +88,19 @@ const Calendar = () => {
 
   const onPressArrow = (direction: number) => {
     setCurrentMonth(currentMonth.clone().add(direction, "month"));
+  };
+  const handleScheduleConfirm = () => {
+    if (confirmedTrip) {
+      const formattedSchedule = `${moment(confirmedTrip.startDate).format(
+        "YYYY.MM.DD"
+      )}~${moment(confirmedTrip.endDate).format("YYYY.MM.DD")}`;
+      setSchedule({
+        groupId: 1,
+        groupName: groupName,
+        date: formattedSchedule,
+      });
+    }
+    router.push("/createTrip/createTrip");
   };
 
   return (
@@ -153,7 +171,7 @@ const Calendar = () => {
           justifyContent: "center",
         }}
       >
-        <TouchableOpacity style={styles.submit}>
+        <TouchableOpacity style={styles.submit} onPress={handleScheduleConfirm}>
           <Text style={styles.submitText}>일정확정</Text>
         </TouchableOpacity>
       </View>

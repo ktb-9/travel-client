@@ -2,7 +2,7 @@ import { Text, View, TouchableOpacity } from "react-native";
 import styles from "./styles";
 import { useFonts } from "expo-font";
 import { Ionicons } from "@expo/vector-icons";
-import { useNavigation } from "expo-router";
+import { useNavigation, useRouter } from "expo-router";
 const Header = () => {
   const navigation = useNavigation();
   const [fontsLoaded] = useFonts({
@@ -18,7 +18,7 @@ const Header = () => {
       >
         <Ionicons name="chevron-back" size={24} color="black" />
       </TouchableOpacity>
-      <Text style={styles.title}>여행 그룹 생성</Text>
+      <Text style={styles.title}>지도</Text>
     </View>
   );
 };

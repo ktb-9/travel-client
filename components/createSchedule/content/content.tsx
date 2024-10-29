@@ -15,7 +15,7 @@ const Content = () => {
         placeholder="그룹 이름을 입력해주세요..."
       />
       <Invite />
-      <Calendar />
+      <Calendar groupName={groupName} />
     </View>
   );
 };
