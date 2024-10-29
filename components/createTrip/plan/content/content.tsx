@@ -8,58 +8,73 @@ import {
 } from "react-native";
 import styles from "./styles";
 import destination from "@/assets/images/destinationLogo.png";
-import { PlanType } from "../plan";
 import { useEffect, useState } from "react";
 import { useRouter } from "expo-router";
 import { useRecoilState, useRecoilValue } from "recoil";
-import { dayState } from "@/recoil/dayState";
-import { locationState } from "@/recoil/locationState";
+
 import { Ionicons } from "@expo/vector-icons";
-interface ContentProps {
-  dayInfo: PlanType;
-  setData: React.Dispatch<React.SetStateAction<any[]>>;
-  data: any;
+import { tripPlanState } from "@/recoil/tripPlanState";
+import LocationItem from "../../location/locationItem";
+interface DayPlan {
+  day: number;
+  destination: string;
+  locations: Location[];
 }
-const Content = ({ dayInfo, data, setData }: ContentProps) => {
-  const router = useRouter();
-  const { day } = dayInfo;
-  const [trip, setTrip] = useState("");
-  const [, setDay] = useRecoilState(dayState);
-  const plan = useRecoilValue(locationState);
-  const [locations, setLocations] = useState<string[]>([]);
-  const handleMap = () => {
-    router.push("/map/map");
-    setDay({ day: day });
+interface Location {
+  name: string;
+  address?: string;
+  coordinates?: {
+    latitude: number;
+    longitude: number;
   };
-  useEffect(() => {
-    const existingDays = plan.find((loc) => loc.day == day);
-    if (existingDays) {
-      setLocations(existingDays.locations);
-      setData((prevData) => {
-        const filteredData = prevData.filter((item) => item.day !== day);
-        return [
-          ...filteredData,
-          {
-            day: day,
-            trip: trip,
-            visit: existingDays.locations,
-          },
-        ];
-      });
-    }
-  }, [plan]);
+}
+
+const Content = ({ dayPlan }: { dayPlan: DayPlan }) => {
+  const router = useRouter();
+  const [, setTripPlan] = useRecoilState(tripPlanState);
+
+  const updateDestination = (destination: string) => {
+    setTripPlan((prev) => ({
+      ...prev,
+      days: prev.days.map((day) =>
+        day.day === dayPlan.day ? { ...day, destination } : day
+      ),
+    }));
+  };
+
+  const handleMap = () => {
+    router.push({
+      pathname: "/map/map",
+      params: { day: dayPlan.day },
+    });
+  };
+
+  const deleteLocation = (index: number) => {
+    setTripPlan((prev) => ({
+      ...prev,
+      days: prev.days.map((day) =>
+        day.day === dayPlan.day
+          ? {
+              ...day,
+              locations: day.locations.filter((_, i) => i !== index),
+            }
+          : day
+      ),
+    }));
+  };
+
   return (
     <>
       <View style={styles.destinationWrapper}>
         <Image source={destination} style={styles.destinationLogo} />
         <TextInput
           style={styles.trip}
-          value={trip}
-          onChangeText={setTrip}
+          value={dayPlan.destination}
+          onChangeText={updateDestination}
           placeholder="여행지 입력해주세요..."
         />
       </View>
-      <Text style={styles.day}>{day}일차</Text>
+      <Text style={styles.day}>{dayPlan.day}일차</Text>
       <View style={{ alignItems: "center" }}>
         <View style={styles.locationContainer}>
           <View style={styles.inputWrapper}>
@@ -72,21 +87,13 @@ const Content = ({ dayInfo, data, setData }: ContentProps) => {
             </TouchableOpacity>
           </View>
           <ScrollView style={styles.resultsList}>
-            {locations.map((locationName, index) => (
-              <TouchableOpacity
+            {dayPlan.locations.map((location, index) => (
+              <LocationItem
                 key={`location-${index}`}
-                style={[
-                  styles.resultItem,
-                  index === locations.length - 1 && styles.lastResultItem,
-                ]}
-              >
-                <View style={styles.resultIconContainer}>
-                  <Ionicons name="location" size={20} color="#0066cc" />
-                </View>
-                <View style={styles.resultTextContainer}>
-                  <Text>{locationName}</Text>
-                </View>
-              </TouchableOpacity>
+                location={location}
+                isLast={index === dayPlan.locations.length - 1}
+                onDelete={() => deleteLocation(index)}
+              />
             ))}
           </ScrollView>
         </View>

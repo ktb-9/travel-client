@@ -5,19 +5,19 @@ import {
   TextInput,
   TouchableOpacity,
   Text,
-  Dimensions,
   ActivityIndicator,
   ScrollView,
 } from "react-native";
 import MapView, { Marker } from "react-native-maps";
 import * as Location from "expo-location";
 import { Ionicons } from "@expo/vector-icons";
+import { useRouter, useLocalSearchParams } from "expo-router";
 import debounce from "lodash/debounce";
 import Header from "./header/header";
 import styles from "./styles";
-import { useRecoilState, useRecoilValue } from "recoil";
-import { locationState } from "@/recoil/locationState";
-import { dayState } from "@/recoil/dayState";
+import { useRecoilState } from "recoil";
+import { tripPlanState } from "@/recoil/tripPlanState";
+
 interface SearchResult {
   id: string;
   place_name: string;
@@ -35,6 +35,10 @@ interface CurrentLocation {
 const KAKAO_API_KEY = MAP_KEY;
 
 export default function Maps() {
+  const router = useRouter();
+  const { day } = useLocalSearchParams<{ day: string }>();
+  const [tripPlan, setTripPlan] = useRecoilState(tripPlanState);
+
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [searchResults, setSearchResults] = useState<SearchResult[]>([]);
   const [selectedLocation, setSelectedLocation] =
@@ -43,14 +47,11 @@ export default function Maps() {
     useState<CurrentLocation | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [isSearching, setIsSearching] = useState<boolean>(false);
-  const [location, setLocation] = useRecoilState(locationState);
-  const day = useRecoilValue(dayState);
 
   useEffect(() => {
     getCurrentLocation();
   }, []);
 
-  // 검색어 자동완성을 위한 debounce 함수
   const debouncedSearch = debounce(async (query) => {
     if (query.length < 2) {
       setSearchResults([]);
@@ -62,7 +63,7 @@ export default function Maps() {
       const response = await fetch(
         `https://dapi.kakao.com/v2/local/search/keyword.json?query=${encodeURIComponent(
           query
-        )}&size=15`, // 검색 결과 수 증가
+        )}&size=15`,
         {
           headers: {
             Authorization: `KakaoAK ${KAKAO_API_KEY}`,
@@ -114,27 +115,39 @@ export default function Maps() {
   };
 
   const handleLocationSelect = (result: SearchResult) => {
+    // 선택된 위치로 지도 이동
     setSelectedLocation({
       latitude: parseFloat(result.y),
       longitude: parseFloat(result.x),
     });
     setSearchQuery(result.place_name);
     setSearchResults([]);
-    const existingDayIndex = location.findIndex((loc) => loc.day === day.day);
-    if (existingDayIndex == -1) {
-      setLocation((prev) => [
-        ...prev,
-        { day: day.day, locations: [result.place_name] },
-      ]);
-    } else {
-      setLocation((prev) =>
-        prev.map((loc, index) =>
-          index === existingDayIndex
-            ? { ...loc, locations: [...loc.locations, result.place_name] }
-            : loc
-        )
-      );
-    }
+
+    // tripPlanState에 위치 추가
+    const currentDay = parseInt(day);
+    const location = {
+      name: result.place_name,
+      address: result.road_address_name || result.address_name,
+      coordinates: {
+        latitude: parseFloat(result.y),
+        longitude: parseFloat(result.x),
+      },
+    };
+
+    setTripPlan((prev) => ({
+      ...prev,
+      days: prev.days.map((d) =>
+        d.day === currentDay
+          ? {
+              ...d,
+              locations: [...d.locations, location],
+            }
+          : d
+      ),
+    }));
+
+    // 위치 선택 후 이전 화면으로 자동 이동 (선택적)
+    router.back();
   };
 
   if (loading) {

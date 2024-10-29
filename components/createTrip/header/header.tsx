@@ -4,17 +4,16 @@ import { useFonts } from "expo-font";
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation, useRouter } from "expo-router";
 import { useRecoilState } from "recoil";
-import { locationState } from "@/recoil/locationState";
+
 const Header = () => {
   const navigation = useNavigation();
-  const [, setLocations] = useRecoilState(locationState);
+
   const [fontsLoaded] = useFonts({
     NotoBlack: require("@/assets/fonts/NotoSansKR-Bold.ttf"),
     robotoBold: require("@/assets/fonts/Roboto-Bold.ttf"),
   });
   const backBtn = () => {
     navigation.goBack();
-    setLocations([]);
   };
   if (!fontsLoaded) return null;
   return (
