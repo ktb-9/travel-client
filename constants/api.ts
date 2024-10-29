@@ -2,6 +2,7 @@ export const BASE_URL = "http://localhost:8081";
 export const REDIRECT_URI = `${BASE_URL}/oauth/kakao/callback`;
 
 export const AXIOS_BASE_URL = "http://localhost:9090";
+export const MAP_KEY = "38789b5f2f2e16d6229dbc25dc0c776b";
 
 export const END_POINTS = {
   LOGIN: "/auth/oauth/kakao/callback",

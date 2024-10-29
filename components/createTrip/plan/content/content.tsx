@@ -4,10 +4,12 @@ import destination from "@/assets/images/destinationLogo.png";
 import marker from "@/assets/images/gps.png";
 import { PlanType } from "../plan";
 import { useState } from "react";
+import { useRouter } from "expo-router";
 interface ContentProps {
   dayInfo: PlanType;
 }
 const Content = ({ dayInfo }: ContentProps) => {
+  const router = useRouter();
   const { day, plan } = dayInfo;
   const [trip, setTrip] = useState("");
   console.log(trip);
@@ -30,7 +32,7 @@ const Content = ({ dayInfo }: ContentProps) => {
               style={styles.input}
               placeholder="장소/맞집/숙소/검색"
             ></TextInput>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={() => router.push("/map/map")}>
               <Image style={styles.marker} source={marker} />
             </TouchableOpacity>
           </View>
