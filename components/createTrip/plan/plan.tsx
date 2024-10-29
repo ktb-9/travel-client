@@ -3,6 +3,7 @@ import styles from "./styles";
 import plus from "@/assets/images/plus.png";
 import { useState } from "react";
 import Content from "./content/content";
+
 export interface PlanType {
   day: number;
   plan: any[]; // 또는 더 구체적인 타입 정의
@@ -15,6 +16,7 @@ const Plan = () => {
       plan: [],
     },
   ]);
+
   //일정 추가 템플릿
   const addPlan = () => {
     const newDay: PlanType = {

@@ -3,16 +3,25 @@ import styles from "./styles";
 import destination from "@/assets/images/destinationLogo.png";
 import marker from "@/assets/images/gps.png";
 import { PlanType } from "../plan";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "expo-router";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { dayState } from "@/recoil/dayState";
+import { locationState } from "@/recoil/locationState";
 interface ContentProps {
   dayInfo: PlanType;
 }
 const Content = ({ dayInfo }: ContentProps) => {
   const router = useRouter();
-  const { day, plan } = dayInfo;
+  const { day } = dayInfo;
   const [trip, setTrip] = useState("");
-  console.log(trip);
+  const [, setDay] = useRecoilState(dayState);
+  const plan = useRecoilValue(locationState);
+  console.log(plan);
+  const handleMap = () => {
+    router.push("/map/map");
+    setDay({ day: day });
+  };
   return (
     <>
       <View style={styles.destinationWrapper}>
@@ -32,7 +41,7 @@ const Content = ({ dayInfo }: ContentProps) => {
               style={styles.input}
               placeholder="장소/맞집/숙소/검색"
             ></TextInput>
-            <TouchableOpacity onPress={() => router.push("/map/map")}>
+            <TouchableOpacity onPress={handleMap}>
               <Image style={styles.marker} source={marker} />
             </TouchableOpacity>
           </View>

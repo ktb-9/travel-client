@@ -1,31 +1,50 @@
 import { MAP_KEY } from "@/constants/api";
 import React, { useState, useEffect } from "react";
 import {
-  StyleSheet,
   View,
   TextInput,
   TouchableOpacity,
   Text,
   Dimensions,
   ActivityIndicator,
-  Platform,
   ScrollView,
 } from "react-native";
 import MapView, { Marker } from "react-native-maps";
 import * as Location from "expo-location";
 import { Ionicons } from "@expo/vector-icons";
 import debounce from "lodash/debounce";
+import Header from "./header/header";
+import styles from "./styles";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { locationState } from "@/recoil/locationState";
+import { dayState } from "@/recoil/dayState";
+interface SearchResult {
+  id: string;
+  place_name: string;
+  address_name: string;
+  road_address_name?: string;
+  x: string;
+  y: string;
+}
+
+interface CurrentLocation {
+  latitude: number;
+  longitude: number;
+}
 
 const KAKAO_API_KEY = MAP_KEY;
-const { width } = Dimensions.get("window");
 
 export default function Maps() {
-  const [searchQuery, setSearchQuery] = useState("");
-  const [searchResults, setSearchResults] = useState([]);
-  const [selectedLocation, setSelectedLocation] = useState(null);
-  const [currentLocation, setCurrentLocation] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [isSearching, setIsSearching] = useState(false);
+  const [searchQuery, setSearchQuery] = useState<string>("");
+  const [searchResults, setSearchResults] = useState<SearchResult[]>([]);
+  const [selectedLocation, setSelectedLocation] =
+    useState<CurrentLocation | null>(null);
+  const [currentLocation, setCurrentLocation] =
+    useState<CurrentLocation | null>(null);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [isSearching, setIsSearching] = useState<boolean>(false);
+  const [location, setLocation] = useRecoilState(locationState);
+  const day = useRecoilValue(dayState);
 
   useEffect(() => {
     getCurrentLocation();
@@ -94,13 +113,28 @@ export default function Maps() {
     }
   };
 
-  const handleLocationSelect = (result) => {
+  const handleLocationSelect = (result: SearchResult) => {
     setSelectedLocation({
       latitude: parseFloat(result.y),
       longitude: parseFloat(result.x),
     });
     setSearchQuery(result.place_name);
     setSearchResults([]);
+    const existingDayIndex = location.findIndex((loc) => loc.day === day.day);
+    if (existingDayIndex == -1) {
+      setLocation((prev) => [
+        ...prev,
+        { day: day.day, locations: [result.place_name] },
+      ]);
+    } else {
+      setLocation((prev) =>
+        prev.map((loc, index) =>
+          index === existingDayIndex
+            ? { ...loc, locations: [...loc.locations, result.place_name] }
+            : loc
+        )
+      );
+    }
   };
 
   if (loading) {
@@ -114,6 +148,7 @@ export default function Maps() {
 
   return (
     <View style={styles.container}>
+      <Header />
       <View style={styles.searchContainer}>
         <View style={styles.searchInputContainer}>
           <Ionicons
@@ -218,183 +253,3 @@ export default function Maps() {
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-  },
-  loadingContainer: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "#fff",
-  },
-  loadingText: {
-    marginTop: 10,
-    color: "#666",
-    fontSize: 16,
-  },
-  searchContainer: {
-    position: "absolute",
-    top: Platform.OS === "ios" ? 50 : 20,
-    left: 20,
-    right: 20,
-    flexDirection: "row",
-    zIndex: 1,
-  },
-  searchInputContainer: {
-    flex: 1,
-    flexDirection: "row",
-    alignItems: "center",
-    backgroundColor: "#fff",
-    borderRadius: 25,
-    paddingHorizontal: 15,
-    height: 50,
-    ...Platform.select({
-      ios: {
-        shadowColor: "#000",
-        shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.25,
-        shadowRadius: 3.84,
-      },
-      android: {
-        elevation: 5,
-      },
-    }),
-  },
-  searchIcon: {
-    marginRight: 10,
-  },
-  searchInput: {
-    flex: 1,
-    fontSize: 16,
-    color: "#333",
-  },
-  clearButton: {
-    padding: 5,
-  },
-  resultsContainer: {
-    position: "absolute",
-    top: Platform.OS === "ios" ? 110 : 80,
-    left: 20,
-    right: 20,
-    backgroundColor: "#fff",
-    borderRadius: 15,
-    maxHeight: 400,
-    zIndex: 1,
-    ...Platform.select({
-      ios: {
-        shadowColor: "#000",
-        shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.25,
-        shadowRadius: 3.84,
-      },
-      android: {
-        elevation: 5,
-      },
-    }),
-  },
-  resultsList: {
-    maxHeight: 400,
-  },
-  resultItem: {
-    flexDirection: "row",
-    alignItems: "center",
-    paddingVertical: 12,
-    paddingHorizontal: 15,
-    borderBottomWidth: 1,
-    borderBottomColor: "#f0f0f0",
-  },
-  lastResultItem: {
-    borderBottomWidth: 0,
-  },
-  resultIconContainer: {
-    width: 30,
-    alignItems: "center",
-  },
-  resultTextContainer: {
-    flex: 1,
-    marginLeft: 10,
-  },
-  placeName: {
-    fontSize: 16,
-    color: "#333",
-    fontWeight: "500",
-  },
-  addressText: {
-    fontSize: 14,
-    color: "#666",
-    marginTop: 3,
-  },
-  roadAddressText: {
-    fontSize: 13,
-    color: "#888",
-    marginTop: 2,
-  },
-  searchingContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
-    padding: 15,
-  },
-  searchingText: {
-    marginLeft: 10,
-    color: "#666",
-    fontSize: 14,
-  },
-  map: {
-    flex: 1,
-  },
-  currentLocationButton: {
-    position: "absolute",
-    right: 20,
-    bottom: 40,
-    backgroundColor: "#fff",
-    padding: 15,
-    borderRadius: 30,
-    ...Platform.select({
-      ios: {
-        shadowColor: "#000",
-        shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.25,
-        shadowRadius: 3.84,
-      },
-      android: {
-        elevation: 5,
-      },
-    }),
-  },
-  markerContainer: {
-    alignItems: "center",
-  },
-  marker: {
-    backgroundColor: "#fff",
-    borderRadius: 20,
-    padding: 8,
-    ...Platform.select({
-      ios: {
-        shadowColor: "#000",
-        shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.25,
-        shadowRadius: 3.84,
-      },
-      android: {
-        elevation: 5,
-      },
-    }),
-  },
-  markerArrow: {
-    width: 0,
-    height: 0,
-    backgroundColor: "transparent",
-    borderStyle: "solid",
-    borderLeftWidth: 8,
-    borderRightWidth: 8,
-    borderTopWidth: 8,
-    borderLeftColor: "transparent",
-    borderRightColor: "transparent",
-    borderTopColor: "#fff",
-    marginTop: -1,
-  },
-});
