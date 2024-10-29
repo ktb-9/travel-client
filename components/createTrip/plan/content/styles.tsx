@@ -56,5 +56,25 @@ const styles = StyleSheet.create({
     height: 20,
     objectFit: "contain",
   },
+  resultIconContainer: {
+    marginRight: 12,
+    justifyContent: "center",
+  },
+  resultTextContainer: {
+    flex: 1,
+    justifyContent: "center",
+  },
+  resultItem: {
+    flexDirection: "row",
+    padding: 16,
+    borderBottomWidth: 1,
+    borderBottomColor: "#EEEEEE",
+  },
+  lastResultItem: {
+    borderBottomWidth: 0,
+  },
+  resultsList: {
+    width: "100%",
+  },
 });
 export default styles;

@@ -7,7 +7,8 @@ const styles = StyleSheet.create({
     height: "auto",
     alignItems: "center",
     gap: 40,
-    borderWidth: 2,
+
+    marginBottom: 50,
   },
   header: {
     width: "100%",
@@ -23,7 +24,6 @@ const styles = StyleSheet.create({
     display: "flex",
   },
   contentWraper: {
-    borderWidth: 2,
     width: width * 0.9,
     display: "flex",
     gap: 20,
@@ -31,6 +31,19 @@ const styles = StyleSheet.create({
   plusBtn: {
     width: 30,
     height: 30,
+  },
+  submit: {
+    width: 90,
+    height: 25,
+    borderRadius: 20,
+    backgroundColor: "#6CD99E",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  submitText: {
+    color: "#ffffff",
+    fontWeight: "bold",
   },
 });
 export default styles;

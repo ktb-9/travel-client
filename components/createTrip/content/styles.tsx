@@ -6,12 +6,10 @@ const styles = StyleSheet.create({
     height: "auto",
     alignItems: "center",
     gap: 10,
-    borderWidth: 2,
   },
   title: {
     display: "flex",
     gap: 5,
-    borderWidth: 2,
     width: "100%",
     padding: 10,
   },

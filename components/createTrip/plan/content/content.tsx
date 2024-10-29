@@ -1,13 +1,20 @@
-import { Image, Text, TextInput, TouchableOpacity, View } from "react-native";
+import {
+  Image,
+  ScrollView,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import styles from "./styles";
 import destination from "@/assets/images/destinationLogo.png";
-import marker from "@/assets/images/gps.png";
 import { PlanType } from "../plan";
 import { useEffect, useState } from "react";
 import { useRouter } from "expo-router";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { dayState } from "@/recoil/dayState";
 import { locationState } from "@/recoil/locationState";
+import { Ionicons } from "@expo/vector-icons";
 interface ContentProps {
   dayInfo: PlanType;
 }
@@ -17,11 +24,17 @@ const Content = ({ dayInfo }: ContentProps) => {
   const [trip, setTrip] = useState("");
   const [, setDay] = useRecoilState(dayState);
   const plan = useRecoilValue(locationState);
-  console.log(plan);
+  const [locations, setLocations] = useState<string[]>([]);
   const handleMap = () => {
     router.push("/map/map");
     setDay({ day: day });
   };
+  useEffect(() => {
+    const existingDays = plan.find((loc) => loc.day == day);
+    if (existingDays) {
+      setLocations(existingDays.locations);
+    }
+  }, [plan]);
   return (
     <>
       <View style={styles.destinationWrapper}>
@@ -42,9 +55,27 @@ const Content = ({ dayInfo }: ContentProps) => {
               placeholder="장소/맞집/숙소/검색"
             ></TextInput>
             <TouchableOpacity onPress={handleMap}>
-              <Image style={styles.marker} source={marker} />
+              <Ionicons name="location" size={20} color="#0066cc" />
             </TouchableOpacity>
           </View>
+          <ScrollView style={styles.resultsList}>
+            {locations.map((locationName, index) => (
+              <TouchableOpacity
+                key={`location-${index}`}
+                style={[
+                  styles.resultItem,
+                  index === locations.length - 1 && styles.lastResultItem,
+                ]}
+              >
+                <View style={styles.resultIconContainer}>
+                  <Ionicons name="location" size={20} color="#0066cc" />
+                </View>
+                <View style={styles.resultTextContainer}>
+                  <Text>{locationName}</Text>
+                </View>
+              </TouchableOpacity>
+            ))}
+          </ScrollView>
         </View>
       </View>
     </>

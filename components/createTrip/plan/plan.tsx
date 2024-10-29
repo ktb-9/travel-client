@@ -40,6 +40,9 @@ const Plan = () => {
       <TouchableOpacity onPress={addPlan}>
         <Image style={styles.plusBtn} source={plus}></Image>
       </TouchableOpacity>
+      <TouchableOpacity style={styles.submit}>
+        <Text style={styles.submitText}>일정확정</Text>
+      </TouchableOpacity>
     </View>
   );
 };

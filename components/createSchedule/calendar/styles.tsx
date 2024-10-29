@@ -206,7 +206,7 @@ const styles = StyleSheet.create({
     color: "#FFFFFF",
   },
   submit: {
-    width: 75,
+    width: 90,
     height: 25,
     borderRadius: 20,
     backgroundColor: "#B66CD9",
