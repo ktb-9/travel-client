@@ -15,7 +15,12 @@ const Content = ({ dayInfo }: ContentProps) => {
     <>
       <View style={styles.destinationWrapper}>
         <Image source={destination} style={styles.destinationLogo} />
-        <TextInput value={trip} onChangeText={setTrip} />
+        <TextInput
+          style={styles.trip}
+          value={trip}
+          onChangeText={setTrip}
+          placeholder="여행지 입력해주세요..."
+        />
       </View>
       <Text style={styles.day}>{day}일차</Text>
       <View style={{ alignItems: "center" }}>

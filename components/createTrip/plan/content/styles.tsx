@@ -11,6 +11,13 @@ const styles = StyleSheet.create({
     width: 30,
     height: 30,
   },
+  trip: {
+    width: 200,
+    fontFamily: "NotoSans",
+    fontSize: 20,
+    fontWeight: "bold",
+    color: "#585454",
+  },
   destination: {
     fontFamily: "NotoSans",
     fontSize: 25,
