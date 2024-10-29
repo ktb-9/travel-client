@@ -18,7 +18,7 @@ const Header = () => {
       >
         <Ionicons name="chevron-back" size={24} color="black" />
       </TouchableOpacity>
-      <Text style={styles.title}>여행 그룹 생성</Text>
+      <Text style={styles.title}>지도</Text>
     </View>
   );
 };

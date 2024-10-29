@@ -17,8 +17,10 @@ import { locationState } from "@/recoil/locationState";
 import { Ionicons } from "@expo/vector-icons";
 interface ContentProps {
   dayInfo: PlanType;
+  setData: React.Dispatch<React.SetStateAction<any[]>>;
+  data: any;
 }
-const Content = ({ dayInfo }: ContentProps) => {
+const Content = ({ dayInfo, data, setData }: ContentProps) => {
   const router = useRouter();
   const { day } = dayInfo;
   const [trip, setTrip] = useState("");
@@ -33,6 +35,17 @@ const Content = ({ dayInfo }: ContentProps) => {
     const existingDays = plan.find((loc) => loc.day == day);
     if (existingDays) {
       setLocations(existingDays.locations);
+      setData((prevData) => {
+        const filteredData = prevData.filter((item) => item.day !== day);
+        return [
+          ...filteredData,
+          {
+            day: day,
+            trip: trip,
+            visit: existingDays.locations,
+          },
+        ];
+      });
     }
   }, [plan]);
   return (
