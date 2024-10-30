@@ -1,107 +1,67 @@
 import { StyleSheet, Dimensions } from "react-native";
+
 const { width } = Dimensions.get("window");
+
 const styles = StyleSheet.create({
+  container: {
+    marginBottom: 24,
+    backgroundColor: "#fff",
+    borderRadius: 12,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.05,
+    shadowRadius: 4,
+    elevation: 2,
+    padding: 16,
+  },
   destinationWrapper: {
-    display: "flex",
     flexDirection: "row",
     alignItems: "center",
-    gap: 5,
+    marginBottom: 16,
   },
-  destinationLogo: {
-    width: 30,
-    height: 30,
+  destinationIcon: {
+    width: 24,
+    height: 24,
+    marginRight: 8,
   },
-  trip: {
-    width: 200,
+  destinationInput: {
+    flex: 1,
     fontFamily: "NotoSans",
-    fontSize: 20,
-    fontWeight: "bold",
-    color: "#585454",
-  },
-  destination: {
-    fontFamily: "NotoSans",
-    fontSize: 25,
-    fontWeight: "bold",
-    color: "#585454",
-  },
-  edit: {
-    color: "#B5BEC6",
-    fontWeight: "bold",
-  },
-  day: {
-    fontFamily: "robotoBold",
     fontSize: 18,
-    padding: 15,
+    fontWeight: "bold",
+    color: "#585454",
+  },
+  dayText: {
+    fontFamily: "RobotoBold",
+    fontSize: 16,
+    color: "#585454",
+    marginBottom: 12,
   },
   locationContainer: {
-    borderWidth: 2,
+    borderWidth: 1,
     borderColor: "#EBEBEB",
-    width: "90%",
-    alignItems: "center",
-    height: 300,
+    borderRadius: 8,
+    padding: 12,
   },
   inputWrapper: {
-    marginTop: 20,
-    display: "flex",
-    flexDirection: "row",
-  },
-  input: {
-    width: "75%",
-    borderBottomWidth: 2,
-    height: 20,
-    borderColor: "#EBEBEB",
-  },
-  marker: {
-    width: 20,
-    height: 20,
-    objectFit: "contain",
-  },
-  resultIconContainer: {
-    marginRight: 12,
-    justifyContent: "center",
-  },
-  resultTextContainer: {
-    flex: 1,
-    justifyContent: "center",
-  },
-  resultItem: {
-    flexDirection: "row",
-    padding: 16,
-    borderBottomWidth: 1,
-    borderBottomColor: "#EEEEEE",
-  },
-  lastResultItem: {
-    borderBottomWidth: 0,
-  },
-  resultsList: {
-    width: "100%",
-  },
-  itemLeftContent: {
-    flexDirection: "row",
-    flex: 1,
-  },
-  locationName: {
-    fontSize: 16,
-    fontWeight: "500",
-    color: "#000",
-  },
-  locationAddress: {
-    fontSize: 14,
-    color: "#666",
-    marginTop: 2,
-  },
-  timeContainer: {
     flexDirection: "row",
     alignItems: "center",
-    marginTop: 4,
+    marginBottom: 12,
   },
-  visitTime: {
-    fontSize: 14,
-    color: "#666",
-    marginLeft: 4,
+  locationInput: {
+    flex: 1,
+    fontFamily: "NotoSans",
+    fontSize: 16,
+    borderBottomWidth: 1,
+    borderBottomColor: "#EBEBEB",
+    marginRight: 8,
   },
-  deleteButton: {
-    padding: 4,
+  locationsList: {
+    maxHeight: 240,
   },
 });
+
 export default styles;

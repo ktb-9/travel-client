@@ -1,49 +1,71 @@
 import { StyleSheet, Dimensions } from "react-native";
+
 const { width } = Dimensions.get("window");
+
 const styles = StyleSheet.create({
   container: {
-    display: "flex",
     width: "100%",
-    height: "auto",
-    alignItems: "center",
-    gap: 40,
-
-    marginBottom: 50,
+    paddingHorizontal: 20,
+    paddingVertical: 16,
+    backgroundColor: "#fff",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.05,
+    shadowRadius: 4,
+    elevation: 2,
+    marginBottom: 32,
   },
   header: {
-    width: "100%",
-    padding: 10,
+    marginBottom: 16,
   },
   headerTitle: {
     fontFamily: "NotoSans",
     fontSize: 20,
     fontWeight: "bold",
-    color: "#585454",
+    color: "#333",
   },
   content: {
-    display: "flex",
+    marginBottom: 16,
   },
-  contentWraper: {
-    width: width * 0.9,
-    display: "flex",
-    gap: 20,
+  contentWrapper: {
+    gap: 16,
   },
-  plusBtn: {
-    width: 30,
-    height: 30,
+  addButton: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    paddingVertical: 8,
+    paddingHorizontal: 16,
+    backgroundColor: "#F0F0F0",
+    borderRadius: 8,
   },
-  submit: {
-    width: 90,
-    height: 25,
-    borderRadius: 20,
+  addButtonIcon: {
+    width: 20,
+    height: 20,
+    marginRight: 8,
+  },
+  addButtonText: {
+    fontFamily: "RobotoBold",
+    fontSize: 16,
+    color: "#7C7C7C",
+  },
+  submitButton: {
+    marginTop: 50,
+    paddingVertical: 8,
+    paddingHorizontal: 16,
     backgroundColor: "#6CD99E",
-    display: "flex",
+    borderRadius: 20,
     alignItems: "center",
     justifyContent: "center",
   },
-  submitText: {
-    color: "#ffffff",
-    fontWeight: "bold",
+  submitButtonText: {
+    fontFamily: "RobotoBold",
+    fontSize: 14,
+    color: "#fff",
   },
 });
+
 export default styles;

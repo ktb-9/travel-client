@@ -1,6 +1,6 @@
 import { Ionicons } from "@expo/vector-icons";
 import { Text, TouchableOpacity, View } from "react-native";
-import styles from "../plan/content/styles";
+import styles from "./styles";
 import { LocationItemProps } from "@/types/createTrip/createTrip";
 
 const LocationItem = ({ location, isLast, onDelete }: LocationItemProps) => {
