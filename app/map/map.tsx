@@ -7,30 +7,20 @@ import {
   Text,
   ActivityIndicator,
   ScrollView,
+  Modal,
+  Platform,
 } from "react-native";
 import MapView, { Marker } from "react-native-maps";
 import * as Location from "expo-location";
 import { Ionicons } from "@expo/vector-icons";
 import { useRouter, useLocalSearchParams } from "expo-router";
 import debounce from "lodash/debounce";
+import DateTimePicker from "@react-native-community/datetimepicker";
 import Header from "./header/header";
 import styles from "./styles";
 import { useRecoilState } from "recoil";
 import { tripPlanState } from "@/recoil/tripPlanState";
-
-interface SearchResult {
-  id: string;
-  place_name: string;
-  address_name: string;
-  road_address_name?: string;
-  x: string;
-  y: string;
-}
-
-interface CurrentLocation {
-  latitude: number;
-  longitude: number;
-}
+import { CurrentLocation, SearchResult, SelectedPlace } from "@/types/map/map";
 
 const KAKAO_API_KEY = MAP_KEY;
 
@@ -39,6 +29,9 @@ export default function Maps() {
   const { day } = useLocalSearchParams<{ day: string }>();
   const [, setTripPlan] = useRecoilState(tripPlanState);
 
+  // 선택된 위치에 대한 마커 정보 추가
+  const [markers, setMarkers] = useState<SearchResult[]>([]);
+
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [searchResults, setSearchResults] = useState<SearchResult[]>([]);
   const [selectedLocation, setSelectedLocation] =
@@ -46,6 +39,14 @@ export default function Maps() {
   const [, setCurrentLocation] = useState<CurrentLocation | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [isSearching, setIsSearching] = useState<boolean>(false);
+
+  // 시간 선택 관련 상태
+  const [showTimePicker, setShowTimePicker] = useState(false);
+  const [selectedTime, setSelectedTime] = useState(new Date());
+  const [selectedPlace, setSelectedPlace] = useState<SelectedPlace | null>(
+    null
+  );
+  const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
     getCurrentLocation();
@@ -113,24 +114,40 @@ export default function Maps() {
     }
   };
 
-  const handleLocationSelect = (result: SearchResult) => {
-    // 선택된 위치로 지도 이동
-    setSelectedLocation({
-      latitude: parseFloat(result.y),
-      longitude: parseFloat(result.x),
-    });
-    setSearchQuery(result.place_name);
-    setSearchResults([]);
-
-    // tripPlanState에 위치 추가
-    const currentDay = parseInt(day);
-    const location = {
+  const handleMarkerPress = (result: SearchResult) => {
+    setSelectedPlace({
       name: result.place_name,
       address: result.road_address_name || result.address_name,
       coordinates: {
         latitude: parseFloat(result.y),
         longitude: parseFloat(result.x),
       },
+    });
+    setShowModal(true);
+  };
+
+  const handleTimeChange = (event: any, selectedDate?: Date) => {
+    if (Platform.OS === "android") {
+      setShowTimePicker(false);
+    }
+    if (selectedDate) {
+      setSelectedTime(selectedDate);
+    }
+  };
+
+  const handleTimeConfirm = () => {
+    if (!selectedPlace) return;
+
+    const currentDay = parseInt(day);
+    const formattedTime = selectedTime.toLocaleTimeString("ko-KR", {
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: false,
+    });
+    const location = {
+      name: selectedPlace.name,
+      address: selectedPlace.address,
+      visitTime: formattedTime, // 시간만 저장 (예: "14:30")
     };
 
     setTripPlan((prev) => ({
@@ -145,9 +162,96 @@ export default function Maps() {
       ),
     }));
 
-    // 위치 선택 후 이전 화면으로 자동 이동 (선택적)
+    setShowModal(false);
+    setSelectedPlace(null);
     router.back();
   };
+
+  useEffect(() => {
+    if (searchResults.length > 0) {
+      setMarkers(searchResults);
+    }
+  }, [searchResults]);
+
+  const handleLocationSelect = (result: SearchResult) => {
+    setSelectedLocation({
+      latitude: parseFloat(result.y),
+      longitude: parseFloat(result.x),
+    });
+    // 선택된 위치를 마커 목록에 추가
+    setMarkers([result]);
+    setSearchResults([]);
+    setSearchQuery("");
+  };
+
+  const TimePickerModal = () => (
+    <Modal
+      visible={showModal}
+      transparent={true}
+      animationType="fade"
+      onRequestClose={() => setShowModal(false)}
+    >
+      <View style={styles.modalOverlay}>
+        <View style={styles.modalContent}>
+          <Text style={styles.modalTitle}>{selectedPlace?.name}</Text>
+          <Text style={styles.modalAddress}>{selectedPlace?.address}</Text>
+
+          <Text style={styles.modalSubtitle}>방문 시간 설정</Text>
+
+          {Platform.OS === "ios" ? (
+            <DateTimePicker
+              value={selectedTime}
+              mode="time"
+              display="spinner"
+              onChange={handleTimeChange}
+              locale="ko-KR"
+            />
+          ) : (
+            <>
+              <TouchableOpacity
+                onPress={() => setShowTimePicker(true)}
+                style={styles.androidTimeButton}
+              >
+                <Text style={styles.androidTimeButtonText}>
+                  {selectedTime.toLocaleTimeString([], {
+                    hour: "2-digit",
+                    minute: "2-digit",
+                    hour12: false,
+                  })}
+                </Text>
+              </TouchableOpacity>
+
+              {showTimePicker && (
+                <DateTimePicker
+                  value={selectedTime}
+                  mode="time"
+                  is24Hour={true}
+                  display="default"
+                  onChange={handleTimeChange}
+                  locale="ko-KR"
+                />
+              )}
+            </>
+          )}
+
+          <View style={styles.modalButtons}>
+            <TouchableOpacity
+              style={[styles.modalButton, styles.modalButtonCancel]}
+              onPress={() => setShowModal(false)}
+            >
+              <Text style={styles.modalButtonTextCancel}>취소</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={[styles.modalButton, styles.modalButtonConfirm]}
+              onPress={handleTimeConfirm}
+            >
+              <Text style={styles.modalButtonTextConfirm}>확인</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </View>
+    </Modal>
+  );
 
   if (loading) {
     return (
@@ -244,17 +348,27 @@ export default function Maps() {
         showsMyLocationButton={false}
         followsUserLocation={true}
       >
-        {selectedLocation && (
-          <Marker coordinate={selectedLocation}>
+        {markers.map((result, index) => (
+          <Marker
+            key={`${result.id}-${index}`}
+            coordinate={{
+              latitude: parseFloat(result.y),
+              longitude: parseFloat(result.x),
+            }}
+            onPress={() => handleMarkerPress(result)}
+          >
             <View style={styles.markerContainer}>
               <View style={styles.marker}>
                 <Ionicons name="location" size={24} color="#0066cc" />
               </View>
+              <Text style={styles.markerTitle}>{result.place_name}</Text>
               <View style={styles.markerArrow} />
             </View>
           </Marker>
-        )}
+        ))}
       </MapView>
+
+      <TimePickerModal />
 
       <TouchableOpacity
         style={styles.currentLocationButton}

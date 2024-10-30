@@ -1,32 +1,15 @@
 import SockJS from "sockjs-client";
 import { Client, IFrame, IMessage } from "@stomp/stompjs";
 import moment from "moment";
+import {
+  CalendarMessage,
+  StompHandlerProps,
+  UserDateRanges,
+} from "@/types/calendar/calendar";
 
 const SERVER_URL = "http://localhost:8080/ws";
 const SUB_ENDPOINT = "/topic/calendar";
 const PUB_ENDPOINT = "/app/calendar";
-
-interface DateRange {
-  start: string | null;
-  end: string | null;
-}
-
-interface CalendarMessage {
-  type: "SELECT_DATE" | "CLEAR_DATE";
-  dateRange: DateRange;
-  userId: string;
-}
-
-interface UserDateRanges {
-  [key: string]: DateRange & { userId: string };
-}
-
-interface StompHandlerProps {
-  setIsEnterChat: React.Dispatch<React.SetStateAction<boolean>>;
-  setUserDateRanges: React.Dispatch<React.SetStateAction<UserDateRanges>>;
-  setWsClient: React.Dispatch<React.SetStateAction<Client | undefined>>;
-  userId: string;
-}
 
 const createStompHandler = ({
   setIsEnterChat,

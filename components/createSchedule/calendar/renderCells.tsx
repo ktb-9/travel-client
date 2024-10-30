@@ -6,21 +6,11 @@ import moment from "moment";
 import "moment/locale/ko";
 import { useState } from "react";
 import renderUserIndicators from "./renderUserIndicator";
-interface DateRange {
-  start: moment.Moment | null;
-  end: moment.Moment | null;
-}
-
-interface StompHandlerRef {
-  sendCalendarUpdate: (range: DateRange) => void;
-}
-
-// userDateRanges가 string일 수 있으므로 변환 필요
-interface UserDateRange {
-  start: string | null;
-  end: string | null;
-  userId: string;
-}
+import {
+  renderDateRange,
+  StompHandlerRef,
+  UserDateRange,
+} from "@/types/calendar/calendar";
 
 const renderCells = (
   currentMonth: moment.Moment, // currentMonth는 Moment 객체
@@ -28,7 +18,7 @@ const renderCells = (
   userDateRanges: Record<string, UserDateRange>, // 사용자 날짜 범위
   userColors: Record<string, string> // 사용자 ID와 색상 매핑
 ) => {
-  const [dateRange, setDateRange] = useState<DateRange>({
+  const [dateRange, setDateRange] = useState<renderDateRange>({
     start: null,
     end: null,
   });

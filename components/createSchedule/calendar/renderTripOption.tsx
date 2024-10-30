@@ -2,20 +2,7 @@ import { Text, TouchableOpacity } from "react-native";
 import styles from "./styles";
 import moment from "moment";
 import "moment/locale/ko";
-interface SelectedTrip {
-  startDate: string;
-  numberOfDays: number;
-}
-
-interface RenderTripOptionsProps {
-  setModalVisible: (visible: boolean) => void;
-  setConfirmedTrip: (trip: {
-    startDate: string;
-    endDate: string;
-    nights: number;
-  }) => void;
-  selectedTrip: SelectedTrip | null;
-}
+import { RenderTripOptionsProps } from "@/types/calendar/calendar";
 
 const renderTripOptions = ({
   setModalVisible,

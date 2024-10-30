@@ -1,7 +1,6 @@
 import { Image, Text, TouchableOpacity, View } from "react-native";
 import styles from "./styles";
 import plus from "@/assets/images/plus.png";
-import { useState } from "react";
 import Content from "./content/content";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { createSchdeuleState } from "@/recoil/createSchdeuleState";
@@ -32,7 +31,6 @@ const Plan = () => {
       groupName: groupInfo.groupName,
       days: tripPlan.days,
     };
-    console.log(data);
   };
   return (
     <View style={styles.container}>

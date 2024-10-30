@@ -16,25 +16,11 @@ import useFindOverlappingDates from "@/hooks/useFindOverlappingDates";
 import { useRecoilState } from "recoil";
 import { createSchdeuleState } from "@/recoil/createSchdeuleState";
 import { useRouter } from "expo-router";
-
-interface UserDateRanges {
-  [key: string]: {
-    start: string | null;
-    end: string | null;
-    userId: string;
-  };
-}
-
-interface OverlappingDates {
-  startDate: string;
-  endDate: string;
-  numberOfDays: number;
-}
-interface ConfirmedTrip {
-  startDate: string;
-  endDate: string;
-  nights: number;
-}
+import {
+  ConfirmedTrip,
+  OverlappingDates,
+  UserDateRanges,
+} from "@/types/calendar/calendar";
 
 const Calendar = ({ groupName }: { groupName: string }) => {
   const router = useRouter();

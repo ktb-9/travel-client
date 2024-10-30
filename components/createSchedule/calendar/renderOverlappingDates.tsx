@@ -2,21 +2,11 @@ import { TouchableOpacity, Text } from "react-native";
 import styles from "./styles";
 import moment from "moment";
 import "moment/locale/ko";
+import { ConfirmedTrip, overlapDateRange } from "@/types/calendar/calendar";
 
-interface DateRange {
-  startDate: string;
-  endDate: string;
-  numberOfDays: number;
-}
-
-interface ConfirmedTrip {
-  startDate: string;
-  endDate: string;
-  nights: number;
-}
 interface RenderOverlappingDatesProps {
-  overlappingDates: DateRange[];
-  setSelectedTrip: (trip: DateRange) => void;
+  overlappingDates: overlapDateRange[];
+  setSelectedTrip: (trip: overlapDateRange) => void;
   setModalVisible: (visible: boolean) => void;
   confirmedTrip: ConfirmedTrip | null;
 }

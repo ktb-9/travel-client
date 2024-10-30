@@ -177,5 +177,99 @@ const styles = StyleSheet.create({
     borderTopColor: "#fff",
     marginTop: -1,
   },
+
+  // 모달 관련 새로운 스타일
+  modalOverlay: {
+    flex: 1,
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  modalContent: {
+    backgroundColor: "white",
+    borderRadius: 20,
+    padding: 20,
+    width: "80%",
+    maxWidth: 400,
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+  },
+  modalTitle: {
+    fontSize: 18,
+    fontWeight: "600",
+    marginBottom: 8,
+    textAlign: "center",
+  },
+  modalAddress: {
+    fontSize: 14,
+    color: "#666",
+    marginBottom: 20,
+    textAlign: "center",
+  },
+  modalSubtitle: {
+    fontSize: 16,
+    fontWeight: "500",
+    marginBottom: 10,
+    color: "#333",
+  },
+  modalButtons: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    width: "100%",
+    marginTop: 20,
+  },
+  modalButton: {
+    flex: 1,
+    paddingVertical: 12,
+    borderRadius: 10,
+    marginHorizontal: 5,
+  },
+  modalButtonCancel: {
+    backgroundColor: "#f0f0f0",
+  },
+  modalButtonConfirm: {
+    backgroundColor: "#0066cc",
+  },
+  modalButtonTextCancel: {
+    color: "#333",
+    textAlign: "center",
+    fontSize: 16,
+    fontWeight: "500",
+  },
+  modalButtonTextConfirm: {
+    color: "white",
+    textAlign: "center",
+    fontSize: 16,
+    fontWeight: "500",
+  },
+  androidTimeButton: {
+    backgroundColor: "#f0f0f0",
+    padding: 12,
+    borderRadius: 8,
+    marginVertical: 10,
+  },
+  androidTimeButtonText: {
+    fontSize: 16,
+    color: "#333",
+    textAlign: "center",
+  },
+  markerTitle: {
+    fontSize: 12,
+    color: "#000",
+    backgroundColor: "#fff",
+    paddingHorizontal: 8,
+    paddingVertical: 4,
+    borderRadius: 4,
+    marginBottom: 4,
+    borderWidth: 1,
+    borderColor: "#ccc",
+  },
 });
 export default styles;
