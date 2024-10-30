@@ -1,9 +1,6 @@
 import { Text, TouchableOpacity, View } from "react-native";
 import styles from "./styles";
-interface RenderHeaderProps {
-  onPressArrow: (direction: number) => void;
-  currentMonth: moment.Moment;
-}
+import { RenderHeaderProps } from "@/types/calendar/calendar";
 
 const renderHeader = ({ onPressArrow, currentMonth }: RenderHeaderProps) => (
   <View style={styles.header}>

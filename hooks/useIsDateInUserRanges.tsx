@@ -1,9 +1,6 @@
+import { DateRange } from "@/types/calendar/calendar";
 import moment from "moment";
 import "moment/locale/ko";
-interface DateRange {
-  start: string | moment.Moment | null;
-  end: string | moment.Moment | null;
-}
 
 const useIsDateInUserRanges = (
   date: moment.Moment,

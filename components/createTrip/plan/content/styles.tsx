@@ -76,5 +76,32 @@ const styles = StyleSheet.create({
   resultsList: {
     width: "100%",
   },
+  itemLeftContent: {
+    flexDirection: "row",
+    flex: 1,
+  },
+  locationName: {
+    fontSize: 16,
+    fontWeight: "500",
+    color: "#000",
+  },
+  locationAddress: {
+    fontSize: 14,
+    color: "#666",
+    marginTop: 2,
+  },
+  timeContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginTop: 4,
+  },
+  visitTime: {
+    fontSize: 14,
+    color: "#666",
+    marginLeft: 4,
+  },
+  deleteButton: {
+    padding: 4,
+  },
 });
 export default styles;

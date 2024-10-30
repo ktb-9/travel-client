@@ -7,15 +7,13 @@ import UpComming from "@/components/common/upcomming/upcomming";
 import History from "@/components/common/history/history";
 import styles from "./styles";
 import Intro from "@/components/common/intro/intro";
-import exampleQuery from "@/hooks/api/exampleQuery";
 
 export default function HomeScreen() {
   const { isDarkMode, toggleTheme } = useTheme();
   if (__DEV__) {
     require("../../mock/handler");
   }
-  const { data } = exampleQuery();
-  console.log(data);
+
   return (
     //컨테이너
     <SafeAreaView

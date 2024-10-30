@@ -1,5 +1,5 @@
 import React from "react";
-import { View, TouchableOpacity, Text, StyleSheet, Image } from "react-native";
+import { View, TouchableOpacity, Text, Image } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { header } from "@/types/header";
 import styles from "./styles";
@@ -10,12 +10,14 @@ import { userInfoState_unique } from "@/recoil/authState";
 const Header = ({ toggle, isDark }: header) => {
   const userInfo = useRecoilValue(userInfoState_unique);
   const router = useRouter();
+  const profileImageUrl = userInfo.profileImage.replace("http://", "https://");
   return (
     <View style={styles.header}>
       <TouchableOpacity style={styles.profile}>
         <Image
-          source={{ uri: userInfo.profileImage }}
+          source={{ uri: profileImageUrl }}
           style={{ width: 40, height: 40, borderRadius: 20 }}
+          onError={() => console.log("Failed to load image")}
         />
         <Text
           style={{

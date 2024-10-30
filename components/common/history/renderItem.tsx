@@ -1,13 +1,6 @@
 import { Animated, Image, Text, View, Dimensions } from "react-native";
 import styles from "./styles";
-
-type HotplaceData = {
-  id: string;
-  destination: any;
-  mainDescription: string;
-  subDescription: string;
-  hashTag: string;
-};
+import { historyState } from "@/types/common/main";
 
 const { width } = Dimensions.get("window");
 const CARD_WIDTH = width * 0.42;
@@ -18,7 +11,7 @@ const renderItem = ({
   index,
   scrollX, // scrollX를 인수로 받음
 }: {
-  item: HotplaceData;
+  item: historyState;
   index: number;
   scrollX: Animated.Value; // Animated.Value 타입 지정
 }) => {

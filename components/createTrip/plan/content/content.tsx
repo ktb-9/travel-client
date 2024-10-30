@@ -8,59 +8,22 @@ import {
 } from "react-native";
 import styles from "./styles";
 import destination from "@/assets/images/destinationLogo.png";
-import { useEffect, useState } from "react";
 import { useRouter } from "expo-router";
-import { useRecoilState, useRecoilValue } from "recoil";
-
 import { Ionicons } from "@expo/vector-icons";
-import { tripPlanState } from "@/recoil/tripPlanState";
 import LocationItem from "../../location/locationItem";
-interface DayPlan {
-  day: number;
-  destination: string;
-  locations: Location[];
-}
-interface Location {
-  name: string;
-  address?: string;
-  coordinates?: {
-    latitude: number;
-    longitude: number;
-  };
-}
+import { DayPlan } from "@/types/createTrip/createTrip";
+import useTripPlan from "@/hooks/createTrip/useTripPlan";
 
 const Content = ({ dayPlan }: { dayPlan: DayPlan }) => {
   const router = useRouter();
-  const [, setTripPlan] = useRecoilState(tripPlanState);
 
-  const updateDestination = (destination: string) => {
-    setTripPlan((prev) => ({
-      ...prev,
-      days: prev.days.map((day) =>
-        day.day === dayPlan.day ? { ...day, destination } : day
-      ),
-    }));
-  };
+  const { updateDestination, deleteLocation } = useTripPlan();
 
   const handleMap = () => {
     router.push({
       pathname: "/map/map",
       params: { day: dayPlan.day },
     });
-  };
-
-  const deleteLocation = (index: number) => {
-    setTripPlan((prev) => ({
-      ...prev,
-      days: prev.days.map((day) =>
-        day.day === dayPlan.day
-          ? {
-              ...day,
-              locations: day.locations.filter((_, i) => i !== index),
-            }
-          : day
-      ),
-    }));
   };
 
   return (
@@ -70,7 +33,9 @@ const Content = ({ dayPlan }: { dayPlan: DayPlan }) => {
         <TextInput
           style={styles.trip}
           value={dayPlan.destination}
-          onChangeText={updateDestination}
+          onChangeText={(destination) =>
+            updateDestination(dayPlan, destination)
+          }
           placeholder="여행지 입력해주세요..."
         />
       </View>
@@ -92,7 +57,7 @@ const Content = ({ dayPlan }: { dayPlan: DayPlan }) => {
                 key={`location-${index}`}
                 location={location}
                 isLast={index === dayPlan.locations.length - 1}
-                onDelete={() => deleteLocation(index)}
+                onDelete={() => deleteLocation(dayPlan, index)}
               />
             ))}
           </ScrollView>

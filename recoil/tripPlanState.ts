@@ -1,23 +1,4 @@
-// types.ts
-interface Location {
-  name: string;
-  address?: string;
-  coordinates?: {
-    latitude: number;
-    longitude: number;
-  };
-}
-
-interface DayPlan {
-  day: number;
-  destination: string;
-  locations: Location[];
-}
-
-interface TripPlan {
-  days: DayPlan[];
-}
-
+import { TripPlan } from "@/types/createTrip/createTrip";
 import { atom } from "recoil";
 
 export const tripPlanState = atom<TripPlan>({
