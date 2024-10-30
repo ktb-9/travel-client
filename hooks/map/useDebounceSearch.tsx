@@ -1,13 +1,9 @@
 import { MAP_KEY } from "@/constants/api";
-import { SearchResult } from "@/types/map/map";
+import { debounceProps, SearchResult } from "@/types/map/map";
 import debounce from "lodash/debounce";
 import { SetStateAction } from "react";
 const KAKAO_API_KEY = MAP_KEY;
-interface debounceProps {
-  searchQuery: string;
-  setIsSearching: React.Dispatch<SetStateAction<boolean>>;
-  setSearchResults: React.Dispatch<SetStateAction<SearchResult[]>>;
-}
+
 export const useDebouncedSearch = debounce(
   async ({ searchQuery, setIsSearching, setSearchResults }: debounceProps) => {
     if (searchQuery.length < 2) {

@@ -1,13 +1,5 @@
-import { CurrentLocation, SearchResult } from "@/types/map/map";
-interface locationSelectState {
-  result: SearchResult;
-  setSelectedLocation: React.Dispatch<
-    React.SetStateAction<CurrentLocation | null>
-  >;
-  setMarkers: React.Dispatch<React.SetStateAction<SearchResult[]>>;
-  setSearchResults: (results: SearchResult[]) => void;
-  setSearchQuery: (query: string) => void;
-}
+import { locationSelectState } from "@/types/map/map";
+
 export const useHandleLocationSelect = ({
   result,
   setSelectedLocation,

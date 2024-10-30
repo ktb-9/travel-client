@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { View, TouchableOpacity, Text, ActivityIndicator } from "react-native";
 import MapView from "react-native-maps";
 import { Ionicons } from "@expo/vector-icons";
 import Header from "./header/header";
 import styles from "./styles";
-import { CurrentLocation, SearchResult, SelectedPlace } from "@/types/map/map";
+import { useMapState } from "@/reducers/useMapState";
 import { useDebouncedSearch } from "@/hooks/map/useDebounceSearch";
 import { useGetCurrentLocation } from "@/hooks/map/useGetCurrentLocation";
 import SearchBar from "@/components/map/searchBar/searchBar";
@@ -12,51 +12,39 @@ import TimePickerModal from "@/components/map/modal/TimePickerModal";
 import MarkerList from "@/components/map/markerList/MarkerList";
 
 export default function Maps() {
-  // 선택된 위치에 대한 마커 정보 추가
-  const [markers, setMarkers] = useState<SearchResult[]>([]);
-  const [searchQuery, setSearchQuery] = useState<string>("");
-  const [searchResults, setSearchResults] = useState<SearchResult[]>([]);
-  const [selectedLocation, setSelectedLocation] =
-    useState<CurrentLocation | null>(null);
-  const [, setCurrentLocation] = useState<CurrentLocation | null>(null);
-  const [loading, setLoading] = useState<boolean>(true);
-  const [isSearching, setIsSearching] = useState<boolean>(false);
-
-  // 시간 선택 관련 상태
-  const [showTimePicker, setShowTimePicker] = useState(false);
-  const [selectedTime, setSelectedTime] = useState(new Date());
-  const [selectedPlace, setSelectedPlace] = useState<SelectedPlace | null>(
-    null
-  );
-  const [showModal, setShowModal] = useState(false);
+  const { state, actions } = useMapState();
 
   useEffect(() => {
     useGetCurrentLocation({
-      setCurrentLocation,
-      setSelectedLocation,
-      setLoading,
+      setCurrentLocation: actions.setCurrentLocation,
+      setSelectedLocation: actions.setSelectedLocation,
+      setLoading: actions.setLoading,
     });
   }, []);
 
   useEffect(() => {
-    if (searchQuery) {
-      useDebouncedSearch({ searchQuery, setIsSearching, setSearchResults });
+    if (state.search.query) {
+      useDebouncedSearch({
+        searchQuery: state.search.query,
+        setIsSearching: actions.setIsSearching,
+        setSearchResults: actions.setSearchResults,
+      });
     } else {
-      setSearchResults([]);
+      actions.setSearchResults([]);
     }
 
     return () => {
       useDebouncedSearch.cancel();
     };
-  }, [searchQuery]);
+  }, [state.search.query]);
 
   useEffect(() => {
-    if (searchResults.length > 0) {
-      setMarkers(searchResults);
+    if (state.search.results.length > 0) {
+      actions.setMarkers(state.search.results);
     }
-  }, [searchResults]);
+  }, [state.search.results]);
 
-  if (loading) {
+  if (state.location.loading) {
     return (
       <View style={styles.loadingContainer}>
         <ActivityIndicator size="large" color="#0066cc" />
@@ -69,20 +57,20 @@ export default function Maps() {
     <View style={styles.container}>
       <Header />
       <SearchBar
-        searchQuery={searchQuery}
-        setSearchQuery={setSearchQuery}
-        searchResults={searchResults}
-        setSearchResults={setSearchResults}
-        isSearching={isSearching}
-        setSelectedLocation={setSelectedLocation}
-        setMarkers={setMarkers}
+        searchQuery={state.search.query}
+        setSearchQuery={actions.setSearchQuery}
+        searchResults={state.search.results}
+        setSearchResults={actions.setSearchResults}
+        isSearching={state.search.isSearching}
+        setSelectedLocation={actions.setSelectedLocation}
+        setMarkers={actions.setMarkers}
       />
       <MapView
         style={styles.map}
         region={
-          selectedLocation
+          state.location.selected
             ? {
-                ...selectedLocation,
+                ...state.location.selected,
                 latitudeDelta: 0.005,
                 longitudeDelta: 0.005,
               }
@@ -93,28 +81,28 @@ export default function Maps() {
         followsUserLocation={true}
       >
         <MarkerList
-          markers={markers}
-          setSelectedPlace={setSelectedPlace}
-          setShowModal={setShowModal}
+          markers={state.search.markers}
+          setSelectedPlace={actions.setSelectedPlace}
+          setShowModal={actions.setShowModal}
         />
       </MapView>
       <TimePickerModal
-        showModal={showModal}
-        setShowModal={setShowModal}
-        selectedPlace={selectedPlace}
-        setSelectedPlace={setSelectedPlace}
-        selectedTime={selectedTime}
-        setSelectedTime={setSelectedTime}
-        setShowTimePicker={setShowTimePicker}
-        showTimePicker={showTimePicker}
+        showModal={state.modal.showModal}
+        setShowModal={actions.setShowModal}
+        selectedPlace={state.modal.selectedPlace}
+        setSelectedPlace={actions.setSelectedPlace}
+        selectedTime={state.modal.selectedTime}
+        setSelectedTime={actions.setSelectedTime}
+        setShowTimePicker={actions.setShowTimePicker}
+        showTimePicker={state.modal.showTimePicker}
       />
       <TouchableOpacity
         style={styles.currentLocationButton}
         onPress={() =>
           useGetCurrentLocation({
-            setCurrentLocation,
-            setSelectedLocation,
-            setLoading,
+            setCurrentLocation: actions.setCurrentLocation,
+            setSelectedLocation: actions.setSelectedLocation,
+            setLoading: actions.setLoading,
           })
         }
       >

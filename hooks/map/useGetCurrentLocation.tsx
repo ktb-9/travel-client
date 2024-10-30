@@ -1,15 +1,6 @@
-import { CurrentLocation } from "@/types/map/map";
+import { currentLocationProps } from "@/types/map/map";
 import * as Location from "expo-location";
 
-interface currentLocationProps {
-  setCurrentLocation: React.Dispatch<
-    React.SetStateAction<CurrentLocation | null>
-  >;
-  setSelectedLocation: React.Dispatch<
-    React.SetStateAction<CurrentLocation | null>
-  >;
-  setLoading: React.Dispatch<React.SetStateAction<boolean>>;
-}
 export const useGetCurrentLocation = async ({
   setCurrentLocation,
   setSelectedLocation,

@@ -1,20 +1,5 @@
 import moment from "moment";
 import "moment/locale/ko";
-import { MutableRefObject } from "react";
-interface DateRange {
-  start: moment.Moment | null;
-  end: moment.Moment | null;
-}
-interface datePressState {
-  date: moment.Moment;
-  stompHandlerRef: MutableRefObject<{
-    sendCalendarUpdate: (range: DateRange) => void;
-  } | null>;
-  isDragging: boolean;
-  setIsDragging: React.Dispatch<React.SetStateAction<boolean>>;
-  dateRange: DateRange;
-  setDateRange: React.Dispatch<React.SetStateAction<DateRange>>;
-}
 
 const useHandleDatePress = (
   date: moment.Moment,

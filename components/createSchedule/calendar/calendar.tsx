@@ -4,7 +4,6 @@ import { SafeAreaView } from "react-native";
 import moment from "moment";
 import "moment/locale/ko";
 import styles from "./styles";
-import { Client } from "@stomp/stompjs";
 import createStompHandler from "./createStompHandler";
 import renderHeader from "./renderHeader";
 import renderDays from "./renderDays";
@@ -16,29 +15,17 @@ import useFindOverlappingDates from "@/hooks/useFindOverlappingDates";
 import { useRecoilState } from "recoil";
 import { createSchdeuleState } from "@/recoil/createSchdeuleState";
 import { useRouter } from "expo-router";
-import {
-  ConfirmedTrip,
-  OverlappingDates,
-  UserDateRanges,
-} from "@/types/calendar/calendar";
+import { OverlappingDates, UserDateRanges } from "@/types/calendar/calendar";
+import { useCalendarState } from "@/reducers/useCalendarState";
 
 const Calendar = ({ groupName }: { groupName: string }) => {
   const router = useRouter();
   const [, setSchedule] = useRecoilState(createSchdeuleState);
-  const [currentMonth, setCurrentMonth] = useState(moment());
-  const [userDateRanges, setUserDateRanges] = useState<UserDateRanges>({});
+  const { state, actions } = useCalendarState();
   const [overlappingDates, setOverlappingDates] = useState<OverlappingDates[]>(
     []
   );
-  const [selectedTrip, setSelectedTrip] = useState<OverlappingDates | null>(
-    null
-  );
-  const [confirmedTrip, setConfirmedTrip] = useState<ConfirmedTrip | null>(
-    null
-  );
-  const [modalVisible, setModalVisible] = useState(false);
-  const [, setWsClient] = useState<Client | undefined>();
-  const [, setIsEnterChat] = useState(false);
+  const [userDateRanges, setUserDateRanges] = useState<UserDateRanges>({});
 
   const currentUserId = "id1";
   const userColors: { [key: string]: string } = {
@@ -54,9 +41,9 @@ const Calendar = ({ groupName }: { groupName: string }) => {
 
   useEffect(() => {
     const handler = createStompHandler({
-      setIsEnterChat,
+      setIsEnterChat: actions.setIsEnterChat,
       setUserDateRanges,
-      setWsClient,
+      setWsClient: actions.setWsClient,
       userId: currentUserId,
     });
 
@@ -69,17 +56,20 @@ const Calendar = ({ groupName }: { groupName: string }) => {
   }, []);
 
   useEffect(() => {
-    useFindOverlappingDates({ userDateRanges, setOverlappingDates });
+    useFindOverlappingDates({
+      userDateRanges,
+      setOverlappingDates,
+    });
   }, [userDateRanges]);
 
   const onPressArrow = (direction: number) => {
-    setCurrentMonth(currentMonth.clone().add(direction, "month"));
+    actions.setCurrentMonth(state.currentMonth.clone().add(direction, "month"));
   };
   const handleScheduleConfirm = () => {
-    if (confirmedTrip) {
-      const formattedSchedule = `${moment(confirmedTrip.startDate).format(
+    if (state.confirmedTrip) {
+      const formattedSchedule = `${moment(state.confirmedTrip.startDate).format(
         "YYYY.MM.DD"
-      )}~${moment(confirmedTrip.endDate).format("YYYY.MM.DD")}`;
+      )}~${moment(state.confirmedTrip.endDate).format("YYYY.MM.DD")}`;
       setSchedule({
         groupId: 1,
         groupName: groupName,
@@ -94,11 +84,11 @@ const Calendar = ({ groupName }: { groupName: string }) => {
       <View style={styles.calendar}>
         <Text style={styles.title}>공동 일정 등록</Text>
         <View style={{ backgroundColor: "#2c2c2c", borderRadius: 20 }}>
-          {renderHeader({ onPressArrow, currentMonth })}
+          {renderHeader({ onPressArrow, currentMonth: state.currentMonth })}
           {renderDays()}
           <View>
             {renderCells(
-              currentMonth,
+              state.currentMonth,
               stompHandlerRef,
               userDateRanges,
               userColors
@@ -112,38 +102,41 @@ const Calendar = ({ groupName }: { groupName: string }) => {
         <Text style={styles.subtitle}>모두가 가능한 날짜</Text>
         {renderOverlappingDates({
           overlappingDates,
-          setSelectedTrip,
-          setModalVisible,
-          confirmedTrip,
+          setSelectedTrip: actions.setSelectedTrip,
+          setModalVisible: actions.setModalVisible,
+          confirmedTrip: state.confirmedTrip,
         })}
-        {confirmedTrip && (
+        {state.confirmedTrip && (
           <View style={styles.confirmedTripContainer}>
             <Text style={styles.confirmedTripText}>
-              확정된 일정: {moment(confirmedTrip.startDate).format("MM/DD")} -{" "}
-              {moment(confirmedTrip.endDate).format("MM/DD")}
-              {` (${confirmedTrip.nights}박${confirmedTrip.nights + 1}일)`}
+              확정된 일정:{" "}
+              {moment(state.confirmedTrip.startDate).format("MM/DD")} -{" "}
+              {moment(state.confirmedTrip.endDate).format("MM/DD")}
+              {` (${state.confirmedTrip.nights}박${
+                state.confirmedTrip.nights + 1
+              }일)`}
             </Text>
           </View>
         )}
       </View>
 
       <Modal
-        visible={modalVisible}
+        visible={state.modal.visible}
         transparent={true}
         animationType="slide"
-        onRequestClose={() => setModalVisible(false)}
+        onRequestClose={() => actions.setModalVisible(false)}
       >
         <View style={styles.modalContainer}>
           <View style={styles.modalContent}>
             <Text style={styles.modalTitle}>여행 기간 선택</Text>
             {renderTripOptions({
-              setModalVisible,
-              setConfirmedTrip,
-              selectedTrip,
+              setModalVisible: actions.setModalVisible,
+              setConfirmedTrip: actions.setConfirmedTrip,
+              selectedTrip: state.selectedTrip,
             })}
             <TouchableOpacity
               style={styles.closeButton}
-              onPress={() => setModalVisible(false)}
+              onPress={() => actions.setModalVisible(false)}
             >
               <Text style={styles.closeButtonText}>닫기</Text>
             </TouchableOpacity>

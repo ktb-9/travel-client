@@ -1,14 +1,10 @@
 import styles from "@/app/map/styles";
 import { useHandleMarkerPress } from "@/hooks/map/useHandleMarkerPress";
-import { SearchResult, SelectedPlace } from "@/types/map/map";
+import { MarkerListProps } from "@/types/map/map";
 import { Ionicons } from "@expo/vector-icons";
 import { Text, View } from "react-native";
 import { Marker } from "react-native-maps";
-interface MarkerListProps {
-  markers: SearchResult[];
-  setSelectedPlace: React.Dispatch<React.SetStateAction<SelectedPlace | null>>;
-  setShowModal: React.Dispatch<React.SetStateAction<boolean>>;
-}
+
 const MarkerList = ({
   markers,
   setSelectedPlace,

@@ -1,22 +1,11 @@
 import React from "react";
 import { View, Modal, Text, TouchableOpacity, Platform } from "react-native";
 import DateTimePicker from "@react-native-community/datetimepicker";
-import { SelectedPlace } from "@/types/map/map";
+import { TimePickerModalProps } from "@/types/map/map";
 import styles from "@/app/map/styles";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { useRecoilState } from "recoil";
 import { tripPlanState } from "@/recoil/tripPlanState";
-
-interface TimePickerModalProps {
-  showModal: boolean;
-  setShowModal: (show: boolean) => void;
-  selectedPlace: SelectedPlace | null;
-  setSelectedPlace: React.Dispatch<React.SetStateAction<SelectedPlace | null>>;
-  selectedTime: Date;
-  setSelectedTime: React.Dispatch<React.SetStateAction<Date>>;
-  setShowTimePicker: React.Dispatch<React.SetStateAction<boolean>>;
-  showTimePicker: boolean;
-}
 
 const TimePickerModal = ({
   showModal,

@@ -1,9 +1,5 @@
-import { SearchResult, SelectedPlace } from "@/types/map/map";
-interface markerProps {
-  result: SearchResult;
-  setSelectedPlace: React.Dispatch<React.SetStateAction<SelectedPlace | null>>;
-  setShowModal: React.Dispatch<React.SetStateAction<boolean>>;
-}
+import { markerProps } from "@/types/map/map";
+
 export const useHandleMarkerPress = ({
   result,
   setSelectedPlace,

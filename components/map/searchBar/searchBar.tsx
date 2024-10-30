@@ -1,6 +1,6 @@
 import styles from "@/app/map/styles";
 import { useHandleLocationSelect } from "@/hooks/map/useHandleLocationSelect";
-import { CurrentLocation, SearchResult } from "@/types/map/map";
+import { SearchBarProps } from "@/types/map/map";
 import { Ionicons } from "@expo/vector-icons";
 import React from "react";
 import {
@@ -12,17 +12,6 @@ import {
   ActivityIndicator,
 } from "react-native";
 
-interface SearchBarProps {
-  searchQuery: string;
-  setSearchQuery: (query: string) => void;
-  searchResults: SearchResult[];
-  setSearchResults: (results: SearchResult[]) => void;
-  isSearching: boolean;
-  setSelectedLocation: React.Dispatch<
-    React.SetStateAction<CurrentLocation | null>
-  >;
-  setMarkers: React.Dispatch<React.SetStateAction<SearchResult[]>>;
-}
 const SearchBar = ({
   searchQuery,
   setSearchQuery,

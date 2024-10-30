@@ -52,6 +52,10 @@ export interface overlapDateRange {
   endDate: string;
   numberOfDays: number;
 }
+export interface UseFindOverlappingDatesProps {
+  userDateRanges: UserDateRanges;
+  setOverlappingDates: (dates: OverlappingDates[]) => void;
+}
 interface SelectedTrip {
   startDate: string;
   numberOfDays: number;

@@ -1,24 +1,9 @@
+import {
+  OverlappingDates,
+  UseFindOverlappingDatesProps,
+} from "@/types/calendar/calendar";
 import moment from "moment";
 import "moment/locale/ko";
-
-interface UserDateRanges {
-  [key: string]: {
-    start: string | null;
-    end: string | null;
-    userId: string;
-  };
-}
-
-interface OverlappingDates {
-  startDate: string;
-  endDate: string;
-  numberOfDays: number;
-}
-
-interface UseFindOverlappingDatesProps {
-  userDateRanges: UserDateRanges;
-  setOverlappingDates: (dates: OverlappingDates[]) => void;
-}
 
 const useFindOverlappingDates = ({
   userDateRanges,
