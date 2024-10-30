@@ -1,4 +1,4 @@
-import { Text, TextInput, View } from "react-native";
+import { TextInput, View } from "react-native";
 import styles from "./styles";
 import { useState } from "react";
 import Invite from "../invite/invite";
