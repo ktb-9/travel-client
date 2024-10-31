@@ -32,6 +32,7 @@ const Header = ({ toggle, isDark }: header) => {
       </TouchableOpacity>
       <View style={styles.menu}>
         <TouchableOpacity
+          testID="calendar"
           onPress={() => router.push("/Schedule/createSchedule")}
           style={styles.addPlan}
         >

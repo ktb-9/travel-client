@@ -108,6 +108,7 @@ const createStompHandler = ({
         setIsEnterChat(false);
       }
     },
+    handleCalendarMessages,
   };
 };
 export default createStompHandler;

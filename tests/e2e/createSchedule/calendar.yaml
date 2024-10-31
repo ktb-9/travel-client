@@ -1,0 +1,10 @@
+appId: com.tkrhdrhkdduf.travelgraphy
+---
+# 앱을 실행
+- launchApp
+
+- tapOn:
+    id: "kakao"
+- tapOn:
+    id: "calendar"
+-
