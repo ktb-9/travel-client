@@ -49,17 +49,15 @@ const Calendar = ({ groupName }: { groupName: string }) => {
 
   // userDateRanges가 변경될 때마다 색상 할당
   useEffect(() => {
+    // 객체를 키들을 배열로 변환
     const userIds = Object.keys(userDateRanges);
     const newUserColors: { [key: string]: string } = {};
     const newUserNicknames: { [key: string]: string } = {};
 
     userIds.forEach((userId, index) => {
-      if (!userColors[userId]) {
-        // Assign a new color only if it hasn't been set
-        newUserColors[userId] = pastelColors[index % pastelColors.length];
-      }
+      newUserColors[userId] = pastelColors[index++];
+
       if (userDateRanges[userId]?.nickname && !userNicknames[userId]) {
-        // Set nickname if available and hasn't been set already
         newUserNicknames[userId] = userDateRanges[userId].nickname;
       }
     });

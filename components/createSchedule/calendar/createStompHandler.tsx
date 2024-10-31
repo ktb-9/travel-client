@@ -14,9 +14,10 @@ const createStompHandler = ({
   userId,
 }: StompHandlerProps) => {
   let wsClient: Client | undefined;
-
   const handleCalendarMessages = (messages: CalendarMessage[]) => {
+    // 새로운 레인지를 담을 객체
     const newRanges: UserDateRanges = {};
+    // 각 유저 아이디별로 객체에 담음
     messages.forEach((message) => {
       if (message.type === "SELECT_DATE") {
         newRanges[message.userId] = {
