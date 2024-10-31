@@ -1,15 +1,11 @@
-import SockJS from "sockjs-client";
-import { Client, IFrame, IMessage } from "@stomp/stompjs";
-import moment from "moment";
+import { PUB_ENDPOINT, SERVER_URL, SUB_ENDPOINT } from "@/constants/api";
 import {
   CalendarMessage,
   StompHandlerProps,
   UserDateRanges,
 } from "@/types/calendar/calendar";
-
-const SERVER_URL = "http://localhost:8080/ws";
-const SUB_ENDPOINT = "/topic/calendar";
-const PUB_ENDPOINT = "/app/calendar";
+import { Client, IFrame, IMessage } from "@stomp/stompjs";
+import SockJS from "sockjs-client";
 
 const createStompHandler = ({
   setIsEnterChat,
@@ -19,50 +15,19 @@ const createStompHandler = ({
 }: StompHandlerProps) => {
   let wsClient: Client | undefined;
 
-  const loadInitialData = async () => {
-    try {
-      // 먼저 시뮬레이션 API 호출
-      await fetch("http://localhost:8080/api/calendar/simulate");
-
-      // 그 다음 전체 데이터 로드
-      const response = await fetch("http://localhost:8080/api/calendar/all");
-      const data: CalendarMessage[] = await response.json();
-      console.log("Initial calendar data:", data);
-
-      const initialRanges: UserDateRanges = {};
-      data.forEach((message) => {
-        if (message.type === "SELECT_DATE") {
-          initialRanges[message.userId] = {
-            start: message.dateRange.start,
-            end: message.dateRange.end,
-            userId: message.userId,
-          };
-        }
-      });
-
-      setUserDateRanges(initialRanges);
-    } catch (error) {
-      console.error("초기 달력 데이터 조회 실패:", error);
-    }
-  };
-
-  const handleCalendarMessage = (message: CalendarMessage) => {
-    if (message.type === "SELECT_DATE") {
-      setUserDateRanges((prev) => ({
-        ...prev,
-        [message.userId]: {
+  const handleCalendarMessages = (messages: CalendarMessage[]) => {
+    const newRanges: UserDateRanges = {};
+    messages.forEach((message) => {
+      if (message.type === "SELECT_DATE") {
+        newRanges[message.userId] = {
           start: message.dateRange.start,
           end: message.dateRange.end,
           userId: message.userId,
-        },
-      }));
-    } else if (message.type === "CLEAR_DATE") {
-      setUserDateRanges((prev) => {
-        const newRanges = { ...prev };
-        delete newRanges[message.userId];
-        return newRanges;
-      });
-    }
+          nickname: message.nickname || null,
+        };
+      }
+    });
+    setUserDateRanges(newRanges);
   };
 
   return {
@@ -73,12 +38,15 @@ const createStompHandler = ({
         heartbeatIncoming: 4000,
         heartbeatOutgoing: 4000,
         onConnect: (frame: IFrame) => {
-          console.log("[+] 웹소켓에 성공적으로 연결했숩니다.", frame);
+          console.log("[+] 웹소켓에 성공적으로 연결했습니다.", frame);
           setIsEnterChat(true);
-          loadInitialData();
+
+          // 구독 설정
           client.subscribe(SUB_ENDPOINT, (message: IMessage) => {
-            const calendarMessage: CalendarMessage = JSON.parse(message.body);
-            handleCalendarMessage(calendarMessage);
+            const calendarMessages: CalendarMessage[] = JSON.parse(
+              message.body
+            );
+            handleCalendarMessages(calendarMessages);
           });
         },
         onDisconnect: (frame: IFrame) => {
@@ -142,5 +110,4 @@ const createStompHandler = ({
     },
   };
 };
-
 export default createStompHandler;
