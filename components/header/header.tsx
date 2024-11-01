@@ -30,16 +30,26 @@ const Header = ({ toggle, isDark }: header) => {
           {userInfo.nickname} <Text style={{ color: "#B4B2B2" }}>님</Text>
         </Text>
       </TouchableOpacity>
-      <TouchableOpacity onPress={() => router.push("/Schedule/createSchedule")}>
-        <Text>일정생성</Text>
-      </TouchableOpacity>
-      <TouchableOpacity onPress={toggle} style={styles.button}>
-        <Ionicons
-          name={isDark ? "sunny" : "moon"}
-          size={24}
-          color={isDark ? "#FFF" : "#000"}
-        />
-      </TouchableOpacity>
+      <View style={styles.menu}>
+        <TouchableOpacity
+          testID="calendar"
+          onPress={() => router.push("/Schedule/createSchedule")}
+          style={styles.addPlan}
+        >
+          <Ionicons
+            name="calendar"
+            size={24}
+            color={isDark ? "#FFF" : "#000"}
+          />
+        </TouchableOpacity>
+        <TouchableOpacity onPress={toggle} style={styles.button}>
+          <Ionicons
+            name={isDark ? "sunny" : "moon"}
+            size={24}
+            color={isDark ? "#FFF" : "#000"}
+          />
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };

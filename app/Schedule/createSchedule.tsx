@@ -5,7 +5,7 @@ import Content from "@/components/createSchedule/content/content";
 
 const createSchedule = () => {
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={styles.container} testID="safe-area-view">
       <Header />
       <ScrollView contentContainerStyle={styles.content}>
         <Content />

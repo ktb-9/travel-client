@@ -27,13 +27,55 @@ const Calendar = ({ groupName }: { groupName: string }) => {
   );
   const [userDateRanges, setUserDateRanges] = useState<UserDateRanges>({});
 
-  const currentUserId = "id1";
-  const userColors: { [key: string]: string } = {
-    id1: "#FFE1E1",
-    id2: "#E1FFE1",
-    id3: "#E1E1FF",
-    id4: "#FFE1FF",
-  };
+  const [userColors, setUserColors] = useState<{ [key: string]: string }>({});
+  const [userNicknames, setUserNicknames] = useState<{ [key: string]: string }>(
+    {}
+  );
+
+  const currentUserId = "1";
+  // 10개의 파스텔 컬러 배열 정의
+  const pastelColors = [
+    "#FFB3B3", // 연한 빨강
+    "#B3FFB3", // 연한 초록
+    "#B3B3FF", // 연한 파랑
+    "#FFB3FF", // 연한 보라
+    "#B3FFFF", // 연한 청록
+    "#FFFFB3", // 연한 노랑
+    "#FFD9B3", // 연한 주황
+    "#D9B3FF", // 연한 라벤더
+    "#B3FFD9", // 연한 민트
+    "#FFB3D9", // 연한 분홍
+  ];
+
+  // userDateRanges가 변경될 때마다 색상 할당
+  useEffect(() => {
+    // 객체를 키들을 배열로 변환
+    const userIds = Object.keys(userDateRanges);
+    const newUserColors: { [key: string]: string } = {};
+    const newUserNicknames: { [key: string]: string } = {};
+
+    userIds.forEach((userId, index) => {
+      newUserColors[userId] = pastelColors[index++];
+
+      if (userDateRanges[userId]?.nickname && !userNicknames[userId]) {
+        newUserNicknames[userId] = userDateRanges[userId].nickname;
+      }
+    });
+
+    if (Object.keys(newUserColors).length > 0) {
+      setUserColors((prev) => ({
+        ...prev,
+        ...newUserColors,
+      }));
+    }
+
+    if (Object.keys(newUserNicknames).length > 0) {
+      setUserNicknames((prev) => ({
+        ...prev,
+        ...newUserNicknames,
+      }));
+    }
+  }, [userDateRanges]);
 
   const stompHandlerRef = useRef<ReturnType<typeof createStompHandler> | null>(
     null
@@ -96,7 +138,7 @@ const Calendar = ({ groupName }: { groupName: string }) => {
           </View>
         </View>
 
-        {renderUserLegend(userColors, currentUserId)}
+        {renderUserLegend(userColors, currentUserId, userNicknames)}
       </View>
       <View style={styles.overlappingDatesContainer}>
         <Text style={styles.subtitle}>모두가 가능한 날짜</Text>

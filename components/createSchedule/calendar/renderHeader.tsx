@@ -5,6 +5,7 @@ import { RenderHeaderProps } from "@/types/calendar/calendar";
 const renderHeader = ({ onPressArrow, currentMonth }: RenderHeaderProps) => (
   <View style={styles.header}>
     <TouchableOpacity
+      testID="prev-month-button"
       onPress={() => onPressArrow(-1)}
       style={styles.arrowButton}
     >

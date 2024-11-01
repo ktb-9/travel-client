@@ -46,7 +46,11 @@ export default function LoginScreen() {
   return (
     <View style={styles.container}>
       {error && <Text style={styles.errorText}>{error}</Text>}
-      <TouchableOpacity style={styles.kakaoButton} onPress={handleKakaoLogin}>
+      <TouchableOpacity
+        testID="kakao"
+        style={styles.kakaoButton}
+        onPress={handleKakaoLogin}
+      >
         <Image source={kakao} style={styles.kakaoImage} />
       </TouchableOpacity>
     </View>

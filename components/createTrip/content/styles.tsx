@@ -1,38 +1,50 @@
-import { StyleSheet, Dimensions } from "react-native";
+import { StyleSheet } from "react-native";
+
 const styles = StyleSheet.create({
   container: {
-    display: "flex",
     width: "100%",
-    height: "auto",
-    alignItems: "center",
-    gap: 10,
+    paddingHorizontal: 24,
+    paddingVertical: 16,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.05,
+    shadowRadius: 4,
+    elevation: 2,
   },
-  title: {
-    display: "flex",
-    gap: 5,
-    width: "100%",
-    padding: 10,
+  titleContainer: {
+    marginBottom: 16,
+  },
+  titleWrapper: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    marginBottom: 8,
   },
   groupName: {
     fontFamily: "NotoSans",
-    fontSize: 30,
+    fontSize: 24,
     fontWeight: "bold",
-    color: "#585454",
+    color: "#333",
+  },
+  editButton: {
+    paddingVertical: 4,
+    paddingHorizontal: 8,
+    borderRadius: 4,
+    backgroundColor: "#F0F0F0",
+  },
+  editText: {
+    fontFamily: "RobotoBold",
+    fontSize: 14,
+    color: "#7C7C7C",
   },
   date: {
-    fontFamily: "robotoBold",
-    color: "#939393",
-    fontWeight: "bold",
-  },
-  groupNameWrapper: {
-    display: "flex",
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 5,
-  },
-  edit: {
-    color: "#B5BEC6",
-    fontWeight: "bold",
+    fontFamily: "RobotoBold",
+    fontSize: 16,
+    color: "#7C7C7C",
   },
 });
+
 export default styles;

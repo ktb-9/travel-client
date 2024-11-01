@@ -12,6 +12,13 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: "bold",
   },
+  menu: {
+    display: "flex",
+    flexDirection: "row",
+    gap: 20,
+    alignItems: "center",
+  },
+  addPlan: {},
   button: {
     padding: 5,
   },
