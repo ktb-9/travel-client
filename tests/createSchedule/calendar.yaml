@@ -1,8 +1,8 @@
 appId: com.tkrhdrhkdduf.travelgraphy
 ---
 # 앱을 실행
-- launchApp
-
+- launchApp:
+    clearState: true
 - tapOn:
     id: "kakao"
 - tapOn:

@@ -1,5 +1,6 @@
 import { Router } from "expo-router";
 import fetchUserInfo from "@/api/user/user";
+import { REDIRECT_URI } from "@/constants/api";
 
 interface NavState {
   url: string;
@@ -20,8 +21,6 @@ export const handleNavigationStateChange = async ({
   setUserInfo,
   router,
 }: HandleNavigationStateChangeProps) => {
-  const REDIRECT_URI = "http://localhost:8081/oauth/kakao/callback";
-
   if (navState.url && navState.url.startsWith(REDIRECT_URI)) {
     const params = new URLSearchParams(navState.url.split("?")[1]);
     const code = params.get("code");

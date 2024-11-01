@@ -1,4 +1,5 @@
-export const BASE_URL = "http://localhost:8081";
+export const BASE_URL =
+  "http://healthkungya.s3-website.ap-northeast-2.amazonaws.com";
 export const REDIRECT_URI = `${BASE_URL}/oauth/kakao/callback`;
 
 export const AXIOS_BASE_URL = "http://localhost:9090";

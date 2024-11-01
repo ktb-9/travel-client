@@ -4,8 +4,7 @@
     "strict": true,
     "paths": {
       "@/*": ["./*"]
-    },
-    "types": ["cypress"]
+    }
   },
   "include": [
     "**/*.ts",
