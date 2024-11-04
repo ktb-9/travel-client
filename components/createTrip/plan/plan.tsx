@@ -31,7 +31,6 @@ const Plan = () => {
       groupName: groupInfo.groupName,
       days: tripPlan.days,
     };
-
     mutate(body);
   };
   const { mutate } = scheduleMutations();

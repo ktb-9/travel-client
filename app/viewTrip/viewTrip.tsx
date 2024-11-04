@@ -11,8 +11,8 @@ import Content from "@/components/viewTrip/content/content";
 const ViewTrip = () => {
   return (
     <SafeAreaView style={styles.container}>
+      <Header />
       <ScrollView contentContainerStyle={styles.content}>
-        <Header />
         <Content />
       </ScrollView>
     </SafeAreaView>

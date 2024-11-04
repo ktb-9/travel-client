@@ -10,7 +10,7 @@ const styles = StyleSheet.create({
     zIndex: 9999,
   },
   title: {
-    color: "#FFFFFF",
+    color: "#000000",
     fontSize: 13,
     fontFamily: "NotoBold",
   },

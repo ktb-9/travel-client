@@ -16,7 +16,7 @@ const Header = () => {
         style={styles.backButton}
         onPress={() => navigation.goBack()}
       >
-        <Ionicons name="chevron-back" size={24} color="#FFFFFF" />
+        <Ionicons name="chevron-back" size={24} color="#000000" />
       </TouchableOpacity>
       <Text style={styles.title}>여행 일정</Text>
     </View>

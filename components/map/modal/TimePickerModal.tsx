@@ -41,7 +41,8 @@ const TimePickerModal = ({
     const location = {
       name: selectedPlace.name,
       address: selectedPlace.address,
-      visitTime: formattedTime, // 시간만 저장 (예: "14:30")
+      visitTime: formattedTime,
+      category: codeToCategories[selectedPlace.category] || "정보없음",
     };
 
     setTripPlan((prev) => ({
@@ -60,6 +61,27 @@ const TimePickerModal = ({
     setSelectedPlace(null);
     router.back();
   };
+
+  const codeToCategories: { [key: string]: string } = {
+    MT1: "대형마트",
+    CS2: "편의점",
+    PS3: "어린이집, 유치원",
+    SC4: "학교",
+    AC5: "학원",
+    PK6: "주차장",
+    OL7: "주유소, 충전소",
+    SW8: "지하철역",
+    BK9: "은행",
+    CT1: "문화시설",
+    AG2: "중개업소",
+    PO3: "공공기관",
+    AT4: "관광지",
+    AD5: "숙박",
+    FD6: "식당",
+    CE7: "카페",
+    HP8: "병원",
+    PM9: "약국",
+  };
   return (
     <Modal
       visible={showModal}
@@ -71,6 +93,11 @@ const TimePickerModal = ({
         <View style={styles.modalContent}>
           <Text style={styles.modalTitle}>{selectedPlace?.name}</Text>
           <Text style={styles.modalAddress}>{selectedPlace?.address}</Text>
+          <Text style={styles.modalAddress}>
+            {selectedPlace && selectedPlace.category
+              ? codeToCategories[selectedPlace.category]
+              : "정보 없음"}
+          </Text>
 
           <Text style={styles.modalSubtitle}>방문 시간 설정</Text>
 
