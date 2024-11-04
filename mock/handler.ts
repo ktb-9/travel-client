@@ -6,6 +6,7 @@ import { historyType, upCommingState } from "@/types/common/main";
 import { inviteDataState } from "@/types/createSchedule/createSchedule";
 import { historyData, upCommingData } from "./data/common/main";
 import { inviteData } from "./data/createSchedule.ts/createSchedule";
+import { tripData } from "./data/trip/trip";
 
 const mock = new MockAdapter(axios, { onNoMatch: "passthrough" });
 
@@ -15,5 +16,12 @@ mock.onGet("/api/upcomming").reply<upCommingState>(200, {
 mock.onGet("/api/hotplace").reply<historyType>(200, { data: historyData });
 mock.onGet("/api/invite").reply<inviteDataState>(200, {
   data: inviteData,
+});
+
+mock.onPost("/api/schedule").reply(200, {
+  message: "성공적으로 저장되었습니다.",
+});
+mock.onGet("/api/trip/1").reply(200, {
+  data: tripData,
 });
 export default mock;

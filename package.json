@@ -15,7 +15,7 @@
     "test:debug": "jest --debug",
     "test:update": "jest -u",
     "e2e": "detox test --configuration ios.sim",
-    "postinstall": "node ./bin/postInstall && node react-native-map-web-fix.js"
+    "postinstall": "node react-native-map-web-fix.js"
   },
   "dependencies": {
     "@expo/vector-icons": "^14.0.3",

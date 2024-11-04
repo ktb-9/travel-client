@@ -9,6 +9,8 @@ export const SUB_ENDPOINT = "/topic/calendar";
 export const PUB_ENDPOINT = "/app/calendar";
 export const END_POINTS = {
   LOGIN: "/auth/oauth/kakao/callback",
+  SCHEDULE: "/api/schedule",
+  trip: (groupId: number) => `/api/trip/${groupId}`,
 } as const;
 
 export const NETWORK = {
