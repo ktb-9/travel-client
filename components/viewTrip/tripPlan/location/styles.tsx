@@ -135,6 +135,17 @@ const styles = StyleSheet.create({
     fontWeight: "600",
     letterSpacing: -0.3,
   },
+  pencilContainer: {
+    position: "absolute",
+    top: 0,
+    display: "flex",
+    flexDirection: "row",
+    width: "100%",
+    justifyContent: "flex-end",
+  },
+  pencil: {
+    padding: 20,
+  },
 });
 
 export default styles;

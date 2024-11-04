@@ -1,14 +1,22 @@
 import { Location } from "@/types/viewTrip/viewTrip";
-import { MaterialIcons } from "@expo/vector-icons";
-import { Animated, Image, Pressable, Text, View } from "react-native";
-import { useEffect, useRef } from "react";
+import { Ionicons, MaterialIcons } from "@expo/vector-icons";
+import {
+  Animated,
+  Image,
+  Pressable,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
+import { useEffect, useRef, useState } from "react";
 import { LinearGradient } from "expo-linear-gradient";
 import styles from "./styles";
+import EditModal from "../modal/editModal";
 
 const Locations = (location: Location) => {
   const scaleAnim = useRef(new Animated.Value(1)).current;
   const fadeAnim = useRef(new Animated.Value(0)).current;
-
+  const [isEditModalVisible, setIsEditModalVisible] = useState(false);
   useEffect(() => {
     Animated.timing(fadeAnim, {
       toValue: 1,
@@ -78,6 +86,16 @@ const Locations = (location: Location) => {
             colors={["transparent", "rgba(0,0,0,0.7)"]}
             style={styles.imageGradient}
           />
+          <View style={styles.pencilContainer}>
+            <TouchableOpacity onPress={() => setIsEditModalVisible(true)}>
+              <Ionicons
+                style={styles.pencil}
+                name="pencil"
+                size={18}
+                color="#fff"
+              />
+            </TouchableOpacity>
+          </View>
           <View style={styles.badgeContainer}>
             <View style={styles.timeOverlay}>
               <MaterialIcons name="access-time" size={14} color="#fff" />
@@ -106,6 +124,16 @@ const Locations = (location: Location) => {
           </View>
         </View>
       </Pressable>
+      <EditModal
+        visible={isEditModalVisible}
+        onClose={() => setIsEditModalVisible(false)}
+        location={location}
+        onSave={(updatedLocation: any) => {
+          // 여기서 location 업데이트 로직 구현
+          console.log("Updated location:", updatedLocation);
+          setIsEditModalVisible(false);
+        }}
+      />
     </Animated.View>
   );
 };
