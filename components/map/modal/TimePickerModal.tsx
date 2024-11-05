@@ -6,6 +6,7 @@ import styles from "@/app/map/styles";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { useRecoilState } from "recoil";
 import { tripPlanState } from "@/recoil/tripPlanState";
+import { categoryMap } from "@/constants/default";
 
 const TimePickerModal = ({
   showModal,
@@ -42,7 +43,7 @@ const TimePickerModal = ({
       name: selectedPlace.name,
       address: selectedPlace.address,
       visitTime: formattedTime,
-      category: codeToCategories[selectedPlace.category] || "정보없음",
+      category: categoryMap[selectedPlace.category] || "정보없음",
     };
 
     setTripPlan((prev) => ({
@@ -62,26 +63,6 @@ const TimePickerModal = ({
     router.back();
   };
 
-  const codeToCategories: { [key: string]: string } = {
-    MT1: "대형마트",
-    CS2: "편의점",
-    PS3: "어린이집, 유치원",
-    SC4: "학교",
-    AC5: "학원",
-    PK6: "주차장",
-    OL7: "주유소, 충전소",
-    SW8: "지하철역",
-    BK9: "은행",
-    CT1: "문화시설",
-    AG2: "중개업소",
-    PO3: "공공기관",
-    AT4: "관광지",
-    AD5: "숙박",
-    FD6: "식당",
-    CE7: "카페",
-    HP8: "병원",
-    PM9: "약국",
-  };
   return (
     <Modal
       visible={showModal}
@@ -95,7 +76,7 @@ const TimePickerModal = ({
           <Text style={styles.modalAddress}>{selectedPlace?.address}</Text>
           <Text style={styles.modalAddress}>
             {selectedPlace && selectedPlace.category
-              ? codeToCategories[selectedPlace.category]
+              ? categoryMap[selectedPlace.category]
               : "정보 없음"}
           </Text>
 
