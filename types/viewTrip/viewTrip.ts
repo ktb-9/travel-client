@@ -1,6 +1,6 @@
 export interface groupState {
-  groupThumbnail: any;
-  groupName: string;
+  groupThumbnail?: any;
+  groupName?: string;
   date: string;
 }
 export interface Location {
@@ -9,11 +9,18 @@ export interface Location {
   visitTime: string;
   thumbnail: string;
   category: string;
-  hastag: string;
+  hashtag: string;
 }
 
 export interface planState {
   day: number;
   destination: string;
   locations: Location[];
+}
+
+export interface tripState {
+  date?: string;
+  groupThumbnail: any; // Remove `?`
+  groupName: string; // Remove `?`
+  days?: planState[];
 }

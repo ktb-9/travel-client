@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Modal,
   View,
@@ -12,16 +12,18 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { useDebouncedSearch } from "@/hooks/map/useDebounceSearch";
 import { SearchResult } from "@/types/map/map";
 import styles from "./styles";
+import { useRecoilState } from "recoil";
+import { locationState } from "@/recoil/tripState";
 
-const EditModal = ({ visible, onClose, location, onSave }: any) => {
+const EditModal = ({ visible, onClose, location, day }: any) => {
   const [formData, setFormData] = useState({
     name: location?.name || "",
     address: location?.address || "",
     visitTime: location?.visitTime || "",
     category: location?.category || "",
-    hashtags: location?.hastag?.replace(/#/g, "").trim() || "",
+    hashtag: location?.hashtag || "",
   });
-
+  const [body, setBody] = useRecoilState(locationState);
   const [isSearching, setIsSearching] = useState(false);
   const [searchResults, setSearchResults] = useState<SearchResult[]>([]);
   const [showSearchResults, setShowSearchResults] = useState(false);
@@ -71,22 +73,56 @@ const EditModal = ({ visible, onClose, location, onSave }: any) => {
     HP8: "병원",
     PM9: "약국",
   };
-
-  const handleSubmit = () => {
-    const formattedHashtags = formData.hashtags
-      .split(" ")
+  const handleSubmit = async () => {
+    const formattedHashtags = formData.hashtag
+      .split("#")
       .filter((tag: string) => tag)
       .map((tag: string) => `#${tag}`)
       .join(" ");
 
-    onSave({
-      ...location,
+    const updatedLocation = {
       ...formData,
-      hastag: formattedHashtags,
-    });
-    onClose();
-  };
+      thumbnail: location?.thumbnail || "",
+      hashtag: formattedHashtags || "",
+    };
 
+    const days = body.days || [];
+    const targetIndex = days.findIndex((prev) => prev.day === day);
+
+    if (targetIndex !== -1) {
+      const locationIndex = days[targetIndex].locations.findIndex(
+        (loc) =>
+          loc.name === location.name && loc.visitTime === location.visitTime
+      );
+
+      if (locationIndex !== -1) {
+        const updatedDays = [...days];
+        updatedDays[targetIndex] = {
+          ...updatedDays[targetIndex],
+          locations: [...updatedDays[targetIndex].locations],
+        };
+        updatedDays[targetIndex].locations[locationIndex] = updatedLocation;
+
+        const newBody = {
+          ...body,
+          days: updatedDays,
+        };
+
+        // 상태 업데이트 전에 새로운 데이터 로깅
+        console.log("수정된 데이터:", JSON.stringify(newBody, null, 2));
+
+        // 상태 업데이트
+        setBody(newBody);
+        // Promise를 사용하여 상태 업데이트가 반영된 후 모달 닫기
+        await Promise.resolve();
+        onClose();
+      } else {
+        console.log("해당 위치를 찾을 수 없습니다.");
+      }
+    } else {
+      console.log("해당 날짜를 찾을 수 없습니다.");
+    }
+  };
   const renderSearchResults = () => {
     if (!showSearchResults) return null;
 
@@ -132,7 +168,7 @@ const EditModal = ({ visible, onClose, location, onSave }: any) => {
               style={styles.input}
               value={formData.name}
               onChangeText={handleSearch}
-              placeholder="Search location name"
+              placeholder="장소를 검색해주세요..."
             />
             {renderSearchResults()}
           </View>
@@ -157,7 +193,7 @@ const EditModal = ({ visible, onClose, location, onSave }: any) => {
               onChangeText={(text) =>
                 setFormData((prev) => ({ ...prev, visitTime: text }))
               }
-              placeholder="Enter visit time"
+              placeholder="방문 시간을 입력해주세요..."
             />
           </View>
 
@@ -169,14 +205,14 @@ const EditModal = ({ visible, onClose, location, onSave }: any) => {
           </View>
 
           <View style={styles.inputGroup}>
-            <Text style={styles.label}>Hashtags</Text>
+            <Text style={styles.label}>Hashtag</Text>
             <TextInput
               style={styles.input}
-              value={formData.hashtags}
+              value={formData.hashtag}
               onChangeText={(text) =>
-                setFormData((prev) => ({ ...prev, hashtags: text }))
+                setFormData((prev) => ({ ...prev, hashtag: text }))
               }
-              placeholder="Enter tags separated by spaces"
+              placeholder="테그를 입력해주세요..."
             />
           </View>
         </ScrollView>

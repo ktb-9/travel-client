@@ -27,7 +27,7 @@ const Day = (plan: planState) => {
         <View style={styles.locationsContainer}>
           {plan.locations.map((location, idx) => (
             <View key={idx} style={styles.locationWrapper}>
-              {Locations(location)}
+              {Locations(location, plan.day)}
               {idx < plan.locations.length - 1 && (
                 <View style={styles.connector}>
                   <MaterialIcons name="more-vert" size={24} color="#ddd" />

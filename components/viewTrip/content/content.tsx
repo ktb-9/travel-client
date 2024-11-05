@@ -23,7 +23,7 @@ const Content = () => {
         <Group data={data.data} />
       </View>
       <View style={styles.planContainer}>
-        <TripPlan data={data.data.days} />
+        <TripPlan data={data.data} />
       </View>
     </View>
   );

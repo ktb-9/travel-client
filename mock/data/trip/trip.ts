@@ -11,7 +11,7 @@ export const tripData = {
           address: "부산 수영구 광안해변로 219",
           visitTime: "21:24",
           category: "관광지",
-          hastag: "#바다 #헤엄 #회 #너 담금 ",
+          hashtag: "#바다 #헤엄 #회 #너 담금 ",
           thumbnail:
             "https://media.triple.guide/triple-cms/c_limit,f_auto,h_1024,w_1024/09b2a36d-5f73-4899-98e3-3c1acc9d6e9e.jpeg",
         },
@@ -20,7 +20,7 @@ export const tripData = {
           address: "부산 수영구 광안해변로 177",
           visitTime: "22:24",
           category: "음식점",
-          hastag: "#여기 칵테일 맛집, #술 배틀 #헌팅",
+          hashtag: "#여기 칵테일 맛집, #술 배틀 #헌팅",
           thumbnail:
             "https://d12zq4w4guyljn.cloudfront.net/750_750_20240712220330_photo1_01a240f27188.jpg",
         },
@@ -35,7 +35,7 @@ export const tripData = {
           address: "부산 기장군 기장읍 동부산관광로 42",
           visitTime: "09:00",
           category: "관광지",
-          hastag: "",
+          hashtag: "",
           thumbnail:
             "https://cdn.3hoursahead.com/v2/content/image-comp/e97996d7-ee34-46af-a273-d6d420129011.webp",
         },
@@ -44,7 +44,7 @@ export const tripData = {
           address: "부산 사하구 감내1로 200",
           visitTime: "16:00",
           category: "관광지",
-          hastag: "",
+          hashtag: "",
           thumbnail:
             "https://mblogthumb-phinf.pstatic.net/MjAyMzA4MjNfMjU2/MDAxNjkyNzQ4MTY0OTE4.OBV1EYBpAFy0LRQNbg5SbuH230dGu9A8ij9GKJMaeJsg.qC7zW-Pn6GmT1nE-ojaO0JfEFZN5x0gGQ2FwSO9e5Rwg.JPEG.julian1366/20230812_092058.jpg",
         },
@@ -59,7 +59,7 @@ export const tripData = {
           address: "경북 경주시 인왕동 839-1",
           visitTime: "13:30",
           category: "관광지",
-          hastag: "",
+          hashtag: "",
           thumbnail:
             "https://tourimage.interpark.com/BBS/Tour/FckUpload/201207/6347676482867224740.jpg",
         },
@@ -68,7 +68,7 @@ export const tripData = {
           address: "경북 경주시 태종로 746",
           visitTime: "17:24",
           category: "관광지",
-          hastag: "",
+          hashtag: "",
           thumbnail:
             "https://www.imaeil.com/photos/2023/04/06/2023040613530176498_l.jpg",
         },
@@ -83,7 +83,7 @@ export const tripData = {
           address: "광주 북구 오문로 244",
           visitTime: "11:24",
           category: "관광지",
-          hastag: "",
+          hashtag: "",
           thumbnail:
             "https://cdn.newscj.com/news/photo/202404/3132783_3159997_5124.jpg",
         },

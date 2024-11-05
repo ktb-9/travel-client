@@ -13,7 +13,7 @@ import { LinearGradient } from "expo-linear-gradient";
 import styles from "./styles";
 import EditModal from "../modal/editModal";
 
-const Locations = (location: Location) => {
+const Locations = (location: Location, day: number) => {
   const scaleAnim = useRef(new Animated.Value(1)).current;
   const fadeAnim = useRef(new Animated.Value(0)).current;
   const [isEditModalVisible, setIsEditModalVisible] = useState(false);
@@ -44,8 +44,8 @@ const Locations = (location: Location) => {
   };
 
   const renderHashtags = () => {
-    if (!location.hastag) return null;
-    const tags = location.hastag
+    if (!location.hashtag) return null;
+    const tags = location.hashtag
       .trim()
       .split("#")
       .filter((tag) => tag);
@@ -128,11 +128,7 @@ const Locations = (location: Location) => {
         visible={isEditModalVisible}
         onClose={() => setIsEditModalVisible(false)}
         location={location}
-        onSave={(updatedLocation: any) => {
-          // 여기서 location 업데이트 로직 구현
-          console.log("Updated location:", updatedLocation);
-          setIsEditModalVisible(false);
-        }}
+        day={day}
       />
     </Animated.View>
   );
