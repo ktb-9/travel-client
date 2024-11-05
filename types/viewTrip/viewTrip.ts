@@ -1,11 +1,13 @@
 import { SearchResult } from "../map/map";
 
 export interface groupState {
+  groupId: number;
   groupThumbnail?: any;
   groupName?: string;
   date: string;
 }
 export interface Location {
+  locationId: number;
   name: string;
   address: string;
   visitTime: string;

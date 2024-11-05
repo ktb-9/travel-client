@@ -24,4 +24,7 @@ mock.onPost("/api/schedule").reply(200, {
 mock.onGet("/api/trip/1").reply(200, {
   data: tripData,
 });
+mock.onPut("/api/trip/1").reply(200, {
+  message: "성공적으로 수정되었습니다.",
+});
 export default mock;

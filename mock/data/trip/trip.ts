@@ -1,12 +1,14 @@
 export const tripData = {
   date: "2024.11.05~2024.11.08",
   groupName: "청바지",
+  groupId: 1,
   days: [
     {
       day: 1,
       destination: "부산",
       locations: [
         {
+          locationId: 1,
           name: "광안리해수욕장",
           address: "부산 수영구 광안해변로 219",
           visitTime: "21:24",
@@ -16,6 +18,7 @@ export const tripData = {
             "https://media.triple.guide/triple-cms/c_limit,f_auto,h_1024,w_1024/09b2a36d-5f73-4899-98e3-3c1acc9d6e9e.jpeg",
         },
         {
+          locationId: 2,
           name: "퍼지네이블 광안점",
           address: "부산 수영구 광안해변로 177",
           visitTime: "22:24",
@@ -31,6 +34,7 @@ export const tripData = {
       destination: "부산",
       locations: [
         {
+          locationId: 3,
           name: "롯데월드 어드벤처 부산",
           address: "부산 기장군 기장읍 동부산관광로 42",
           visitTime: "09:00",
@@ -40,6 +44,7 @@ export const tripData = {
             "https://cdn.3hoursahead.com/v2/content/image-comp/e97996d7-ee34-46af-a273-d6d420129011.webp",
         },
         {
+          locationId: 4,
           name: "감천문화마을",
           address: "부산 사하구 감내1로 200",
           visitTime: "16:00",
@@ -55,6 +60,7 @@ export const tripData = {
       destination: "경주",
       locations: [
         {
+          locationId: 5,
           name: "첨성대",
           address: "경북 경주시 인왕동 839-1",
           visitTime: "13:30",
@@ -64,6 +70,7 @@ export const tripData = {
             "https://tourimage.interpark.com/BBS/Tour/FckUpload/201207/6347676482867224740.jpg",
         },
         {
+          locationId: 6,
           name: "황리단길",
           address: "경북 경주시 태종로 746",
           visitTime: "17:24",
@@ -79,6 +86,7 @@ export const tripData = {
       destination: "광주",
       locations: [
         {
+          locationId: 7,
           name: "광주솔로몬로파크",
           address: "광주 북구 오문로 244",
           visitTime: "11:24",
