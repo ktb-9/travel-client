@@ -36,6 +36,11 @@ const styles = StyleSheet.create({
   },
   inputGroup: {
     marginBottom: 20,
+    zIndex: 1, // Added for search results positioning
+  },
+  searchInputGroup: {
+    marginBottom: 20,
+    zIndex: 2, // Higher z-index for search field
   },
   label: {
     fontSize: 14,
@@ -84,34 +89,58 @@ const styles = StyleSheet.create({
     color: "#007AFF",
     fontWeight: "600",
   },
+  // Search Results Styles
   searchResultsContainer: {
     position: "absolute",
     top: "100%",
     left: 0,
     right: 0,
     backgroundColor: "white",
-    borderWidth: 1,
-    borderColor: "#ddd",
     borderRadius: 8,
+    borderWidth: 1,
+    borderColor: "#DDDDDD",
     maxHeight: 200,
-    zIndex: 1000,
+    marginTop: 4,
+    zIndex: 999,
+    elevation: 5,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+  },
+  searchResultsList: {
+    padding: 8,
   },
   searchResultItem: {
     padding: 12,
     borderBottomWidth: 1,
-    borderBottomColor: "#eee",
+    borderBottomColor: "#EEEEEE",
   },
   placeName: {
     fontSize: 16,
     fontWeight: "500",
+    marginBottom: 4,
   },
-  placeAddress: {
+  addressName: {
     fontSize: 14,
     color: "#666",
-    marginTop: 4,
+    marginBottom: 2,
   },
-  loadingIndicator: {
+  category: {
+    fontSize: 12,
+    color: "#999",
+  },
+  loadingContainer: {
     padding: 20,
+    alignItems: "center",
+  },
+  loadingText: {
+    marginTop: 8,
+    color: "#666",
+    fontSize: 14,
   },
 });
 

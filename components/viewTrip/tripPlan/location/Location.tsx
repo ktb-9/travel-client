@@ -1,5 +1,5 @@
 import { Location } from "@/types/viewTrip/viewTrip";
-import { Ionicons, MaterialIcons } from "@expo/vector-icons";
+import { Ionicons, MaterialIcons, AntDesign } from "@expo/vector-icons";
 import {
   Animated,
   Image,
@@ -7,16 +7,20 @@ import {
   Text,
   TouchableOpacity,
   View,
+  Alert,
 } from "react-native";
 import { useEffect, useRef, useState } from "react";
 import { LinearGradient } from "expo-linear-gradient";
 import styles from "./styles";
 import EditModal from "../modal/editModal";
+import AddLocationModal from "./modal/AddLocationModal";
 
 const Locations = (location: Location, day: number) => {
   const scaleAnim = useRef(new Animated.Value(1)).current;
   const fadeAnim = useRef(new Animated.Value(0)).current;
   const [isEditModalVisible, setIsEditModalVisible] = useState(false);
+  const [isAddModalVisible, setIsAddModalVisible] = useState(false);
+
   useEffect(() => {
     Animated.timing(fadeAnim, {
       toValue: 1,
@@ -41,6 +45,20 @@ const Locations = (location: Location, day: number) => {
       tension: 100,
       useNativeDriver: true,
     }).start();
+  };
+
+  const handleDelete = () => {
+    Alert.alert("장소 삭제", "이 장소를 삭제하시겠습니까?", [
+      {
+        text: "취소",
+        style: "cancel",
+      },
+      {
+        text: "삭제",
+        // onPress: () => onDelete(location.locationId),
+        style: "destructive",
+      },
+    ]);
   };
 
   const renderHashtags = () => {
@@ -86,14 +104,18 @@ const Locations = (location: Location, day: number) => {
             colors={["transparent", "rgba(0,0,0,0.7)"]}
             style={styles.imageGradient}
           />
-          <View style={styles.pencilContainer}>
-            <TouchableOpacity onPress={() => setIsEditModalVisible(true)}>
-              <Ionicons
-                style={styles.pencil}
-                name="pencil"
-                size={18}
-                color="#fff"
-              />
+          <View style={styles.actionButtonsContainer}>
+            <TouchableOpacity
+              onPress={() => setIsEditModalVisible(true)}
+              style={styles.actionButton}
+            >
+              <Ionicons name="pencil" size={18} color="#fff" />
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={handleDelete}
+              style={[styles.actionButton, styles.deleteButton]}
+            >
+              <AntDesign name="delete" size={18} color="#fff" />
             </TouchableOpacity>
           </View>
           <View style={styles.badgeContainer}>
@@ -124,10 +146,25 @@ const Locations = (location: Location, day: number) => {
           </View>
         </View>
       </Pressable>
+
+      <TouchableOpacity
+        style={styles.addButton}
+        onPress={() => setIsAddModalVisible(true)}
+      >
+        <AntDesign name="plus" size={24} color="#fff" />
+        <Text style={styles.addButtonText}>새로운 장소 추가</Text>
+      </TouchableOpacity>
+
       <EditModal
         visible={isEditModalVisible}
         onClose={() => setIsEditModalVisible(false)}
         location={location}
+        day={day}
+      />
+
+      <AddLocationModal
+        visible={isAddModalVisible}
+        onClose={() => setIsAddModalVisible(false)}
         day={day}
       />
     </Animated.View>

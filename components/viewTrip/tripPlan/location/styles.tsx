@@ -146,6 +146,37 @@ const styles = StyleSheet.create({
   pencil: {
     padding: 20,
   },
+
+  actionButtonsContainer: {
+    position: "absolute",
+    top: 10,
+    right: 10,
+    flexDirection: "row",
+    gap: 8,
+  },
+  actionButton: {
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+    padding: 8,
+    borderRadius: 20,
+  },
+  deleteButton: {
+    backgroundColor: "rgba(255, 59, 48, 0.7)",
+  },
+  addButton: {
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: "#4A90E2",
+    padding: 12,
+    borderRadius: 8,
+    marginTop: 16,
+    justifyContent: "center",
+    gap: 8,
+  },
+  addButtonText: {
+    color: "#fff",
+    fontSize: 16,
+    fontWeight: "600",
+  },
 });
 
 export default styles;

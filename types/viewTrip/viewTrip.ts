@@ -52,3 +52,38 @@ export interface SearchResultsProps {
   results: SearchResult[];
   onSelect: (place: SearchResult) => void;
 }
+export interface AddLocationModalProps {
+  visible: boolean;
+  onClose: () => void;
+  day: number;
+}
+
+export interface AddLocationState {
+  name: string;
+  address: string;
+  category: string;
+  visitTime: string;
+  hashtag: string;
+  thumbnail: string;
+}
+export interface FooterProps {
+  onCancel: () => void;
+  onSubmit: () => void;
+}
+export interface addFormFieldProps {
+  label: string;
+  value: string;
+  onChangeText: (text: string) => void;
+  placeholder: string;
+  required?: boolean;
+  editable?: boolean;
+}
+export interface ImagePickerSectionProps {
+  thumbnail: string;
+  onImageSelect: (uri: string) => void;
+}
+export interface addSearchResultsProps {
+  isSearching: boolean;
+  searchResults: SearchResult[];
+  onSelectPlace: (place: SearchResult) => void;
+}

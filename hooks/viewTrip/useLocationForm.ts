@@ -4,7 +4,6 @@ import tripUpdateMutation from "../api/tripUpdateMutation";
 
 export const useLocationForm = (
   initialLocation: Location,
-  day: number,
   onClose: () => void
 ) => {
   const { mutate } = tripUpdateMutation();
