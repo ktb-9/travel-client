@@ -27,4 +27,7 @@ mock.onGet("/api/trip/1").reply(200, {
 mock.onPut("/api/trip/1").reply(200, {
   message: "성공적으로 수정되었습니다.",
 });
+mock.onPost("/api/trip").reply(200, {
+  message: "성공적으로 저장되었습니다.",
+});
 export default mock;

@@ -19,29 +19,40 @@ import styles from "./styles";
 import {
   AddLocationModalProps,
   AddLocationState,
+  LocationItem,
 } from "@/types/viewTrip/viewTrip";
 import { SearchResult } from "@/types/map/map";
 import { categoryMap } from "@/constants/default";
+import addTripMutation from "@/hooks/api/addTripMutation";
 
 const AddLocationModal: React.FC<AddLocationModalProps> = ({
   visible,
   onClose,
+  day,
 }) => {
-  const [newLocation, setNewLocation] = useState<Partial<AddLocationState>>({
+  const initialLocationState: LocationItem = {
     name: "",
     address: "",
     category: "",
     visitTime: "",
     hashtag: "",
     thumbnail: "",
+  };
+
+  const [newLocation, setNewLocation] = useState<AddLocationState>({
+    groupId: 1,
+    day,
+    destination: "",
+    locations: [initialLocationState],
   });
 
   const [isSearching, setIsSearching] = useState(false);
   const [searchResults, setSearchResults] = useState<SearchResult[]>([]);
   const [showSearchResults, setShowSearchResults] = useState(false);
-
+  const [currentLocationIndex, setCurrentLocationIndex] = useState(0);
+  const { mutate } = addTripMutation();
   const handleSearch = (text: string) => {
-    setNewLocation((prev) => ({ ...prev, name: text }));
+    updateLocationField(currentLocationIndex, "name", text);
     if (text.length >= 2) {
       setShowSearchResults(true);
       useDebouncedSearch({
@@ -56,40 +67,80 @@ const AddLocationModal: React.FC<AddLocationModalProps> = ({
   };
 
   const handleSelectPlace = (place: SearchResult) => {
-    setNewLocation((prev) => ({
-      ...prev,
-      name: place.place_name,
-      address: place.address_name,
-      category: categoryMap[place.category_group_code] || "기타",
-    }));
+    updateLocationField(currentLocationIndex, "name", place.place_name);
+    updateLocationField(currentLocationIndex, "address", place.address_name);
+    updateLocationField(
+      currentLocationIndex,
+      "category",
+      categoryMap[place.category_group_code] || "기타"
+    );
     setShowSearchResults(false);
   };
 
+  const updateLocationField = (
+    index: number,
+    field: keyof LocationItem,
+    value: string
+  ) => {
+    setNewLocation((prev) => {
+      const updatedLocations = [...prev.locations];
+      updatedLocations[index] = {
+        ...updatedLocations[index],
+        [field]: value,
+      };
+      return {
+        ...prev,
+        locations: updatedLocations,
+      };
+    });
+  };
+
+  const handleDestinationChange = (text: string) => {
+    setNewLocation((prev) => ({
+      ...prev,
+      destination: text,
+    }));
+  };
+
+  const addNewLocation = () => {
+    setNewLocation((prev) => ({
+      ...prev,
+      locations: [...prev.locations, { ...initialLocationState }],
+    }));
+    setCurrentLocationIndex(newLocation.locations.length);
+  };
+
+  const removeLocation = (index: number) => {
+    if (newLocation.locations.length > 1) {
+      setNewLocation((prev) => ({
+        ...prev,
+        locations: prev.locations.filter((_, i) => i !== index),
+      }));
+      setCurrentLocationIndex(Math.max(0, currentLocationIndex - 1));
+    }
+  };
+
   const handleSubmit = () => {
-    if (!newLocation.name || !newLocation.address) {
+    const currentLocation = newLocation.locations[currentLocationIndex];
+    if (!currentLocation.name || !currentLocation.address) {
       alert("장소명과 주소는 필수입니다.");
       return;
     }
 
-    const locationData: AddLocationState = {
-      name: newLocation.name!,
-      address: newLocation.address!,
-      category: newLocation.category || "기타",
-      visitTime: newLocation.visitTime || "1시간",
-      hashtag: newLocation.hashtag || "",
-      thumbnail: newLocation.thumbnail || "https://via.placeholder.com/300x200",
-    };
-
+    // 여기에 데이터 제출 로직 추가
+    console.log(newLocation);
+    mutate({ body: newLocation });
     onClose();
     setNewLocation({
-      name: "",
-      address: "",
-      category: "",
-      visitTime: "",
-      hashtag: "",
-      thumbnail: "",
+      groupId: 0,
+      day,
+      destination: "",
+      locations: [initialLocationState],
     });
+    setCurrentLocationIndex(0);
   };
+
+  const currentLocation = newLocation.locations[currentLocationIndex];
 
   return (
     <Modal
@@ -111,10 +162,40 @@ const AddLocationModal: React.FC<AddLocationModalProps> = ({
           </View>
 
           <ScrollView style={styles.form}>
+            <FormField
+              label="목적지"
+              value={newLocation.destination}
+              onChangeText={handleDestinationChange}
+              placeholder="목적지를 입력하세요"
+              required
+            />
+
+            {/* 장소 선택 탭 */}
+            <View style={styles.locationTabs}>
+              {newLocation.locations.map((_, index) => (
+                <TouchableOpacity
+                  key={index}
+                  style={[
+                    styles.locationTab,
+                    currentLocationIndex === index && styles.activeLocationTab,
+                  ]}
+                  onPress={() => setCurrentLocationIndex(index)}
+                >
+                  <Text style={styles.locationTabText}>장소 {index + 1}</Text>
+                </TouchableOpacity>
+              ))}
+              <TouchableOpacity
+                style={styles.addLocationButton}
+                onPress={addNewLocation}
+              >
+                <MaterialIcons name="add" size={24} color="#4A90E2" />
+              </TouchableOpacity>
+            </View>
+
             <ImagePickerSection
-              thumbnail={newLocation.thumbnail || ""}
+              thumbnail={currentLocation.thumbnail}
               onImageSelect={(uri) =>
-                setNewLocation((prev) => ({ ...prev, thumbnail: uri }))
+                updateLocationField(currentLocationIndex, "thumbnail", uri)
               }
             />
 
@@ -123,7 +204,7 @@ const AddLocationModal: React.FC<AddLocationModalProps> = ({
               <View style={styles.searchContainer}>
                 <TextInput
                   style={styles.input}
-                  value={newLocation.name}
+                  value={currentLocation.name}
                   onChangeText={handleSearch}
                   placeholder="장소명을 입력하세요"
                 />
@@ -141,9 +222,9 @@ const AddLocationModal: React.FC<AddLocationModalProps> = ({
 
             <FormField
               label="주소"
-              value={newLocation.address || ""}
+              value={currentLocation.address}
               onChangeText={(text) =>
-                setNewLocation((prev) => ({ ...prev, address: text }))
+                updateLocationField(currentLocationIndex, "address", text)
               }
               placeholder="주소를 입력하세요"
               required
@@ -152,30 +233,39 @@ const AddLocationModal: React.FC<AddLocationModalProps> = ({
 
             <FormField
               label="카테고리"
-              value={newLocation.category || ""}
+              value={currentLocation.category}
               onChangeText={(text) =>
-                setNewLocation((prev) => ({ ...prev, category: text }))
+                updateLocationField(currentLocationIndex, "category", text)
               }
               placeholder="카테고리를 입력하세요"
             />
 
             <FormField
               label="방문 예정 시간"
-              value={newLocation.visitTime || ""}
+              value={currentLocation.visitTime}
               onChangeText={(text) =>
-                setNewLocation((prev) => ({ ...prev, visitTime: text }))
+                updateLocationField(currentLocationIndex, "visitTime", text)
               }
               placeholder="예: 1시간"
             />
 
             <FormField
               label="해시태그"
-              value={newLocation.hashtag || ""}
+              value={currentLocation.hashtag}
               onChangeText={(text) =>
-                setNewLocation((prev) => ({ ...prev, hashtag: text }))
+                updateLocationField(currentLocationIndex, "hashtag", text)
               }
               placeholder="#태그1 #태그2"
             />
+
+            {newLocation.locations.length > 1 && (
+              <TouchableOpacity
+                style={styles.removeLocationButton}
+                onPress={() => removeLocation(currentLocationIndex)}
+              >
+                <Text style={styles.removeLocationText}>현재 장소 삭제</Text>
+              </TouchableOpacity>
+            )}
           </ScrollView>
 
           <Footer onCancel={onClose} onSubmit={handleSubmit} />
@@ -184,5 +274,4 @@ const AddLocationModal: React.FC<AddLocationModalProps> = ({
     </Modal>
   );
 };
-
 export default AddLocationModal;

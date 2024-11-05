@@ -156,5 +156,41 @@ const styles = StyleSheet.create({
     color: "#666",
     fontSize: 14,
   },
+  locationTabs: {
+    flexDirection: "row",
+    marginBottom: 15,
+    flexWrap: "wrap",
+  },
+  locationTab: {
+    paddingHorizontal: 12,
+    paddingVertical: 8,
+    marginRight: 8,
+    marginBottom: 8,
+    backgroundColor: "#f0f0f0",
+    borderRadius: 20,
+  },
+  activeLocationTab: {
+    backgroundColor: "#4A90E2",
+  },
+  locationTabText: {
+    color: "#333",
+  },
+  activeLocationTabText: {
+    color: "#fff",
+  },
+  addLocationButton: {
+    padding: 8,
+  },
+  removeLocationButton: {
+    marginTop: 15,
+    padding: 12,
+    backgroundColor: "#ff4444",
+    borderRadius: 8,
+    alignItems: "center",
+  },
+  removeLocationText: {
+    color: "#fff",
+    fontWeight: "bold",
+  },
 });
 export default styles;

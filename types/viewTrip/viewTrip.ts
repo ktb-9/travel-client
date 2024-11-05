@@ -57,14 +57,19 @@ export interface AddLocationModalProps {
   onClose: () => void;
   day: number;
 }
-
-export interface AddLocationState {
+export interface LocationItem {
   name: string;
   address: string;
   category: string;
   visitTime: string;
   hashtag: string;
   thumbnail: string;
+}
+export interface AddLocationState {
+  groupId: number;
+  day: number;
+  destination: string;
+  locations: LocationItem[];
 }
 export interface FooterProps {
   onCancel: () => void;
