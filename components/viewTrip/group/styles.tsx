@@ -42,6 +42,14 @@ const styles = StyleSheet.create({
     fontSize: 10,
     fontWeight: "bold",
   },
+  pencilContainer: {
+    position: "absolute",
+    top: -30,
+    display: "flex",
+    flexDirection: "row",
+    width: "100%",
+    justifyContent: "flex-end",
+  },
 });
 
 export default styles;
