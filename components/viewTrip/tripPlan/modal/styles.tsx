@@ -142,6 +142,28 @@ const styles = StyleSheet.create({
     color: "#666",
     fontSize: 14,
   },
+  imagePickerContainer: {
+    width: "100%",
+    height: 200,
+    backgroundColor: "#F5F5F5",
+    borderRadius: 10,
+    marginBottom: 20,
+    overflow: "hidden",
+  },
+  thumbnailImage: {
+    width: "100%",
+    height: "100%",
+  },
+  imagePlaceholder: {
+    width: "100%",
+    height: "100%",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  imagePlaceholderText: {
+    marginTop: 10,
+    color: "#666",
+  },
 });
 
 export default styles;

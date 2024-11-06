@@ -14,6 +14,7 @@ export const useLocationForm = (
     visitTime: initialLocation?.visitTime || "",
     category: initialLocation?.category || "",
     hashtag: initialLocation?.hashtag || "",
+    thumbnail: initialLocation?.thumbnail || "",
   });
 
   const handleSubmit = async () => {
@@ -25,7 +26,6 @@ export const useLocationForm = (
 
     const updatedLocation: Location = {
       ...formData,
-      thumbnail: initialLocation?.thumbnail || "",
       hashtag: formattedHashtags || "",
     };
     console.log(updatedLocation);

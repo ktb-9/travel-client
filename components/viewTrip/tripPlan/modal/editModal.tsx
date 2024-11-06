@@ -9,6 +9,7 @@ import { FormField } from "./FormField";
 import { ModalHeader } from "./ModalHeader";
 import { useLocationForm } from "@/hooks/viewTrip/useLocationForm";
 import { EditModalProps } from "@/types/viewTrip/viewTrip";
+import { ImagePickerSection } from "./ImagePickerSection";
 
 const EditModal = ({ visible, onClose, location, day }: EditModalProps) => {
   const { formData, setFormData, handleSubmit } = useLocationForm(
@@ -54,6 +55,12 @@ const EditModal = ({ visible, onClose, location, day }: EditModalProps) => {
         />
 
         <ScrollView style={styles.content}>
+          <ImagePickerSection
+            thumbnail={formData.thumbnail}
+            onImageSelect={(uri) =>
+              setFormData((prev) => ({ ...prev, thumbnail: uri }))
+            }
+          />
           <View style={styles.searchInputGroup}>
             <FormField
               label="Name"

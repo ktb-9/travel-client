@@ -15,13 +15,22 @@ import styles from "./styles";
 import EditModal from "../modal/editModal";
 import AddLocationModal from "./modal/AddLocationModal";
 import deleteLocationMutation from "@/hooks/api/deleteLocationMutation";
+import { useRouter } from "expo-router";
+import { useRecoilState } from "recoil";
+import { destinationState } from "@/recoil/destinationState";
 
-const Locations = (location: Location, day: number) => {
+const Locations = (
+  location: Location,
+  day: number,
+  isAddModalVisible: boolean,
+  setIsAddModalVisible: (value: boolean) => void
+) => {
+  const router = useRouter();
+  const [, setLocation] = useRecoilState(destinationState);
   const { mutate } = deleteLocationMutation();
   const scaleAnim = useRef(new Animated.Value(1)).current;
   const fadeAnim = useRef(new Animated.Value(0)).current;
   const [isEditModalVisible, setIsEditModalVisible] = useState(false);
-  const [isAddModalVisible, setIsAddModalVisible] = useState(false);
 
   useEffect(() => {
     Animated.timing(fadeAnim, {
@@ -83,7 +92,10 @@ const Locations = (location: Location, day: number) => {
       </View>
     );
   };
-
+  const handleWebView = () => {
+    router.push("/locationInfo/locationInfo");
+    setLocation(location.name);
+  };
   return (
     <Animated.View
       style={[
@@ -149,16 +161,22 @@ const Locations = (location: Location, day: number) => {
               </Text>
             </View>
           </View>
+          <TouchableOpacity
+            style={styles.footerContainer}
+            onPress={handleWebView}
+          >
+            <LinearGradient
+              colors={["#3B82F6", "#2563EB"]}
+              start={{ x: 0, y: 0 }}
+              end={{ x: 1, y: 0 }}
+              style={styles.footerGradient}
+            >
+              <Text style={styles.footerText}>자세히 보기</Text>
+              <MaterialIcons name="arrow-forward" size={20} color="#fff" />
+            </LinearGradient>
+          </TouchableOpacity>
         </View>
       </Pressable>
-
-      <TouchableOpacity
-        style={styles.addButton}
-        onPress={() => setIsAddModalVisible(true)}
-      >
-        <AntDesign name="plus" size={24} color="#fff" />
-        <Text style={styles.addButtonText}>새로운 장소 추가</Text>
-      </TouchableOpacity>
 
       <EditModal
         visible={isEditModalVisible}

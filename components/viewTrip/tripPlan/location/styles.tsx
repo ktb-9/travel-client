@@ -162,20 +162,23 @@ const styles = StyleSheet.create({
   deleteButton: {
     backgroundColor: "rgba(255, 59, 48, 0.7)",
   },
-  addButton: {
+
+  footerContainer: {
+    padding: 10,
+  },
+  footerGradient: {
     flexDirection: "row",
     alignItems: "center",
-    backgroundColor: "#4A90E2",
-    padding: 12,
-    borderRadius: 8,
-    marginTop: 16,
     justifyContent: "center",
+    padding: 10,
+    borderRadius: 16,
     gap: 8,
   },
-  addButtonText: {
-    color: "#fff",
+  footerText: {
     fontSize: 16,
     fontWeight: "600",
+    color: "#fff",
+    letterSpacing: -0.3,
   },
 });
 
