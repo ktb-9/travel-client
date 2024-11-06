@@ -14,8 +14,10 @@ import { LinearGradient } from "expo-linear-gradient";
 import styles from "./styles";
 import EditModal from "../modal/editModal";
 import AddLocationModal from "./modal/AddLocationModal";
+import deleteLocationMutation from "@/hooks/api/deleteLocationMutation";
 
 const Locations = (location: Location, day: number) => {
+  const { mutate } = deleteLocationMutation();
   const scaleAnim = useRef(new Animated.Value(1)).current;
   const fadeAnim = useRef(new Animated.Value(0)).current;
   const [isEditModalVisible, setIsEditModalVisible] = useState(false);
@@ -46,6 +48,9 @@ const Locations = (location: Location, day: number) => {
       useNativeDriver: true,
     }).start();
   };
+  const onDelete = (locationId: number) => {
+    mutate(locationId);
+  };
 
   const handleDelete = () => {
     Alert.alert("장소 삭제", "이 장소를 삭제하시겠습니까?", [
@@ -55,7 +60,7 @@ const Locations = (location: Location, day: number) => {
       },
       {
         text: "삭제",
-        // onPress: () => onDelete(location.locationId),
+        onPress: () => onDelete(location.locationId),
         style: "destructive",
       },
     ]);
