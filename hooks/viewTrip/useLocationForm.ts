@@ -4,7 +4,8 @@ import tripUpdateMutation from "../api/tripUpdateMutation";
 
 export const useLocationForm = (
   initialLocation: Location,
-  onClose: () => void
+  onClose: () => void,
+  setLocationValue: React.Dispatch<React.SetStateAction<Location>>
 ) => {
   const { mutate } = tripUpdateMutation();
   const [formData, setFormData] = useState({
@@ -29,6 +30,7 @@ export const useLocationForm = (
       hashtag: formattedHashtags || "",
     };
     console.log(updatedLocation);
+    setLocationValue(updatedLocation);
     mutate({
       groupId: 1,
       locationId: formData.locationId,

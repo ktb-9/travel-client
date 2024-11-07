@@ -11,10 +11,17 @@ import { useLocationForm } from "@/hooks/viewTrip/useLocationForm";
 import { EditModalProps } from "@/types/viewTrip/viewTrip";
 import { ImagePickerSection } from "./ImagePickerSection";
 
-const EditModal = ({ visible, onClose, location, day }: EditModalProps) => {
+const EditModal = ({
+  visible,
+  onClose,
+  location,
+  day,
+  setLocationValue,
+}: EditModalProps) => {
   const { formData, setFormData, handleSubmit } = useLocationForm(
     location,
-    onClose
+    onClose,
+    setLocationValue
   );
   const [isSearching, setIsSearching] = useState(false);
   const [searchResults, setSearchResults] = useState<SearchResult[]>([]);

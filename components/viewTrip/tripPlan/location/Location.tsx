@@ -31,6 +31,7 @@ const Locations = (
   const scaleAnim = useRef(new Animated.Value(1)).current;
   const fadeAnim = useRef(new Animated.Value(0)).current;
   const [isEditModalVisible, setIsEditModalVisible] = useState(false);
+  const [locationValue, setLocationValue] = useState<Location>(() => location);
 
   useEffect(() => {
     Animated.timing(fadeAnim, {
@@ -38,6 +39,7 @@ const Locations = (
       duration: 400,
       useNativeDriver: true,
     }).start();
+    setLocationValue(location);
   }, []);
 
   const onPressIn = () => {
@@ -76,8 +78,8 @@ const Locations = (
   };
 
   const renderHashtags = () => {
-    if (!location.hashtag) return null;
-    const tags = location.hashtag
+    if (!locationValue.hashtag) return null;
+    const tags = locationValue.hashtag
       .trim()
       .split("#")
       .filter((tag) => tag);
@@ -94,7 +96,7 @@ const Locations = (
   };
   const handleWebView = () => {
     router.push("/locationInfo/locationInfo");
-    setLocation(location.name);
+    setLocation(locationValue.name);
   };
   return (
     <Animated.View
@@ -114,7 +116,7 @@ const Locations = (
       >
         <View style={styles.imageContainer}>
           <Image
-            source={{ uri: location.thumbnail }}
+            source={{ uri: locationValue.thumbnail }}
             style={styles.locationImage}
           />
           <LinearGradient
@@ -138,17 +140,17 @@ const Locations = (
           <View style={styles.badgeContainer}>
             <View style={styles.timeOverlay}>
               <MaterialIcons name="access-time" size={14} color="#fff" />
-              <Text style={styles.visitTime}>{location.visitTime}</Text>
+              <Text style={styles.visitTime}>{locationValue.visitTime}</Text>
             </View>
             <View style={styles.categoryBadge}>
-              <Text style={styles.categoryText}>{location.category}</Text>
+              <Text style={styles.categoryText}>{locationValue.category}</Text>
             </View>
           </View>
         </View>
 
         <View style={styles.locationContent}>
           <View style={styles.locationHeader}>
-            <Text style={styles.locationName}>{location.name}</Text>
+            <Text style={styles.locationName}>{locationValue.name}</Text>
           </View>
 
           {renderHashtags()}
@@ -157,7 +159,7 @@ const Locations = (
             <View style={styles.addressContainer}>
               <MaterialIcons name="location-on" size={16} color="#4B5563" />
               <Text style={styles.address} numberOfLines={1}>
-                {location.address}
+                {locationValue.address}
               </Text>
             </View>
           </View>
@@ -181,8 +183,9 @@ const Locations = (
       <EditModal
         visible={isEditModalVisible}
         onClose={() => setIsEditModalVisible(false)}
-        location={location}
+        location={locationValue}
         day={day}
+        setLocationValue={setLocationValue}
       />
 
       <AddLocationModal

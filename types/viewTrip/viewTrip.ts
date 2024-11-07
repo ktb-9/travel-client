@@ -33,6 +33,7 @@ export interface EditModalProps {
   onClose: () => void;
   location: Location;
   day: number;
+  setLocationValue: React.Dispatch<React.SetStateAction<Location>>;
 }
 export interface FormFieldProps {
   label: string;
