@@ -6,6 +6,7 @@ import styles from "@/app/map/styles";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { useRecoilState } from "recoil";
 import { tripPlanState } from "@/recoil/tripPlanState";
+import { categoryMap } from "@/constants/default";
 
 const TimePickerModal = ({
   showModal,
@@ -41,7 +42,8 @@ const TimePickerModal = ({
     const location = {
       name: selectedPlace.name,
       address: selectedPlace.address,
-      visitTime: formattedTime, // 시간만 저장 (예: "14:30")
+      visitTime: formattedTime,
+      category: categoryMap[selectedPlace.category] || "정보없음",
     };
 
     setTripPlan((prev) => ({
@@ -60,6 +62,7 @@ const TimePickerModal = ({
     setSelectedPlace(null);
     router.back();
   };
+
   return (
     <Modal
       visible={showModal}
@@ -71,6 +74,11 @@ const TimePickerModal = ({
         <View style={styles.modalContent}>
           <Text style={styles.modalTitle}>{selectedPlace?.name}</Text>
           <Text style={styles.modalAddress}>{selectedPlace?.address}</Text>
+          <Text style={styles.modalAddress}>
+            {selectedPlace && selectedPlace.category
+              ? categoryMap[selectedPlace.category]
+              : "정보 없음"}
+          </Text>
 
           <Text style={styles.modalSubtitle}>방문 시간 설정</Text>
 

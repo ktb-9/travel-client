@@ -1,7 +1,7 @@
 import { CurrentLocation, SearchResult, SelectedPlace } from "@/types/map/map";
 import { MapAction, MapState } from "@/types/map/mapState";
 import { useReducer } from "react";
-import { Dispatch, SetStateAction } from "react";
+import { SetStateAction } from "react";
 const initialState: MapState = {
   location: {
     current: null,

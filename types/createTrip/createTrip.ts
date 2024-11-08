@@ -31,3 +31,9 @@ export interface DayPlan {
 export interface TripPlan {
   days: DayPlan[];
 }
+export interface ScheduleData {
+  date: string;
+  groupId: number;
+  groupName: string;
+  days: DayPlan[];
+}

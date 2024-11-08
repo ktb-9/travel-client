@@ -3,14 +3,13 @@ import styles from "./styles";
 import plusIcon from "@/assets/images/plus.png";
 import Content from "./content/content";
 import { useRecoilState, useRecoilValue } from "recoil";
-
 import { tripPlanState } from "@/recoil/tripPlanState";
 import { createSchdeuleState } from "@/recoil/createSchdeuleState";
+import scheduleMutations from "@/hooks/api/scheduleMutation";
 
 const Plan = () => {
   const groupInfo = useRecoilValue(createSchdeuleState);
   const [tripPlan, setTripPlan] = useRecoilState(tripPlanState);
-
   const addDay = () => {
     setTripPlan((prev) => ({
       ...prev,
@@ -26,14 +25,15 @@ const Plan = () => {
   };
 
   const handleSubmit = async () => {
-    const data = {
+    const body = {
       date: groupInfo.date,
       groupId: groupInfo.groupId,
       groupName: groupInfo.groupName,
       days: tripPlan.days,
     };
+    mutate(body);
   };
-
+  const { mutate } = scheduleMutations();
   return (
     <View style={styles.container}>
       <View style={styles.header}>

@@ -12,6 +12,7 @@ export const useHandleMarkerPress = ({
       latitude: parseFloat(result.y),
       longitude: parseFloat(result.x),
     },
+    category: result.category_group_code,
   });
   setShowModal(true);
 };

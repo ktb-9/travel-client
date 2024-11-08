@@ -7,6 +7,7 @@ export interface SearchResult {
   road_address_name?: string;
   x: string;
   y: string;
+  category_group_code: string;
 }
 
 export interface CurrentLocation {
@@ -18,6 +19,7 @@ export interface SelectedPlace {
   name: string;
   address: string;
   coordinates: CurrentLocation;
+  category: string;
 }
 export interface debounceProps {
   searchQuery: string;

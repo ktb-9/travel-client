@@ -47,6 +47,7 @@ const createStompHandler = ({
             const calendarMessages: CalendarMessage[] = JSON.parse(
               message.body
             );
+            console.log(calendarMessages);
             handleCalendarMessages(calendarMessages);
           });
         },
@@ -78,7 +79,7 @@ const createStompHandler = ({
           },
           userId,
         };
-
+        console.log(message);
         wsClient.publish({
           destination: PUB_ENDPOINT,
           body: JSON.stringify(message),
