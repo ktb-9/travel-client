@@ -29,7 +29,7 @@ export const useLocationForm = (
       ...formData,
       hashtag: formattedHashtags || "",
     };
-    console.log(updatedLocation);
+
     setLocationValue(updatedLocation);
     mutate({
       groupId: 1,

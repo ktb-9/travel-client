@@ -130,7 +130,7 @@ const AddLocationModal: React.FC<AddLocationModalProps> = ({
     }
 
     // 여기에 데이터 제출 로직 추가
-    console.log(newLocation);
+
     const locationToSet = {
       locationId: newLocation.locations[currentLocationIndex].locationId,
       name: newLocation.locations[currentLocationIndex].name,
