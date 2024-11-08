@@ -1,13 +1,8 @@
-import {
-  ActivityIndicator,
-  Image,
-  Text,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import { ActivityIndicator, Image, Text, View } from "react-native";
 import styles from "./styles";
 import tripQuery from "@/hooks/api/tripQuery";
 import { defaults } from "@/constants/default";
+import Summary from "../summary/summary";
 
 const Content = () => {
   const { data, isLoading, isError } = tripQuery(1);
@@ -25,7 +20,9 @@ const Content = () => {
         <Image source={defaults.image} style={styles.image} />
         <View style={styles.overlay} />
       </View>
-      <View style={styles.planContainer}></View>
+      <View style={styles.summaryContainer}>
+        <Summary />
+      </View>
     </View>
   );
 };
