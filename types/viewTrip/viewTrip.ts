@@ -57,8 +57,10 @@ export interface AddLocationModalProps {
   visible: boolean;
   onClose: () => void;
   day: number;
+  setLocationValue: React.Dispatch<React.SetStateAction<Location>>;
 }
 export interface LocationItem {
+  locationId: number;
   name: string;
   address: string;
   category: string;

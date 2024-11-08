@@ -32,7 +32,7 @@ const Locations = (
   const fadeAnim = useRef(new Animated.Value(0)).current;
   const [isEditModalVisible, setIsEditModalVisible] = useState(false);
   const [locationValue, setLocationValue] = useState<Location>(() => location);
-
+  console.log(locationValue);
   useEffect(() => {
     Animated.timing(fadeAnim, {
       toValue: 1,
@@ -192,6 +192,7 @@ const Locations = (
         visible={isAddModalVisible}
         onClose={() => setIsAddModalVisible(false)}
         day={day}
+        setLocationValue={setLocationValue}
       />
     </Animated.View>
   );

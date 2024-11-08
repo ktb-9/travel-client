@@ -11,7 +11,6 @@ const TripPlan = ({ data }: { data: tripState }) => {
     NotoBold: require("@/assets/fonts/NotoSansKR-Bold.ttf"),
     robotoBold: require("@/assets/fonts/Roboto-Bold.ttf"),
   });
-
   // 슬라이드할 카드 컴포넌트 인덱스
   const [currentIndex, setCurrentIndex] = useState(0);
   const handleScroll = (event: any) => {

@@ -1,14 +1,16 @@
 import { Image, Text, TouchableOpacity, View } from "react-native";
 import styles from "./styles";
 import { groupState } from "@/types/viewTrip/viewTrip";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Ionicons } from "@expo/vector-icons";
 import EditGroupModal from "./modal/EditModal";
 
 const Group = ({ data }: { data: groupState }) => {
-  const handleSave = (updatedData: groupState) => {
-    console.log(updatedData);
-  };
+  console.log(data);
+  const [dataValue, setDataValue] = useState<groupState>({} as groupState);
+  useEffect(() => {
+    setDataValue(data);
+  }, []);
 
   const [isEditModalVisible, setIsEditModalVisible] = useState(false);
   return (
@@ -21,19 +23,19 @@ const Group = ({ data }: { data: groupState }) => {
       <View style={styles.circleContainer}>
         <View style={styles.circle}>
           <Image
-            source={data.groupThumbnail || ""}
+            source={dataValue.groupThumbnail || ""}
             style={styles.image}
             resizeMode="cover"
           />
         </View>
       </View>
-      <Text style={styles.nickname}>{data.groupName}</Text>
-      <Text style={styles.day}>{data.date}</Text>
+      <Text style={styles.nickname}>{dataValue.groupName}</Text>
+      <Text style={styles.day}>{dataValue.date}</Text>
       <EditGroupModal
         isVisible={isEditModalVisible}
         onClose={() => setIsEditModalVisible(false)}
-        groupData={data}
-        onSave={handleSave}
+        groupData={dataValue}
+        setDataValue={setDataValue}
       />
     </View>
   );

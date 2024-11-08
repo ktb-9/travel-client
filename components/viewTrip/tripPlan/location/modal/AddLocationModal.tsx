@@ -29,8 +29,10 @@ const AddLocationModal: React.FC<AddLocationModalProps> = ({
   visible,
   onClose,
   day,
+  setLocationValue,
 }) => {
   const initialLocationState: LocationItem = {
+    locationId: 20,
     name: "",
     address: "",
     category: "",
@@ -129,6 +131,16 @@ const AddLocationModal: React.FC<AddLocationModalProps> = ({
 
     // 여기에 데이터 제출 로직 추가
     console.log(newLocation);
+    const locationToSet = {
+      locationId: newLocation.locations[currentLocationIndex].locationId,
+      name: newLocation.locations[currentLocationIndex].name,
+      address: newLocation.locations[currentLocationIndex].address,
+      category: newLocation.locations[currentLocationIndex].category,
+      visitTime: newLocation.locations[currentLocationIndex].visitTime,
+      hashtag: newLocation.locations[currentLocationIndex].hashtag,
+      thumbnail: newLocation.locations[currentLocationIndex].thumbnail,
+    };
+    setLocationValue((prev) => ({ ...prev, locationToSet }));
     mutate({ body: newLocation });
     onClose();
     setNewLocation({

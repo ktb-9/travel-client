@@ -17,14 +17,14 @@ interface EditGroupModalProps {
   isVisible: boolean;
   onClose: () => void;
   groupData: groupState;
-  onSave: (updatedData: groupState) => void;
+  setDataValue: React.Dispatch<React.SetStateAction<groupState>>;
 }
 
 const EditGroupModal = ({
   isVisible,
   onClose,
   groupData,
-  onSave,
+  setDataValue,
 }: EditGroupModalProps) => {
   const [groupName, setGroupName] = useState(groupData.groupName);
   const [date, setDate] = useState(groupData.date);
@@ -54,6 +54,7 @@ const EditGroupModal = ({
   const handleSave = () => {
     const data = { ...groupData, groupName, date, groupThumbnail: thumbnail };
     console.log(data);
+    setDataValue(data);
     mutate({ groupId: groupData.groupId, body: data });
     onClose();
   };
