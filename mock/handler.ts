@@ -1,11 +1,36 @@
-import { http, HttpResponse } from "msw";
+// mock/axios-mock.ts
+import axios from "axios";
+import MockAdapter from "axios-mock-adapter";
 
-export const handlers = [
-  // Mocking "/api/example" 엔드포인트
-  http.get("/api/example", () => {
-    return HttpResponse.json({
-      message: "This is a mocked response",
-    });
-  }),
-  // 여기에 더 많은 mock 핸들러를 추가할 수 있습니다.
-];
+import { historyType, upCommingState } from "@/types/common/main";
+import { inviteDataState } from "@/types/createSchedule/createSchedule";
+import { historyData, upCommingData } from "./data/common/main";
+import { inviteData } from "./data/createSchedule.ts/createSchedule";
+import { tripData } from "./data/trip/trip";
+
+const mock = new MockAdapter(axios, { onNoMatch: "passthrough" });
+
+mock.onGet("/api/upcomming").reply<upCommingState>(200, {
+  data: upCommingData,
+});
+mock.onGet("/api/hotplace").reply<historyType>(200, { data: historyData });
+mock.onGet("/api/invite").reply<inviteDataState>(200, {
+  data: inviteData,
+});
+
+mock.onPost("/api/schedule").reply(200, {
+  message: "성공적으로 저장되었습니다.",
+});
+mock.onGet("/api/trip/1").reply(200, {
+  data: tripData,
+});
+mock.onPut("/api/trip/1").reply(200, {
+  message: "성공적으로 수정되었습니다.",
+});
+mock.onPost("/api/trip").reply(200, {
+  message: "성공적으로 저장되었습니다.",
+});
+mock.onDelete("/api/trip/1").reply(200, {
+  message: "성공적으로 삭제되었습니다.",
+});
+export default mock;

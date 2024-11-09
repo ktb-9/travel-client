@@ -1,0 +1,17 @@
+appId: com.tkrhdrhkdduf.travelgraphy
+---
+# 앱을 실행
+- launchApp:
+    clearState: true
+- tapOn:
+    id: "kakao"
+- tapOn:
+    id: "calendar"
+- tapOn:
+    text: ">"
+- tapOn:
+    text: "31"
+- tapOn:
+    text: "4"
+- tapOn:
+    text: "(날짜 선택)"

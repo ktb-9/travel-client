@@ -1,4 +1,4 @@
-import { themeState } from "@/provider/themeState";
+import { themeState } from "@/recoil/themeState";
 import { useRecoilState } from "recoil";
 
 // 리턴 값의 타입을 명시한 커스텀 훅
