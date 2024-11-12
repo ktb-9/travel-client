@@ -33,6 +33,13 @@ const Header = ({ toggle, isDark }: header) => {
       <View style={styles.menu}>
         <TouchableOpacity
           testID="calendar"
+          onPress={() => router.push("/image/image")}
+          style={styles.addPlan}
+        >
+          <Ionicons name="image" size={24} color={isDark ? "#FFF" : "#000"} />
+        </TouchableOpacity>
+        <TouchableOpacity
+          testID="calendar"
           onPress={() => router.push("/Schedule/createSchedule")}
           style={styles.addPlan}
         >
