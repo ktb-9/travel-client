@@ -2,13 +2,7 @@ import { View, Text, TouchableOpacity, Image } from "react-native";
 import styles from "./styles";
 import check from "@/assets/images/check.png";
 import checked from "@/assets/images/checked.png";
-import { PaymentType, UserType } from "@/types/payment/payment";
-
-interface UserListProps {
-  value: PaymentType["value"];
-  onPaymentUserCheck: (id: number) => void;
-  onUserGroupAdd: (id: number) => void;
-}
+import { PaymentType, UserListProps, UserType } from "@/types/payment/payment";
 
 const UserList: React.FC<UserListProps> = ({
   value,

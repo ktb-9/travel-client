@@ -5,14 +5,7 @@ import styles from "./styles";
 
 import CategoryModal from "./modal/modal";
 import DatePickerModal from "./modal/dateModal";
-import { PaymentType } from "@/types/payment/payment";
-
-interface PaymentInputProps {
-  value: PaymentType["value"];
-  onInputChange: (field: string, value: string) => void;
-  onCategorySelect: (category: string) => void;
-  onDateSelect: (date: Date) => void;
-}
+import { PaymentInputProps } from "@/types/payment/payment";
 
 const PaymentInput: React.FC<PaymentInputProps> = ({
   value,

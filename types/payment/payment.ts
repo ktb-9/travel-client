@@ -28,3 +28,14 @@ export interface UserType {
   name: string;
   isMe?: boolean;
 }
+export interface UserListProps {
+  value: PaymentType["value"];
+  onPaymentUserCheck: (id: number) => void;
+  onUserGroupAdd: (id: number) => void;
+}
+export interface PaymentInputProps {
+  value: PaymentType["value"];
+  onInputChange: (field: string, value: string) => void;
+  onCategorySelect: (category: string) => void;
+  onDateSelect: (date: Date) => void;
+}
