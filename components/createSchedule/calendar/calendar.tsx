@@ -32,7 +32,7 @@ const Calendar = ({ groupName }: { groupName: string }) => {
     {}
   );
 
-  const currentUserId = "1";
+  const currentUserId = "2";
   // 10개의 파스텔 컬러 배열 정의
   const pastelColors = [
     "#FFB3B3", // 연한 빨강
