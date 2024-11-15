@@ -23,3 +23,4 @@ export const categoryMap: { [key: string]: string } = {
   HP8: "병원",
   PM9: "약국",
 };
+export const CATEGORIES = ["카페", "식당", "술", "간식"];

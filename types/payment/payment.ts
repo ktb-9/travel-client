@@ -11,3 +11,20 @@ export interface PaymentType {
   SetValue: React.Dispatch<React.SetStateAction<PaymentState[]>>;
   index: number;
 }
+export interface DatePickerModalProps {
+  isVisible: boolean;
+  onClose: () => void;
+  onSelectDate: (date: Date) => void;
+  currentDate: Date;
+}
+export interface categoryModalState {
+  isDropdownVisible: boolean;
+  setDropdownVisible: React.Dispatch<React.SetStateAction<boolean>>;
+  handleCategorySelect: (category: string) => void;
+}
+
+export interface UserType {
+  id: number;
+  name: string;
+  isMe?: boolean;
+}

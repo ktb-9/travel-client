@@ -26,7 +26,7 @@ const Content = () => {
     };
     SetValue((prev) => [...prev, newValue]);
   };
-
+  console.log(value);
   return (
     <View style={styles.container}>
       {value.map((value, index) => (
