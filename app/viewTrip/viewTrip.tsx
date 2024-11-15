@@ -7,6 +7,7 @@ import {
 import styles from "./styles";
 import Header from "@/components/viewTrip/header/header";
 import Content from "@/components/viewTrip/content/content";
+import Payment from "@/components/viewTrip/payment/payment";
 
 const ViewTrip = () => {
   return (
@@ -14,6 +15,7 @@ const ViewTrip = () => {
       <Header />
       <ScrollView contentContainerStyle={styles.content}>
         <Content />
+        <Payment />
       </ScrollView>
     </SafeAreaView>
   );
