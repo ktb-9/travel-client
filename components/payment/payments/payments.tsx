@@ -3,10 +3,8 @@ import { View } from "react-native";
 import styles from "./styles";
 import PaymentInput from "./PaymentInput";
 
-import SubmitButton from "./SubmitButton";
 import UserList from "./UserList";
 import { PaymentType } from "@/types/payment/payment";
-
 const Payments: React.FC<PaymentType> = ({ value, SetValue, index }) => {
   const handleInputChange = (field: string, text: string) => {
     SetValue((prev) =>
@@ -61,11 +59,6 @@ const Payments: React.FC<PaymentType> = ({ value, SetValue, index }) => {
     );
   };
 
-  const handleSubmit = () => {
-    // 지출 등록 로직 구현
-    console.log("지출이 등록되었습니다.");
-  };
-
   return (
     <View style={styles.container}>
       <PaymentInput
@@ -79,7 +72,6 @@ const Payments: React.FC<PaymentType> = ({ value, SetValue, index }) => {
         onPaymentUserCheck={handleCheckPaymentUser}
         onUserGroupAdd={handleUserGroupAdd}
       />
-      <SubmitButton onSubmit={handleSubmit} />
     </View>
   );
 };

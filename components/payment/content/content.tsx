@@ -4,7 +4,10 @@ import { useState } from "react";
 import Payments from "../payments/payments";
 import addIcon from "@/assets/images/plus.png";
 import { PaymentState } from "@/types/payment/payment";
+import SubmitButton from "../payments/SubmitButton";
+import addPaymentsMutation from "@/hooks/api/addPaymentsMutation";
 const Content = () => {
+  const { mutate } = addPaymentsMutation();
   const [value, SetValue] = useState<PaymentState[]>([
     {
       category: "",
@@ -26,7 +29,11 @@ const Content = () => {
     };
     SetValue((prev) => [...prev, newValue]);
   };
-  console.log(value);
+  const handleSubmit = () => {
+    // 지출 등록 로직 구현
+
+    mutate(value);
+  };
   return (
     <View style={styles.container}>
       {value.map((value, index) => (
@@ -36,6 +43,7 @@ const Content = () => {
       <TouchableOpacity onPress={addPayments}>
         <Image source={addIcon} />
       </TouchableOpacity>
+      <SubmitButton onSubmit={handleSubmit} />
     </View>
   );
 };

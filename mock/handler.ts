@@ -33,4 +33,8 @@ mock.onPost("/api/trip").reply(200, {
 mock.onDelete("/api/trip/1").reply(200, {
   message: "성공적으로 삭제되었습니다.",
 });
+
+mock.onPost("/api/payment").reply(200, {
+  message: "성공적으로 저장되었습니다.",
+});
 export default mock;
