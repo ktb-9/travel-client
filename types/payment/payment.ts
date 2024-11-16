@@ -39,3 +39,25 @@ export interface PaymentInputProps {
   onCategorySelect: (category: string) => void;
   onDateSelect: (date: Date) => void;
 }
+export type ExpenseDetail = {
+  type: "개인" | "공통";
+  price: number;
+  to: number | null;
+};
+
+export type ExpenseResult = {
+  category: string;
+  details: ExpenseDetail[];
+  total: number;
+};
+
+export type PersonalExpense = {
+  category: string;
+  total: number;
+};
+
+export type CommonExpense = {
+  category: string;
+  price: number;
+  to: number | null;
+};

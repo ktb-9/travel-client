@@ -12,7 +12,8 @@ export const END_POINTS = {
   SCHEDULE: "/api/schedule",
   trip: (groupId: number) => `/api/trip/${groupId}`,
   postTrip: "/api/trip",
-  payment: "/api/payment",
+  postPayment: "/api/payment",
+  payment: (groupId: number) => `/api/payment/${groupId}`,
 } as const;
 
 export const NETWORK = {
