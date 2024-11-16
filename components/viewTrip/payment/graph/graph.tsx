@@ -87,7 +87,7 @@ const Graph = ({ data }: GraphProps) => {
 
         {commonExpenses.length > 0 && (
           <View>
-            <ExpenseHeader title="공통 지출" amount={totalCommonAmount} />
+            <ExpenseHeader title="공동 지출" amount={totalCommonAmount} />
             {commonExpenses.map((expense, index) => (
               <CommonExpenseItem
                 key={`${expense.category}-${index}`}
