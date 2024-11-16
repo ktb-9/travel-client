@@ -12,9 +12,12 @@ import getPaymentsQuery from "@/hooks/api/getPaymentsQuery";
 import useCalculatePayment from "@/hooks/payment/useCalculatePayment";
 import Graph from "./graph/graph";
 import { Feather } from "@expo/vector-icons";
+import { useRecoilState } from "recoil";
+import paymentState from "@/recoil/paymentState";
 
 const Payment = () => {
   const { data, isLoading, isError } = getPaymentsQuery(1);
+  const [, setState] = useRecoilState(paymentState);
   const router = useRouter();
 
   if (isLoading) {
@@ -34,17 +37,17 @@ const Payment = () => {
   }
 
   const value = useCalculatePayment(data.data, 1);
-
+  const handleEdit = () => {
+    router.push("/paymentEdit/payment");
+    setState(data.data);
+  };
   return (
     <SafeAreaView style={styles.safeArea}>
       <View style={styles.container}>
         <View style={styles.headerContainer}>
           <Text style={styles.header}>가계부</Text>
           <View style={styles.buttonWrapper}>
-            <TouchableOpacity
-              style={styles.addButton}
-              onPress={() => router.push("/payment/payment")}
-            >
+            <TouchableOpacity style={styles.addButton} onPress={handleEdit}>
               <Feather name="edit" size={24} color="#3182F6" />
             </TouchableOpacity>
             <TouchableOpacity

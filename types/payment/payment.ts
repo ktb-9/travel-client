@@ -6,9 +6,25 @@ export interface PaymentState {
   pay: number;
   group: number[];
 }
+export interface PaymentEditState {
+  groupId: number;
+  paymentId: number;
+  category: string;
+  description: string;
+  date: string;
+  price: number;
+  pay: number;
+  group: number[];
+}
+
 export interface PaymentType {
   value: PaymentState;
   SetValue: React.Dispatch<React.SetStateAction<PaymentState[]>>;
+  index: number;
+}
+export interface PaymentEditType {
+  value: PaymentEditState;
+  SetValue: React.Dispatch<React.SetStateAction<PaymentEditState[]>>;
   index: number;
 }
 export interface DatePickerModalProps {

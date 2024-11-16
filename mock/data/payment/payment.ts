@@ -49,4 +49,14 @@ export const getPayments = [
     pay: 1,
     price: 100000,
   },
+  {
+    paymentId: 6,
+    groupId: 1,
+    category: "주스",
+    date: "2024-11-16",
+    description: "콜라",
+    group: [],
+    pay: 1,
+    price: 3500,
+  },
 ];
