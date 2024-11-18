@@ -9,7 +9,7 @@ interface SubmitButtonProps {
 const SubmitButton: React.FC<SubmitButtonProps> = ({ onSubmit }) => (
   <View style={styles.submitWrapper}>
     <TouchableOpacity style={styles.submitButton} onPress={onSubmit}>
-      <Text style={styles.submitButtonText}>지출 등록</Text>
+      <Text style={styles.submitButtonText}>지출 수정</Text>
     </TouchableOpacity>
   </View>
 );

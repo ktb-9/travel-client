@@ -1,10 +1,11 @@
-import { View } from "react-native";
+import { TouchableOpacity, View } from "react-native";
 
 import styles from "./styles";
 import PaymentInput from "./PaymentInput";
 
 import UserList from "./UserList";
 import { PaymentType } from "@/types/payment/payment";
+import { Ionicons } from "@expo/vector-icons";
 const Payments: React.FC<PaymentType> = ({ value, SetValue, index }) => {
   const handleInputChange = (field: string, text: string) => {
     SetValue((prev) =>
@@ -58,9 +59,15 @@ const Payments: React.FC<PaymentType> = ({ value, SetValue, index }) => {
       )
     );
   };
+  const handleDelete = () => {
+    SetValue((prev) => prev.filter((item, i) => i != index));
+  };
 
   return (
     <View style={styles.container}>
+      <TouchableOpacity style={styles.trash} onPress={handleDelete}>
+        <Ionicons name="trash-outline" size={24} color="red" />
+      </TouchableOpacity>
       <PaymentInput
         value={value}
         onInputChange={handleInputChange}

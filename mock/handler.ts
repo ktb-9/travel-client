@@ -41,4 +41,7 @@ mock.onPost("/api/payment").reply(200, {
 mock.onGet("/api/payment/1").reply(200, {
   data: getPayments,
 });
+mock.onDelete("/api/payment/1").reply(200, {
+  message: "성공적으로 삭제되었습니다.",
+});
 export default mock;
