@@ -23,3 +23,9 @@ export const categoryMap: { [key: string]: string } = {
   HP8: "병원",
   PM9: "약국",
 };
+export const CATEGORIES = ["카페", "식당", "술", "간식"];
+export const CATEGORY_COLORS: { [key: string]: string } = {
+  술: "#5C7CFA",
+  간식: "#51CF66",
+};
+export const DEFAULT_COLOR = "#339AF0";

@@ -7,6 +7,7 @@ import { inviteDataState } from "@/types/createSchedule/createSchedule";
 import { historyData, upCommingData } from "./data/common/main";
 import { inviteData } from "./data/createSchedule.ts/createSchedule";
 import { tripData } from "./data/trip/trip";
+import { getPayments } from "./data/payment/payment";
 
 const mock = new MockAdapter(axios, { onNoMatch: "passthrough" });
 
@@ -32,5 +33,18 @@ mock.onPost("/api/trip").reply(200, {
 });
 mock.onDelete("/api/trip/1").reply(200, {
   message: "성공적으로 삭제되었습니다.",
+});
+
+mock.onPost("/api/payment").reply(200, {
+  message: "성공적으로 저장되었습니다.",
+});
+mock.onGet("/api/payment/1").reply(200, {
+  data: getPayments,
+});
+mock.onDelete("/api/payment/1").reply(200, {
+  message: "성공적으로 삭제되었습니다.",
+});
+mock.onPut("/api/payment/1").reply(200, {
+  message: "성공적으로 수정되었습니다.",
 });
 export default mock;

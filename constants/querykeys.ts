@@ -4,4 +4,5 @@ export const queryKeys = {
   hotplace: ["hotplace"] as const,
   getInvite: ["getInvite"] as const,
   getTrip: ["getTrip"] as const,
+  getPayment: ["getPayment"] as const,
 } as const;
