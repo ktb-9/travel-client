@@ -5,20 +5,19 @@ import Payments from "../payments/payments";
 
 import { PaymentEditState } from "@/types/payment/payment";
 import SubmitButton from "../payments/SubmitButton";
-import addPaymentsMutation from "@/hooks/api/addPaymentsMutation";
 import { useRecoilValue } from "recoil";
 import paymentState from "@/recoil/paymentState";
+import updatePaymentsMutation from "@/hooks/api/updatePaymentsMutation";
 
 const Content = () => {
-  const { mutate } = addPaymentsMutation();
+  const { mutate } = updatePaymentsMutation();
   const dataValue = useRecoilValue(paymentState);
-  console.log(dataValue);
   const [value, SetValue] = useState<PaymentEditState[]>(dataValue);
-
+  const groupId = 1;
   const handleSubmit = () => {
     // 지출 등록 로직 구현
 
-    mutate(value);
+    mutate({ groupId, value });
   };
   return (
     <View style={styles.container}>
