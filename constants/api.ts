@@ -2,7 +2,7 @@ export const BASE_URL =
   "http://healthkungya.s3-website.ap-northeast-2.amazonaws.com";
 export const REDIRECT_URI = `${BASE_URL}/oauth/kakao/callback`;
 
-export const AXIOS_BASE_URL = "http://localhost:9090";
+export const AXIOS_BASE_URL = "http://localhost:8000";
 export const MAP_KEY = "38789b5f2f2e16d6229dbc25dc0c776b";
 export const SERVER_URL = "http://localhost:8080/ws";
 export const SUB_ENDPOINT = "/topic/calendar";

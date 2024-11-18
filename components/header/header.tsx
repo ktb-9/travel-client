@@ -1,16 +1,36 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { View, TouchableOpacity, Text, Image } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { header } from "@/types/header";
 import styles from "./styles";
 import { useRouter } from "expo-router";
-import { useRecoilValue } from "recoil";
-import { userInfoState_unique } from "@/recoil/authState";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+interface userState {
+  nickname: string;
+  profileImage: string;
+}
 
 const Header = ({ toggle, isDark }: header) => {
-  const userInfo = useRecoilValue(userInfoState_unique);
+  const [userValue, setUserValue] = useState<userState>();
   const router = useRouter();
-  const profileImageUrl = userInfo.profileImage.replace("http://", "https://");
+  const loadUserData = async () => {
+    try {
+      const userInfo = await AsyncStorage.getItem("userInfo");
+
+      if (userInfo) {
+        setUserValue(JSON.parse(userInfo));
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  useEffect(() => {
+    loadUserData();
+  }, []);
+  const profileImageUrl = userValue?.profileImage.replace(
+    "http://",
+    "https://"
+  );
   return (
     <View style={styles.header}>
       <TouchableOpacity style={styles.profile}>
@@ -27,7 +47,7 @@ const Header = ({ toggle, isDark }: header) => {
             color: isDark ? "#fff" : "#000",
           }}
         >
-          {userInfo.nickname} <Text style={{ color: "#B4B2B2" }}>님</Text>
+          {userValue?.nickname}
         </Text>
       </TouchableOpacity>
       <View style={styles.menu}>

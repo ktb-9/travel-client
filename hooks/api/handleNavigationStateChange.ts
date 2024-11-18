@@ -1,6 +1,7 @@
 import { Router } from "expo-router";
 import fetchUserInfo from "@/api/user/user";
 import { REDIRECT_URI } from "@/constants/api";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 interface NavState {
   url: string;
@@ -18,7 +19,6 @@ export const handleNavigationStateChange = async ({
   navState,
   setShowWebView,
   setError,
-  setUserInfo,
   router,
 }: HandleNavigationStateChangeProps) => {
   if (navState.url && navState.url.startsWith(REDIRECT_URI)) {
@@ -33,9 +33,13 @@ export const handleNavigationStateChange = async ({
     }
 
     try {
-      // 카카오 인증 코드를 사용해 사용자 정보를 요청
+      // 사용자 정보를 요청
       const response = await fetchUserInfo(code!);
-      setUserInfo(response); // 상태 업데이트
+
+      // JSON 데이터를 AsyncStorage에 저장
+      await AsyncStorage.setItem("userTokens", JSON.stringify(response.tokens));
+      await AsyncStorage.setItem("userInfo", JSON.stringify(response.user));
+
       setShowWebView(false);
       router.replace("/home/home"); // 홈으로 리다이렉트
     } catch (error) {

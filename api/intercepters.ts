@@ -8,6 +8,7 @@ import {
 } from "../constants/api";
 import postNewToken from "./user/postNewToken";
 import { HTTPError } from "./HTTPError";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 // 에러 응답 타입
 export interface ErrorResponse {
@@ -17,16 +18,39 @@ export interface ErrorResponse {
 }
 
 // 토큰 체크 및 토큰 저장
-export const checkAndSetToken = (config: InternalAxiosRequestConfig) => {
+export const checkAndSetToken = async (config: InternalAxiosRequestConfig) => {
   // 토큰이 필요하지 않은 요청은 Authorization을 설정하지 않음
   if (config.headers?.["Skip-Auth"]) return config;
-  if (!config.headers || config.headers.Authorization) return config;
 
-  const accessToken = localStorage.getItem(ACCESS_TOKEN_KEY);
+  // 이미 Authorization이 설정된 경우 설정하지 않음
+  if (config.headers?.Authorization) return config;
+
+  // AsyncStorage에서 토큰 가져오기
+  const tokensString = await AsyncStorage.getItem("userTokens");
+
+  if (!tokensString) {
+    window.location.href = "/";
+    throw new Error("토큰이 유효하지 않습니다.");
+  }
+
+  // JSON 파싱하여 accessToken 추출
+  let tokens;
+  try {
+    tokens = JSON.parse(tokensString);
+  } catch (error) {
+    console.error("Failed to parse tokens:", error);
+    window.location.href = "/";
+    throw new Error("유효하지 않은 토큰 형식입니다.");
+  }
+
+  const accessToken = tokens?.accessToken;
+
   if (!accessToken) {
     window.location.href = "/";
-    throw new Error("토큰이 유효하지 않습니다");
+    throw new Error("토큰이 유효하지 않습니다.");
   }
+
+  // Authorization 헤더 설정
   config.headers.Authorization = `Bearer ${accessToken}`;
   return config;
 };
@@ -61,7 +85,7 @@ export const handleTokenError = async (error: AxiosError<ErrorResponse>) => {
       data.code === ERROR_CODE.UNAUTHORIZED ||
       data.code === ERROR_CODE.INVALID_ACCESS_TOKEN)
   ) {
-    localStorage.removeItem(ACCESS_TOKEN_KEY);
+    await AsyncStorage.removeItem("userTokens");
     throw new HTTPError(status, data.message, data.code);
   }
   throw error;
