@@ -6,7 +6,6 @@ import { Ionicons } from "@expo/vector-icons";
 import EditGroupModal from "./modal/EditModal";
 
 const Group = ({ data }: { data: groupState }) => {
-  console.log(data);
   const [dataValue, setDataValue] = useState<groupState>({} as groupState);
   useEffect(() => {
     setDataValue(data);

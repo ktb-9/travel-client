@@ -53,7 +53,7 @@ const EditGroupModal = ({
 
   const handleSave = () => {
     const data = { ...groupData, groupName, date, groupThumbnail: thumbnail };
-    console.log(data);
+
     setDataValue(data);
     mutate({ groupId: groupData.groupId, body: data });
     onClose();
