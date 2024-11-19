@@ -5,6 +5,7 @@ import { header } from "@/types/header";
 import styles from "./styles";
 import { useRouter } from "expo-router";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import addGroupMutation from "@/hooks/api/addGroupMutation";
 interface userState {
   nickname: string;
   profileImage: string;
@@ -12,12 +13,14 @@ interface userState {
 
 const Header = ({ toggle, isDark }: header) => {
   const [userValue, setUserValue] = useState<userState>();
+  const { mutate } = addGroupMutation();
   const router = useRouter();
   const loadUserData = async () => {
     try {
       const userInfo = await AsyncStorage.getItem("userInfo");
 
       if (userInfo) {
+        console.log(userInfo);
         setUserValue(JSON.parse(userInfo));
       }
     } catch (error) {
@@ -31,6 +34,13 @@ const Header = ({ toggle, isDark }: header) => {
     "http://",
     "https://"
   );
+  const createSchedule = () => {
+    router.push("/Schedule/createSchedule");
+    const body = {
+      name: userValue?.nickname,
+    };
+    mutate(body);
+  };
   return (
     <View style={styles.header}>
       <TouchableOpacity style={styles.profile}>
@@ -60,7 +70,7 @@ const Header = ({ toggle, isDark }: header) => {
         </TouchableOpacity>
         <TouchableOpacity
           testID="calendar"
-          onPress={() => router.push("/Schedule/createSchedule")}
+          onPress={createSchedule}
           style={styles.addPlan}
         >
           <Ionicons

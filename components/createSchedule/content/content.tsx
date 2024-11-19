@@ -1,4 +1,4 @@
-import { TextInput, View } from "react-native";
+import { ActivityIndicator, Text, TextInput, View } from "react-native";
 import styles from "./styles";
 import { useState } from "react";
 import Invite from "../invite/invite";
@@ -6,6 +6,7 @@ import Calendar from "../calendar/calendar";
 
 const Content = () => {
   const [groupName, setGroupName] = useState("");
+
   return (
     <View style={styles.container}>
       <TextInput
