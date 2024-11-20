@@ -1,16 +1,20 @@
 import { ActivityIndicator, Text, TextInput, View } from "react-native";
-import styles from "./styles";
-import { useState } from "react";
+
+import { useEffect, useState } from "react";
 import Invite from "../invite/invite";
-import Calendar from "../calendar/calendar";
 import getGroupQuery from "@/hooks/api/getGroupQuery";
-import { useRecoilValue } from "recoil";
-import groupHostState from "@/recoil/groupHostState";
+import { useRoute } from "@react-navigation/native";
+import styles from "./styles";
+import Calendar from "../calendar/calendar";
 
 const Content = () => {
   const [groupName, setGroupName] = useState("");
-  const groupState = useRecoilValue(groupHostState);
-  const { data, isLoading, isError } = getGroupQuery(groupState.group_id);
+  const route = useRoute();
+  const encodedId = route.params?.id;
+  const decodedId = decodeURIComponent(encodedId); // URL 디코딩
+  console.log("decode", decodedId);
+  const { data, isLoading, isError } = getGroupQuery(parseInt(decodedId));
+
   if (isLoading) {
     return <ActivityIndicator size="large" color="#0000ff" />;
   }

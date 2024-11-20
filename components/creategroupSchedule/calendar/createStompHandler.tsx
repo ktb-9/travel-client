@@ -39,7 +39,6 @@ const createSocketHandler = ({
   userId,
   groupId,
 }: SocketHandlerProps) => {
-  console.log(setUserDateRanges);
   let socket: Socket | undefined;
 
   const handleCalendarUpdated = (data: {
@@ -75,7 +74,10 @@ const createSocketHandler = ({
         console.log("[+] Socket.IO에 성공적으로 연결했습니다.");
         setIsConnected(true);
 
-        // 초기 캘린더 데이터 요청
+        // Join the group room after connection
+        newSocket.emit("joinGroup", groupId);
+
+        // Request initial calendar data
         newSocket.emit("getCalendarDates", { groupId });
       });
 
@@ -88,7 +90,7 @@ const createSocketHandler = ({
         console.error("Socket 에러:", error.message);
       });
 
-      // 캘린더 관련 이벤트 리스너
+      // Calendar event listeners
       newSocket.on(
         "calendarDatesList",
         (data: { groupId: number; calendarData: CalendarData[] }) => {
@@ -105,6 +107,7 @@ const createSocketHandler = ({
         }
       );
 
+      // Listen for all calendar updates
       newSocket.on("calendarUpdated", handleCalendarUpdated);
 
       newSocket.on(

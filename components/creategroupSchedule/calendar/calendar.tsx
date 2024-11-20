@@ -108,7 +108,7 @@ const Calendar = ({ groupName }: CalendarProps) => {
         "YYYY.MM.DD"
       )}~${moment(state.confirmedTrip.endDate).format("YYYY.MM.DD")}`;
       setSchedule({
-        groupId: groupId,
+        groupId: 30,
         groupName: groupName,
         date: formattedSchedule,
       });

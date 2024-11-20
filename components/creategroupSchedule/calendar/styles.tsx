@@ -206,7 +206,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     color: "#FFFFFF",
   },
-  submitContainer: {
+  submit: {
     width: 90,
     height: 25,
     borderRadius: 20,
@@ -215,7 +215,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
-  submit: {
+  submitText: {
     color: "#ffffff",
     fontWeight: "bold",
   },

@@ -2,6 +2,7 @@ import { Router } from "expo-router";
 import fetchUserInfo from "@/api/user/user";
 import { REDIRECT_URI } from "@/constants/api";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { Linking } from "react-native";
 
 interface NavState {
   url: string;
@@ -39,6 +40,12 @@ export const handleNavigationStateChange = async ({
       // JSON 데이터를 AsyncStorage에 저장
       await AsyncStorage.setItem("userTokens", JSON.stringify(response.tokens));
       await AsyncStorage.setItem("userInfo", JSON.stringify(response.user));
+      const deeplink = `myapp://auth?accessToken=${JSON.stringify(
+        response.tokens.accessToken
+      )}`;
+
+      // 딥링크 열기
+      Linking.openURL(deeplink);
 
       setShowWebView(false);
       router.replace("/home/home"); // 홈으로 리다이렉트
