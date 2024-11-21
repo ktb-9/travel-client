@@ -206,6 +206,9 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     color: "#FFFFFF",
   },
+  submitContainer: {
+    alignItems: "center",
+  },
   submit: {
     width: 90,
     height: 25,

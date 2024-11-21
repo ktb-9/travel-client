@@ -1,41 +1,24 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { View, TouchableOpacity, Text, Image } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { header } from "@/types/header";
 import styles from "./styles";
 import { useRouter } from "expo-router";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+
 import addGroupMutation from "@/hooks/api/addGroupMutation";
-interface userState {
-  nickname: string;
-  profileImage: string;
-}
+import { useRecoilValue } from "recoil";
+import authState from "@/recoil/authState";
 
 const Header = ({ toggle, isDark }: header) => {
-  const [userValue, setUserValue] = useState<userState>();
+  const userValue = useRecoilValue(authState);
+
   const { mutate } = addGroupMutation();
   const router = useRouter();
-  const loadUserData = async () => {
-    try {
-      const userInfo = await AsyncStorage.getItem("userInfo");
-
-      if (userInfo) {
-        console.log(userInfo);
-        setUserValue(JSON.parse(userInfo));
-      }
-    } catch (error) {
-      console.error(error);
-    }
-  };
-  useEffect(() => {
-    loadUserData();
-  }, []);
   const profileImageUrl = userValue?.profileImage.replace(
     "http://",
     "https://"
   );
   const createSchedule = () => {
-    router.push("/Schedule/createSchedule");
     const body = {
       name: userValue?.nickname,
     };

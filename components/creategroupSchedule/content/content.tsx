@@ -1,18 +1,19 @@
 import { ActivityIndicator, Text, TextInput, View } from "react-native";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Invite from "../invite/invite";
 import getGroupQuery from "@/hooks/api/getGroupQuery";
-import { useRoute } from "@react-navigation/native";
+import { RouteProp, useRoute } from "@react-navigation/native";
 import styles from "./styles";
 import Calendar from "../calendar/calendar";
-
+type RouteParams = {
+  id: string;
+};
 const Content = () => {
   const [groupName, setGroupName] = useState("");
-  const route = useRoute();
+  const route = useRoute<RouteProp<{ params: RouteParams }, "params">>();
   const encodedId = route.params?.id;
   const decodedId = decodeURIComponent(encodedId); // URL 디코딩
-  console.log("decode", decodedId);
   const { data, isLoading, isError } = getGroupQuery(parseInt(decodedId));
 
   if (isLoading) {
@@ -31,7 +32,7 @@ const Content = () => {
         placeholder="그룹 이름을 입력해주세요..."
       />
       <Invite />
-      <Calendar groupName={groupName} />
+      <Calendar groupName={groupName} groupId={parseInt(decodedId)} />
     </View>
   );
 };

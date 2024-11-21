@@ -1,5 +1,5 @@
 import { Socket, io } from "socket.io-client";
-import { SERVER_URL } from "@/constants/api";
+import { AXIOS_BASE_URL, SERVER_URL } from "@/constants/api";
 import { Moment } from "moment";
 
 interface DateRange {
@@ -59,7 +59,7 @@ const createSocketHandler = ({
   return {
     connect: () => {
       // Create new socket connection
-      const newSocket = io("http://localhost:8000", {
+      const newSocket = io(AXIOS_BASE_URL, {
         transports: ["websocket"],
         reconnection: true,
         reconnectionAttempts: 5,

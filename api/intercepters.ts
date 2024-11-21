@@ -1,11 +1,7 @@
 import * as Sentry from "@sentry/react";
 import type { AxiosError, InternalAxiosRequestConfig } from "axios";
 import { axiosInstance } from "./axiosinstance";
-import {
-  ACCESS_TOKEN_KEY,
-  ERROR_CODE,
-  HTTP_STATUS_CODE,
-} from "../constants/api";
+import { ERROR_CODE, HTTP_STATUS_CODE, TOKEN_KEY } from "../constants/api";
 import postNewToken from "./user/postNewToken";
 import { HTTPError } from "./HTTPError";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -26,7 +22,7 @@ export const checkAndSetToken = async (config: InternalAxiosRequestConfig) => {
   if (config.headers?.Authorization) return config;
 
   // AsyncStorage에서 토큰 가져오기
-  const tokensString = await AsyncStorage.getItem("userTokens");
+  const tokensString = await AsyncStorage.getItem(TOKEN_KEY);
 
   if (!tokensString) {
     window.location.href = "/";

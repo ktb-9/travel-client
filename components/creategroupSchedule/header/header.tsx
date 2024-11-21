@@ -5,13 +5,22 @@ import { useFonts } from "expo-font";
 import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import { io, Socket } from "socket.io-client";
-
+import { RouteProp, useRoute } from "@react-navigation/native";
+import { useRecoilValue } from "recoil";
+import authState from "@/recoil/authState";
+import { AXIOS_BASE_URL } from "@/constants/api";
+type RouteParams = {
+  id: string;
+};
 const Header = () => {
   const router = useRouter();
   const [userRole, setUserRole] = useState<string>("HOST");
   const [socket, setSocket] = useState<Socket | null>(null);
-  const groupId = 30;
-  const userId = 1;
+  const route = useRoute<RouteProp<{ params: RouteParams }, "params">>();
+  const encodedId = route.params?.id;
+
+  const decodedId = decodeURIComponent(encodedId); // URL 디코딩
+  const userValue = useRecoilValue(authState);
 
   const [fontsLoaded] = useFonts({
     NotoBlack: require("@/assets/fonts/NotoSansKR-Bold.ttf"),
@@ -20,7 +29,7 @@ const Header = () => {
 
   useEffect(() => {
     // Socket connection setup
-    const newSocket = io("http://localhost:8000", {
+    const newSocket = io(AXIOS_BASE_URL, {
       transports: ["websocket"],
       autoConnect: true,
       reconnection: true,
@@ -30,7 +39,7 @@ const Header = () => {
     newSocket.on("connect", () => {
       console.log("Socket connected:", newSocket.id);
       // Get user role after connection
-      newSocket.emit("getMembers", { groupId });
+      newSocket.emit("getMembers", { groupId: parseInt(decodedId) });
     });
 
     newSocket.on("connect_error", (error) => {
@@ -45,7 +54,7 @@ const Header = () => {
     // Event handlers
     newSocket.on("membersList", (data) => {
       const currentUser = data.members.find(
-        (member: any) => member.user_id === userId
+        (member: any) => member.user_id === userValue.id
       );
       if (currentUser) {
         setUserRole(currentUser.role);
@@ -81,14 +90,14 @@ const Header = () => {
         newSocket.disconnect();
       }
     };
-  }, []); // Empty dependency array as we only want to set up socket once
+  }, [decodedId, router, userValue.id]);
 
   const handleBackPress = () => {
     if (!socket) {
       Alert.alert("오류", "서버에 연결되지 않았습니다.");
       return;
     }
-    console.log(userRole);
+
     Alert.alert(
       "그룹 나가기",
       userRole === "HOST"
@@ -102,11 +111,11 @@ const Header = () => {
         {
           text: "확인",
           onPress: () => {
-            if (userRole === "HOST") {
-              socket.emit("deleteGroup", { groupId, userId });
-            } else {
-              socket.emit("leaveGroup", { groupId, userId });
-            }
+            socket.emit("leaveGroup", {
+              groupId: parseInt(decodedId),
+              userId: userValue.id,
+            });
+            router.push("/home/home");
           },
         },
       ]

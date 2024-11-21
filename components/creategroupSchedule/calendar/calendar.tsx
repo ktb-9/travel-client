@@ -11,19 +11,21 @@ import renderUserLegend from "./renderUserLegend";
 import renderOverlappingDates from "./renderOverlappingDates";
 import renderTripOptions from "./renderTripOption";
 import useFindOverlappingDates from "@/hooks/useFindOverlappingDates";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import { createSchdeuleState } from "@/recoil/createSchdeuleState";
 import { useRouter } from "expo-router";
 import { OverlappingDates, UserDateRanges } from "@/types/calendar/calendar";
 import { useCalendarState } from "@/reducers/useCalendarState";
 import { Socket } from "socket.io-client";
-import createSocketHandler from "./createStompHandler";
+import createSocketHandler from "../../../api/group/createSocketHandler";
+import authState from "@/recoil/authState";
 
 interface CalendarProps {
   groupName: string;
+  groupId: number;
 }
 
-const Calendar = ({ groupName }: CalendarProps) => {
+const Calendar = ({ groupName, groupId }: CalendarProps) => {
   const router = useRouter();
   const [, setSchedule] = useRecoilState(createSchdeuleState);
   const { state, actions } = useCalendarState();
@@ -38,8 +40,7 @@ const Calendar = ({ groupName }: CalendarProps) => {
   const [userNicknames, setUserNicknames] = useState<{ [key: string]: string }>(
     {}
   );
-
-  const currentUserId = 1; // 숫자로 변경
+  const userValue = useRecoilValue(authState);
 
   const pastelColors = [
     "#FFB3B3",
@@ -79,8 +80,8 @@ const Calendar = ({ groupName }: CalendarProps) => {
       setIsConnected,
       setUserDateRanges,
       setSocket,
-      userId: currentUserId,
-      groupId: 30,
+      userId: userValue.id,
+      groupId,
     });
 
     socketHandlerRef.current = handler;
@@ -108,7 +109,7 @@ const Calendar = ({ groupName }: CalendarProps) => {
         "YYYY.MM.DD"
       )}~${moment(state.confirmedTrip.endDate).format("YYYY.MM.DD")}`;
       setSchedule({
-        groupId: 30,
+        groupId,
         groupName: groupName,
         date: formattedSchedule,
       });
@@ -133,7 +134,7 @@ const Calendar = ({ groupName }: CalendarProps) => {
           </View>
         </View>
 
-        {renderUserLegend(userColors, String(currentUserId), userNicknames)}
+        {renderUserLegend(userColors, String(userValue.id), userNicknames)}
       </View>
 
       <View style={styles.overlappingDatesContainer}>

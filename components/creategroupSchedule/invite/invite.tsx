@@ -1,39 +1,35 @@
-import {
-  ScrollView,
-  Text,
-  TouchableOpacity,
-  View,
-  ActivityIndicator,
-  Image,
-} from "react-native";
+import { ScrollView, Text, View, Image, TouchableOpacity } from "react-native";
 import styles from "./styles";
 import leader from "@/assets/images/leader.png";
 import companion from "@/assets/images/companion.png";
 import { useRecoilValue } from "recoil";
-import groupHostState from "@/recoil/groupHostState";
-import getMemberQuery from "@/hooks/api/getMemberQuery";
-import postLink from "@/api/group/postLink";
-import { useRoute } from "@react-navigation/native";
-import { groupMembersState } from "@/recoil/groupMemberState";
+import { RouteProp, useRoute } from "@react-navigation/native";
 import { useGroupSocket } from "@/api/group/useGroupSocket";
-
+import authState from "@/recoil/authState";
+import postLink from "@/api/group/postLink";
+import groupHostState from "@/recoil/groupHostState";
+type RouteParams = {
+  id: string;
+};
 const Invite = () => {
-  const route = useRoute();
+  const route = useRoute<RouteProp<{ params: RouteParams }, "params">>();
   const encodedId = route.params?.id;
+  const groupState = useRecoilValue(groupHostState);
   const decodedId = decodeURIComponent(encodedId); // URL 디코딩
-  const { socket, members } = useGroupSocket(parseInt(decodedId), 1);
-  // const { data, isLoading, isError } = getMemberQuery(parseInt(decodedId));
-
-  // if (isLoading) {
-  //   return <ActivityIndicator size="large" color="#0000ff" />;
-  // }
-
-  // if (isError || !data) {
-  //   return <Text>에러 로딩 업커밍</Text>;
+  const userValue = useRecoilValue(authState);
+  const { socket, members } = useGroupSocket(parseInt(decodedId), userValue.id);
+  const createLink = async () => {
+    const response = await postLink(groupState.group_id);
+    console.log(response);
+  };
 
   return (
     <View style={styles.container}>
-      <View style={styles.buttonWrapper}></View>
+      <View style={styles.buttonWrapper}>
+        <TouchableOpacity style={styles.addCompanion} onPress={createLink}>
+          <Text style={styles.buttonText}>동행인 추가</Text>
+        </TouchableOpacity>
+      </View>
       <View style={styles.invitedWrapper}>
         <ScrollView contentContainerStyle={styles.listWrapper}>
           {members.map((value: any) => (

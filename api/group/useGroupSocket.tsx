@@ -2,13 +2,14 @@ import { useEffect, useRef } from "react";
 import { io, Socket } from "socket.io-client";
 import { useRecoilState } from "recoil";
 import { groupMembersState } from "@/recoil/groupMemberState";
+import { AXIOS_BASE_URL } from "@/constants/api";
 
 export const useGroupSocket = (groupId: number, userId: number) => {
   const [members, setMembers] = useRecoilState(groupMembersState);
   const socketRef = useRef<Socket | null>(null);
 
   useEffect(() => {
-    socketRef.current = io("http://localhost:8000", {
+    socketRef.current = io(AXIOS_BASE_URL, {
       transports: ["websocket"],
       reconnection: true,
       reconnectionAttempts: 5,
