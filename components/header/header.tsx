@@ -1,17 +1,15 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { View, TouchableOpacity, Text, Image } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { header } from "@/types/header";
 import styles from "./styles";
 import { useRouter } from "expo-router";
-
 import addGroupMutation from "@/hooks/api/addGroupMutation";
 import { useRecoilValue } from "recoil";
 import authState from "@/recoil/authState";
 
 const Header = ({ toggle, isDark }: header) => {
   const userValue = useRecoilValue(authState);
-
   const { mutate } = addGroupMutation();
   const router = useRouter();
   const profileImageUrl = userValue?.profileImage.replace(

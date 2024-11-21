@@ -54,7 +54,6 @@ const Calendar = ({ groupName, groupId }: CalendarProps) => {
     "#B3FFD9",
     "#FFB3D9",
   ];
-
   useEffect(() => {
     const userIds = Object.keys(userDateRanges);
     const newUserColors: { [key: string]: string } = {};

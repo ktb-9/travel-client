@@ -14,7 +14,7 @@ type RouteParams = {
 };
 const Header = () => {
   const router = useRouter();
-  const [userRole, setUserRole] = useState<string>("HOST");
+  const [userRole, setUserRole] = useState<string>("");
   const [socket, setSocket] = useState<Socket | null>(null);
   const route = useRoute<RouteProp<{ params: RouteParams }, "params">>();
   const encodedId = route.params?.id;

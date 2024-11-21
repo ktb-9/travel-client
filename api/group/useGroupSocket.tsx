@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
 import { io, Socket } from "socket.io-client";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import { groupMembersState } from "@/recoil/groupMemberState";
 import { AXIOS_BASE_URL } from "@/constants/api";
 
