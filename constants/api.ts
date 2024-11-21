@@ -2,7 +2,7 @@ export const BASE_URL =
   "http://healthkungya.s3-website.ap-northeast-2.amazonaws.com";
 export const REDIRECT_URI = `${BASE_URL}/oauth/kakao/callback`;
 
-export const AXIOS_BASE_URL = "http://localhost:9090";
+export const AXIOS_BASE_URL = "http://localhost:8000";
 export const MAP_KEY = "38789b5f2f2e16d6229dbc25dc0c776b";
 export const SERVER_URL = "http://localhost:8080/ws";
 export const SUB_ENDPOINT = "/topic/calendar";
@@ -10,6 +10,10 @@ export const PUB_ENDPOINT = "/app/calendar";
 export const END_POINTS = {
   LOGIN: "/auth/oauth/kakao/callback",
   SCHEDULE: "/api/schedule",
+  ADDGROUP: "/group",
+  GETGROUP: (groupId: number) => `group/${groupId}`,
+  GETMEMBER: (groupId: number) => `group/${groupId}/members`,
+  POSTLINK: (groupId: number) => `group/invite/${groupId}`,
   trip: (groupId: number) => `/api/trip/${groupId}`,
   postTrip: "/api/trip",
   postPayment: "/api/payment",
@@ -66,7 +70,5 @@ export const HTTP_ERROR_MESSAGE = {
 
 export const ERROR_MESSAGE = "오류가 발생했습니다. 잠시 후 다시 시도해주세요.";
 
-export const ACCESS_TOKEN_KEY = "ACCESS_TOKEN";
-
-export const REFRESH_TOKEN_KEY = "REFRESH_TOKEN";
-export const USER_INFO_STATE_KEY = "userInfoState_unique";
+export const TOKEN_KEY = "TOKEN";
+export const USER_INFO_KEY = "USER";

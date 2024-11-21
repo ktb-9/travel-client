@@ -16,5 +16,18 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     gap: 40,
   },
+  endTrip: {
+    borderRadius: 20,
+    backgroundColor: "blue",
+    width: 90,
+    height: 30,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  endText: {
+    fontFamily: "NotoBold",
+    fontSize: 13,
+    color: "#fff",
+  },
 });
 export default styles;

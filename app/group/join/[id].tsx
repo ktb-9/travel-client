@@ -1,7 +1,7 @@
 import { SafeAreaView, ScrollView, Text, TextInput, View } from "react-native";
 import styles from "./styles";
-import Header from "@/components/createSchedule/header/header";
-import Content from "@/components/createSchedule/content/content";
+import Content from "@/components/creategroupSchedule/content/content";
+import Header from "@/components/creategroupSchedule/header/header";
 
 const createSchedule = () => {
   return (

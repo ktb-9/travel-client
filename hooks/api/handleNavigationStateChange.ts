@@ -1,25 +1,32 @@
 import { Router } from "expo-router";
 import fetchUserInfo from "@/api/user/user";
-import { REDIRECT_URI } from "@/constants/api";
+import { REDIRECT_URI, TOKEN_KEY, USER_INFO_KEY } from "@/constants/api";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { SetterOrUpdater } from "recoil";
 
 interface NavState {
   url: string;
+}
+interface authType {
+  id: number;
+  nickname: string;
+  profileImage: string;
 }
 
 interface HandleNavigationStateChangeProps {
   navState: NavState;
   setShowWebView: (state: boolean) => void;
   setError: (error: string | null) => void;
-  setUserInfo: (userInfo: any) => void;
   router: Router;
+  setUser: SetterOrUpdater<authType>;
 }
 
 export const handleNavigationStateChange = async ({
   navState,
   setShowWebView,
   setError,
-  setUserInfo,
   router,
+  setUser,
 }: HandleNavigationStateChangeProps) => {
   if (navState.url && navState.url.startsWith(REDIRECT_URI)) {
     const params = new URLSearchParams(navState.url.split("?")[1]);
@@ -33,9 +40,15 @@ export const handleNavigationStateChange = async ({
     }
 
     try {
-      // 카카오 인증 코드를 사용해 사용자 정보를 요청
+      // 사용자 정보를 요청
       const response = await fetchUserInfo(code!);
-      setUserInfo(response); // 상태 업데이트
+
+      // JSON 데이터를 AsyncStorage에 저장
+      await AsyncStorage.setItem(TOKEN_KEY, JSON.stringify(response.tokens));
+      await AsyncStorage.setItem(USER_INFO_KEY, JSON.stringify(response.user));
+
+      const user = await AsyncStorage.getItem(USER_INFO_KEY);
+      setUser(user ? JSON.parse(user) : null);
       setShowWebView(false);
       router.replace("/home/home"); // 홈으로 리다이렉트
     } catch (error) {

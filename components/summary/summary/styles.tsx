@@ -1,6 +1,7 @@
 import { Platform, StyleSheet } from "react-native";
 const styles = StyleSheet.create({
   container: {
+    position: "relative",
     backgroundColor: "#f8f9fa",
   },
   contentWrapper: {

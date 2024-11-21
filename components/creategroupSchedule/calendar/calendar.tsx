@@ -4,7 +4,6 @@ import { SafeAreaView } from "react-native";
 import moment from "moment";
 import "moment/locale/ko";
 import styles from "./styles";
-import createStompHandler from "./createStompHandler";
 import renderHeader from "./renderHeader";
 import renderDays from "./renderDays";
 import renderCells from "./renderCells";
@@ -12,13 +11,21 @@ import renderUserLegend from "./renderUserLegend";
 import renderOverlappingDates from "./renderOverlappingDates";
 import renderTripOptions from "./renderTripOption";
 import useFindOverlappingDates from "@/hooks/useFindOverlappingDates";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import { createSchdeuleState } from "@/recoil/createSchdeuleState";
 import { useRouter } from "expo-router";
 import { OverlappingDates, UserDateRanges } from "@/types/calendar/calendar";
 import { useCalendarState } from "@/reducers/useCalendarState";
+import { Socket } from "socket.io-client";
+import createSocketHandler from "../../../api/group/createSocketHandler";
+import authState from "@/recoil/authState";
 
-const Calendar = ({ groupName }: { groupName: string }) => {
+interface CalendarProps {
+  groupName: string;
+  groupId: number;
+}
+
+const Calendar = ({ groupName, groupId }: CalendarProps) => {
   const router = useRouter();
   const [, setSchedule] = useRecoilState(createSchdeuleState);
   const { state, actions } = useCalendarState();
@@ -26,70 +33,57 @@ const Calendar = ({ groupName }: { groupName: string }) => {
     []
   );
   const [userDateRanges, setUserDateRanges] = useState<UserDateRanges>({});
+  const [socket, setSocket] = useState<Socket>();
+  const [isConnected, setIsConnected] = useState(false);
 
   const [userColors, setUserColors] = useState<{ [key: string]: string }>({});
   const [userNicknames, setUserNicknames] = useState<{ [key: string]: string }>(
     {}
   );
+  const userValue = useRecoilValue(authState);
 
-  const currentUserId = "2";
-  // 10개의 파스텔 컬러 배열 정의
   const pastelColors = [
-    "#FFB3B3", // 연한 빨강
-    "#B3FFB3", // 연한 초록
-    "#B3B3FF", // 연한 파랑
-    "#FFB3FF", // 연한 보라
-    "#B3FFFF", // 연한 청록
-    "#FFFFB3", // 연한 노랑
-    "#FFD9B3", // 연한 주황
-    "#D9B3FF", // 연한 라벤더
-    "#B3FFD9", // 연한 민트
-    "#FFB3D9", // 연한 분홍
+    "#FFB3B3",
+    "#B3FFB3",
+    "#B3B3FF",
+    "#FFB3FF",
+    "#B3FFFF",
+    "#FFFFB3",
+    "#FFD9B3",
+    "#D9B3FF",
+    "#B3FFD9",
+    "#FFB3D9",
   ];
-
-  // userDateRanges가 변경될 때마다 색상 할당
   useEffect(() => {
-    // 객체를 키들을 배열로 변환
     const userIds = Object.keys(userDateRanges);
     const newUserColors: { [key: string]: string } = {};
     const newUserNicknames: { [key: string]: string } = {};
 
     userIds.forEach((userId, index) => {
-      newUserColors[userId] = pastelColors[index++];
-
-      if (userDateRanges[userId]?.nickname && !userNicknames[userId]) {
+      newUserColors[userId] = pastelColors[index % pastelColors.length];
+      if (userDateRanges[userId]?.nickname) {
         newUserNicknames[userId] = userDateRanges[userId].nickname;
       }
     });
 
-    if (Object.keys(newUserColors).length > 0) {
-      setUserColors((prev) => ({
-        ...prev,
-        ...newUserColors,
-      }));
-    }
-
-    if (Object.keys(newUserNicknames).length > 0) {
-      setUserNicknames((prev) => ({
-        ...prev,
-        ...newUserNicknames,
-      }));
-    }
+    setUserColors((prev) => ({ ...prev, ...newUserColors }));
+    setUserNicknames((prev) => ({ ...prev, ...newUserNicknames }));
   }, [userDateRanges]);
 
-  const stompHandlerRef = useRef<ReturnType<typeof createStompHandler> | null>(
-    null
-  );
+  const socketHandlerRef = useRef<ReturnType<
+    typeof createSocketHandler
+  > | null>(null);
 
   useEffect(() => {
-    const handler = createStompHandler({
-      setIsEnterChat: actions.setIsEnterChat,
+    const handler = createSocketHandler({
+      setIsConnected,
       setUserDateRanges,
-      setWsClient: actions.setWsClient,
-      userId: currentUserId,
+      setSocket,
+      userId: userValue.id,
+      groupId,
     });
 
-    stompHandlerRef.current = handler;
+    socketHandlerRef.current = handler;
     handler.connect();
 
     return () => {
@@ -107,13 +101,14 @@ const Calendar = ({ groupName }: { groupName: string }) => {
   const onPressArrow = (direction: number) => {
     actions.setCurrentMonth(state.currentMonth.clone().add(direction, "month"));
   };
+
   const handleScheduleConfirm = () => {
     if (state.confirmedTrip) {
       const formattedSchedule = `${moment(state.confirmedTrip.startDate).format(
         "YYYY.MM.DD"
       )}~${moment(state.confirmedTrip.endDate).format("YYYY.MM.DD")}`;
       setSchedule({
-        groupId: 1,
+        groupId,
         groupName: groupName,
         date: formattedSchedule,
       });
@@ -131,15 +126,16 @@ const Calendar = ({ groupName }: { groupName: string }) => {
           <View>
             {renderCells(
               state.currentMonth,
-              stompHandlerRef,
+              socketHandlerRef,
               userDateRanges,
               userColors
             )}
           </View>
         </View>
 
-        {renderUserLegend(userColors, currentUserId, userNicknames)}
+        {renderUserLegend(userColors, String(userValue.id), userNicknames)}
       </View>
+
       <View style={styles.overlappingDatesContainer}>
         <Text style={styles.subtitle}>모두가 가능한 날짜</Text>
         {renderOverlappingDates({
@@ -185,13 +181,8 @@ const Calendar = ({ groupName }: { groupName: string }) => {
           </View>
         </View>
       </Modal>
-      <View
-        style={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-        }}
-      >
+
+      <View style={styles.submitContainer}>
         <TouchableOpacity style={styles.submit} onPress={handleScheduleConfirm}>
           <Text style={styles.submitText}>일정확정</Text>
         </TouchableOpacity>
