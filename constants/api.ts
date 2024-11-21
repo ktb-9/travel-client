@@ -9,12 +9,12 @@ export const SUB_ENDPOINT = "/topic/calendar";
 export const PUB_ENDPOINT = "/app/calendar";
 export const END_POINTS = {
   LOGIN: "/auth/oauth/kakao/callback",
-  SCHEDULE: "/api/schedule",
+  SCHEDULE: "trip",
   ADDGROUP: "/group",
   GETGROUP: (groupId: number) => `group/${groupId}`,
   GETMEMBER: (groupId: number) => `group/${groupId}/members`,
   POSTLINK: (groupId: number) => `group/invite/${groupId}`,
-  trip: (groupId: number) => `/api/trip/${groupId}`,
+  trip: (tripId: number) => `trip/${tripId}`,
   postTrip: "/api/trip",
   postPayment: "/api/payment",
   payment: (groupId: number) => `/api/payment/${groupId}`,

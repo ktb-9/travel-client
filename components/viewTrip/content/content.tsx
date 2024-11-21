@@ -10,9 +10,12 @@ import tripQuery from "@/hooks/api/tripQuery";
 import { defaults } from "@/constants/default";
 import Group from "../group/group";
 import TripPlan from "../tripPlan/tripPlan";
+import { useRecoilValue } from "recoil";
+import tripIdState from "@/recoil/tripIdState";
 
 const Content = () => {
-  const { data, isLoading, isError } = tripQuery(1);
+  const tripId = useRecoilValue(tripIdState);
+  const { data, isLoading, isError } = tripQuery(tripId);
   if (isLoading) {
     return <ActivityIndicator size="large" color="#0000ff" />;
   }
@@ -26,10 +29,10 @@ const Content = () => {
       <View style={styles.background}>
         <Image source={defaults.image} style={styles.image} />
         <View style={styles.overlay} />
-        <Group data={data.data} />
+        <Group data={data} />
       </View>
       <View style={styles.planContainer}>
-        <TripPlan data={data.data} />
+        <TripPlan data={data} />
       </View>
     </View>
   );

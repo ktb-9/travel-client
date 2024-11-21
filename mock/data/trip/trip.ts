@@ -2,6 +2,7 @@ export const tripData = {
   date: "2024.11.05~2024.11.08",
   groupName: "청바지",
   groupId: 1,
+  groupThumbnail: "",
   days: [
     {
       day: 1,
