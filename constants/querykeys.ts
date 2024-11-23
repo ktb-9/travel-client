@@ -6,5 +6,6 @@ export const queryKeys = {
   getMember: ["getMember"] as const,
   getInvite: ["getInvite"] as const,
   getTrip: ["getTrip"] as const,
+  getMyTrip: ["getMyTrip"] as const,
   getPayment: ["getPayment"] as const,
 } as const;

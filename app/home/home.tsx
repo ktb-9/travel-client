@@ -5,8 +5,8 @@ import { useTheme } from "@/hooks/useTheme";
 import HotPlace from "@/components/common/hotplace/hotplace";
 import UpComming from "@/components/common/upcomming/upcomming";
 import History from "@/components/common/history/history";
-import styles from "./styles";
 import Intro from "@/components/common/intro/intro";
+import styles from "./styles";
 
 export default function HomeScreen() {
   const { isDarkMode, toggleTheme } = useTheme();

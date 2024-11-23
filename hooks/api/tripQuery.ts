@@ -4,7 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 
 const tripQuery = (tripId: number) => {
   return useQuery({
-    queryKey: queryKeys.getTrip,
+    queryKey: [...queryKeys.getTrip, tripId],
     queryFn: () => fetchTrip(tripId),
   });
 };
