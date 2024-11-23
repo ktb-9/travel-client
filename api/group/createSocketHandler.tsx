@@ -1,5 +1,5 @@
 import { Socket, io } from "socket.io-client";
-import { AXIOS_BASE_URL, SERVER_URL } from "@/constants/api";
+import { AXIOS_BASE_URL } from "@/constants/api";
 import { Moment } from "moment";
 
 interface DateRange {

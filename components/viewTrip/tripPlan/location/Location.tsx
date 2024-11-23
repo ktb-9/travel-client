@@ -32,6 +32,7 @@ const Locations = (
   const fadeAnim = useRef(new Animated.Value(0)).current;
   const [isEditModalVisible, setIsEditModalVisible] = useState(false);
   const [locationValue, setLocationValue] = useState<Location>(() => location);
+  console.log(locationValue);
   useEffect(() => {
     Animated.timing(fadeAnim, {
       toValue: 1,
@@ -139,7 +140,7 @@ const Locations = (
           <View style={styles.badgeContainer}>
             <View style={styles.timeOverlay}>
               <MaterialIcons name="access-time" size={14} color="#fff" />
-              <Text style={styles.visitTime}>{locationValue.visitTime}</Text>
+              <Text style={styles.visitTime}>{locationValue.visit_time}</Text>
             </View>
             <View style={styles.categoryBadge}>
               <Text style={styles.categoryText}>{locationValue.category}</Text>

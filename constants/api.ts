@@ -1,21 +1,18 @@
-export const BASE_URL =
-  "http://healthkungya.s3-website.ap-northeast-2.amazonaws.com";
-export const REDIRECT_URI = `${BASE_URL}/oauth/kakao/callback`;
+export const BASE_URL = process.env.EXPO_PUBLIC_BASE_URL;
+export const REDIRECT_URI: any = process.env.EXPO_PUBLIC_REDIRECT_URI;
 
-export const AXIOS_BASE_URL = "http://localhost:8000";
-export const MAP_KEY = "38789b5f2f2e16d6229dbc25dc0c776b";
-export const SERVER_URL = "http://localhost:8080/ws";
-export const SUB_ENDPOINT = "/topic/calendar";
-export const PUB_ENDPOINT = "/app/calendar";
+export const AXIOS_BASE_URL = process.env.EXPO_PUBLIC_AXIOS_BASE_URL;
+export const MAP_KEY = process.env.EXPO_PUBLIC_MAP_KEY;
 export const END_POINTS = {
   LOGIN: "/auth/oauth/kakao/callback",
-  SCHEDULE: "/api/schedule",
+  SCHEDULE: "trip",
   ADDGROUP: "/group",
   GETGROUP: (groupId: number) => `group/${groupId}`,
   GETMEMBER: (groupId: number) => `group/${groupId}/members`,
   POSTLINK: (groupId: number) => `group/invite/${groupId}`,
-  trip: (groupId: number) => `/api/trip/${groupId}`,
+  trip: (tripId: number) => `trip/${tripId}`,
   postTrip: "/api/trip",
+  MYTRIP: "trip/mytrip",
   postPayment: "/api/payment",
   payment: (groupId: number) => `/api/payment/${groupId}`,
 } as const;

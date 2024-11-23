@@ -10,7 +10,7 @@ export interface Location {
   locationId: number;
   name: string;
   address: string;
-  visitTime: string;
+  visit_time: string;
   thumbnail: string;
   category: string;
   hashtag: string;
