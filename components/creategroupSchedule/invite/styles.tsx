@@ -11,16 +11,7 @@ const styles = StyleSheet.create({
     width: "100%",
     marginLeft: "20%",
   },
-  addCompanion: {
-    backgroundColor: "#A7F1ED",
-    width: 70,
-    height: 25,
-    borderRadius: 20,
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  buttonText: { color: "#FFFFFF", fontWeight: "bold", fontSize: 11 },
+
   invitedWrapper: {
     padding: 30,
     width: "80%",

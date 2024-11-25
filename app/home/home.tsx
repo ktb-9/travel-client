@@ -2,10 +2,10 @@ import React from "react";
 import { SafeAreaView, Text, ScrollView } from "react-native";
 import Header from "@/components/header/header";
 import { useTheme } from "@/hooks/useTheme";
-import HotPlace from "@/components/common/hotplace/hotplace";
-import UpComming from "@/components/common/upcomming/upcomming";
-import History from "@/components/common/history/history";
-import Intro from "@/components/common/intro/intro";
+import HotPlace from "@/components/home/hotplace/hotplace";
+import UpComming from "@/components/home/upcomming/upcomming";
+import History from "@/components/home/history/history";
+import Intro from "@/components/home/intro/intro";
 import styles from "./styles";
 
 export default function HomeScreen() {

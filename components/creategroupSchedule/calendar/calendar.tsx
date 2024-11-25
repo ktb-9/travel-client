@@ -19,6 +19,7 @@ import { useCalendarState } from "@/reducers/useCalendarState";
 import { Socket } from "socket.io-client";
 import createSocketHandler from "../../../api/group/createSocketHandler";
 import authState from "@/recoil/authState";
+import Button from "@/components/common/Button/button";
 
 interface CalendarProps {
   groupName: string;
@@ -183,9 +184,11 @@ const Calendar = ({ groupName, groupId }: CalendarProps) => {
       </Modal>
 
       <View style={styles.submitContainer}>
-        <TouchableOpacity style={styles.submit} onPress={handleScheduleConfirm}>
-          <Text style={styles.submitText}>일정확정</Text>
-        </TouchableOpacity>
+        <Button
+          variant="primary"
+          title="일정확정"
+          onPress={handleScheduleConfirm}
+        />
       </View>
     </SafeAreaView>
   );

@@ -13,6 +13,7 @@ import { Ionicons } from "@expo/vector-icons";
 import LocationItem from "../../location/locationItem";
 import { DayPlan } from "@/types/createTrip/createTrip";
 import useTripPlan from "@/hooks/createTrip/useTripPlan";
+import Button from "@/components/common/Button/button";
 
 const Content = ({ dayPlan }: { dayPlan: DayPlan }) => {
   const router = useRouter();
@@ -45,9 +46,11 @@ const Content = ({ dayPlan }: { dayPlan: DayPlan }) => {
             style={styles.locationInput}
             placeholder="장소/맞집/숙소/검색"
           />
-          <TouchableOpacity onPress={handleMap}>
-            <Ionicons name="location" size={20} color="#0066cc" />
-          </TouchableOpacity>
+          <Button
+            variant="icon"
+            icon={{ name: "location", size: 20, color: "#0066cc" }}
+            onPress={handleMap}
+          />
         </View>
         <ScrollView style={styles.locationsList}>
           {dayPlan.locations.map((location, index) => (

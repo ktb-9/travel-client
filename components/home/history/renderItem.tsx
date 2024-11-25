@@ -1,6 +1,6 @@
 import { Animated, Image, Text, View, Dimensions } from "react-native";
 import styles from "./styles";
-import { historyState } from "@/types/common/main";
+import { historyState } from "@/types/home/main";
 
 const { width } = Dimensions.get("window");
 const CARD_WIDTH = width * 0.42;

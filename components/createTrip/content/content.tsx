@@ -4,6 +4,7 @@ import { useRecoilValue } from "recoil";
 import { createSchdeuleState } from "@/recoil/createSchdeuleState";
 import { useFonts } from "expo-font";
 import Plan from "../plan/plan";
+import Button from "@/components/common/Button/button";
 
 const Content = () => {
   const groupInfo = useRecoilValue(createSchdeuleState);
@@ -19,9 +20,11 @@ const Content = () => {
       <View style={styles.titleContainer}>
         <View style={styles.titleWrapper}>
           <Text style={styles.groupName}>{groupInfo.groupName}</Text>
-          <TouchableOpacity style={styles.editButton}>
-            <Text style={styles.editText}>편집</Text>
-          </TouchableOpacity>
+          <Button
+            variant="secondary"
+            title="편집"
+            onPress={() => console.log("hello")}
+          />
         </View>
         <Text style={styles.date}>{groupInfo.date}</Text>
       </View>
