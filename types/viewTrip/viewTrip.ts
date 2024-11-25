@@ -7,7 +7,7 @@ export interface groupState {
   date: string;
 }
 export interface Location {
-  locationId: number;
+  location_id: number;
   name: string;
   address: string;
   visit_time: string;
@@ -64,7 +64,7 @@ export interface LocationItem {
   name: string;
   address: string;
   category: string;
-  visitTime: string;
+  visit_time: string;
   hashtag: string;
   thumbnail: string;
 }

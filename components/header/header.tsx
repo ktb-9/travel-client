@@ -11,6 +11,7 @@ import Button from "../common/Button/button";
 
 const Header = ({ toggle, isDark }: header) => {
   const userValue = useRecoilValue(authState);
+  console.log(userValue);
   const { mutate } = addGroupMutation();
   const router = useRouter();
   const profileImageUrl = userValue?.profileImage.replace(
