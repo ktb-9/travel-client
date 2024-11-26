@@ -198,7 +198,7 @@ const styles = StyleSheet.create({
     padding: 15,
     borderRadius: 10,
     alignItems: "center",
-    marginTop: 10,
+    marginBottom: 30,
   },
   mapSelectButtonText: {
     color: "white",

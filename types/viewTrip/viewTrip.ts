@@ -94,3 +94,8 @@ export interface addSearchResultsProps {
   searchResults: SearchResult[];
   onSelectPlace: (place: SearchResult) => void;
 }
+export interface LocationsProps {
+  location: Location;
+  day: number;
+  setDays: React.Dispatch<React.SetStateAction<planState[]>>;
+}

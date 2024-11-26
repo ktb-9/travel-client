@@ -50,26 +50,15 @@ const TripPlan: React.FC<TripPlanProps> = ({ data }) => {
 
   if (!fontsLoaded) return null;
 
-  // days 배열이 비어있거나 undefined인 경우 처리
-  if (days.length === 0) {
-    return (
+  return (
+    <View style={styles.container}>
       <View style={styles.emptyContainer}>
         <TouchableOpacity style={styles.addDayButton} onPress={addDays}>
-          <MaterialIcons name="add" size={40} color="#007AFF" />
           <Text style={styles.addDayText}>Day 추가</Text>
         </TouchableOpacity>
         <MaterialIcons name="calendar-today" size={80} color="#CCCCCC" />
         <Text style={styles.emptyText}>아직 여행 일정이 없습니다.</Text>
       </View>
-    );
-  }
-
-  return (
-    <View style={styles.container}>
-      <TouchableOpacity style={styles.addDayButton} onPress={addDays}>
-        <MaterialIcons name="add" size={40} color="#007AFF" />
-        <Text style={styles.addDayText}>Day 추가</Text>
-      </TouchableOpacity>
       <ScrollView
         horizontal
         pagingEnabled

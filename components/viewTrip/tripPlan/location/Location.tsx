@@ -1,14 +1,6 @@
-import { Location, planState } from "@/types/viewTrip/viewTrip";
+import { Location, LocationsProps } from "@/types/viewTrip/viewTrip";
 import { Ionicons, MaterialIcons, AntDesign } from "@expo/vector-icons";
-import {
-  Animated,
-  Image,
-  Pressable,
-  Text,
-  TouchableOpacity,
-  View,
-  Alert,
-} from "react-native";
+import { Image, Text, TouchableOpacity, View, Alert } from "react-native";
 import { useEffect, useRef, useState } from "react";
 import { LinearGradient } from "expo-linear-gradient";
 import styles from "./styles";
@@ -19,49 +11,18 @@ import { useRecoilState, useRecoilValue } from "recoil";
 import { destinationState } from "@/recoil/destinationState";
 import tripIdState from "@/recoil/tripIdState";
 
-interface LocationsProps {
-  location: Location;
-  day: number;
-  setDays: React.Dispatch<React.SetStateAction<planState[]>>;
-}
-
 const Locations: React.FC<LocationsProps> = ({ location, day, setDays }) => {
   const router = useRouter();
   const [, setLocation] = useRecoilState(destinationState);
   const tripId = useRecoilValue(tripIdState);
   const { mutate } = deleteLocationMutation(tripId);
-  const scaleAnim = useRef(new Animated.Value(1)).current;
-  const fadeAnim = useRef(new Animated.Value(0)).current;
   const [isEditModalVisible, setIsEditModalVisible] = useState(false);
   const [locationValue, setLocationValue] = useState<Location>(location);
 
   useEffect(() => {
-    Animated.timing(fadeAnim, {
-      toValue: 1,
-      duration: 400,
-      useNativeDriver: true,
-    }).start();
     setLocationValue(location);
   }, [location]);
 
-  const onPressIn = () => {
-    Animated.spring(scaleAnim, {
-      toValue: 0.97,
-      friction: 8,
-      tension: 100,
-      useNativeDriver: true,
-    }).start();
-  };
-
-  const onPressOut = () => {
-    Animated.spring(scaleAnim, {
-      toValue: 1,
-      friction: 8,
-      tension: 100,
-      useNativeDriver: true,
-    }).start();
-  };
-  console.log("location", locationValue);
   const onDelete = (locationId: number) => {
     mutate(locationId);
 
@@ -113,21 +74,8 @@ const Locations: React.FC<LocationsProps> = ({ location, day, setDays }) => {
   };
 
   return (
-    <Animated.View
-      style={[
-        styles.container,
-        {
-          opacity: fadeAnim,
-          transform: [{ scale: scaleAnim }],
-        },
-      ]}
-    >
-      <Pressable
-        style={styles.locationCard}
-        onPressIn={onPressIn}
-        onPressOut={onPressOut}
-        android_ripple={{ color: "rgba(0, 0, 0, 0.05)" }}
-      >
+    <View style={styles.container}>
+      <View style={styles.locationCard}>
         <View style={styles.imageContainer}>
           <Image
             source={{ uri: locationValue.thumbnail }}
@@ -192,7 +140,7 @@ const Locations: React.FC<LocationsProps> = ({ location, day, setDays }) => {
             </LinearGradient>
           </TouchableOpacity>
         </View>
-      </Pressable>
+      </View>
 
       <EditModal
         visible={isEditModalVisible}
@@ -201,7 +149,7 @@ const Locations: React.FC<LocationsProps> = ({ location, day, setDays }) => {
         day={day}
         setLocationValue={setLocationValue}
       />
-    </Animated.View>
+    </View>
   );
 };
 

@@ -42,18 +42,19 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   addDayButton: {
+    position: "absolute",
+    top: -45,
     width: 100,
+    height: 40,
     justifyContent: "center",
     alignItems: "center",
-    paddingVertical: 20,
-    borderStyle: "dashed",
+
     borderWidth: 2,
-    borderColor: "#007AFF",
+    backgroundColor: "black",
     borderRadius: 10,
   },
   addDayText: {
-    color: "#007AFF",
-    marginTop: 10,
+    color: "#fff",
     fontWeight: "bold",
   },
 });
