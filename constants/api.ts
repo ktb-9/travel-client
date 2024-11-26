@@ -11,7 +11,7 @@ export const END_POINTS = {
   GETMEMBER: (groupId: number) => `group/${groupId}/members`,
   POSTLINK: (groupId: number) => `group/invite/${groupId}`,
   trip: (tripId: number) => `trip/${tripId}`,
-  postTrip: "/api/trip",
+  ADDLOCATION: "trip/location",
   MYTRIP: "trip/mytrip",
   postPayment: "/api/payment",
   payment: (groupId: number) => `/api/payment/${groupId}`,

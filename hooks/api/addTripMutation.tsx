@@ -1,13 +1,18 @@
-import postTrip from "@/api/mockApi/trip/postTrip";
-import { useMutation } from "@tanstack/react-query";
+import postTrip from "@/api/trip/postTrip";
+import { queryKeys } from "@/constants/querykeys";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 interface response {
   message: string;
 }
-const addTripMutation = () => {
+const addTripMutation = (tripId: number) => {
+  const queryClient = useQueryClient();
   return useMutation({
     mutationFn: postTrip,
     onSuccess: (data: response) => {
       alert(data.message);
+      queryClient.invalidateQueries({
+        queryKey: [...queryKeys.getTrip, tripId],
+      });
     },
     onError: (error) => {
       alert(error);

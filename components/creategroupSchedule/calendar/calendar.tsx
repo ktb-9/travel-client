@@ -19,6 +19,8 @@ import { useCalendarState } from "@/reducers/useCalendarState";
 import { Socket } from "socket.io-client";
 import createSocketHandler from "../../../api/group/createSocketHandler";
 import authState from "@/recoil/authState";
+import Button from "@/components/common/Button/button";
+import scheduleMutations from "@/hooks/api/scheduleMutation";
 
 interface CalendarProps {
   groupName: string;
@@ -102,19 +104,20 @@ const Calendar = ({ groupName, groupId }: CalendarProps) => {
     actions.setCurrentMonth(state.currentMonth.clone().add(direction, "month"));
   };
 
-  const handleScheduleConfirm = () => {
+  const handleSubmit = async () => {
     if (state.confirmedTrip) {
       const formattedSchedule = `${moment(state.confirmedTrip.startDate).format(
         "YYYY.MM.DD"
       )}~${moment(state.confirmedTrip.endDate).format("YYYY.MM.DD")}`;
-      setSchedule({
+      const body = {
         groupId,
         groupName: groupName,
         date: formattedSchedule,
-      });
+      };
+      mutate(body);
     }
-    router.push("/createTrip/createTrip");
   };
+  const { mutate } = scheduleMutations();
 
   return (
     <SafeAreaView style={styles.container}>
@@ -183,9 +186,7 @@ const Calendar = ({ groupName, groupId }: CalendarProps) => {
       </Modal>
 
       <View style={styles.submitContainer}>
-        <TouchableOpacity style={styles.submit} onPress={handleScheduleConfirm}>
-          <Text style={styles.submitText}>일정확정</Text>
-        </TouchableOpacity>
+        <Button variant="primary" title="일정확정" onPress={handleSubmit} />
       </View>
     </SafeAreaView>
   );

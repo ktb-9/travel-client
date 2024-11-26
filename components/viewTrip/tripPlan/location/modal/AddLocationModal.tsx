@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import {
   Modal,
   View,
@@ -9,6 +9,7 @@ import {
   KeyboardAvoidingView,
   Platform,
 } from "react-native";
+import MapView, { Marker } from "react-native-maps";
 import { MaterialIcons } from "@expo/vector-icons";
 import { useDebouncedSearch } from "@/hooks/map/useDebounceSearch";
 import { ImagePickerSection } from "./ImagePickerSection";
@@ -24,35 +25,81 @@ import {
 import { SearchResult } from "@/types/map/map";
 import { categoryMap } from "@/constants/default";
 import addTripMutation from "@/hooks/api/addTripMutation";
+import { useRecoilValue } from "recoil";
+import tripIdState from "@/recoil/tripIdState";
+import { MAP_KEY } from "@/constants/api";
+import MarkerList from "./markerList";
+
+const KAKAO_API_KEY = MAP_KEY;
+
+// 리버스 지오코딩 함수
+const useReverseGeocode = async (latitude: number, longitude: number) => {
+  try {
+    const response = await fetch(
+      `https://dapi.kakao.com/v2/local/geo/coord2address.json?x=${longitude}&y=${latitude}`,
+      {
+        headers: {
+          Authorization: `KakaoAK ${KAKAO_API_KEY}`,
+        },
+      }
+    );
+
+    const data = await response.json();
+
+    if (data.documents && data.documents.length > 0) {
+      const addressDocument = data.documents[0];
+      return {
+        place_name:
+          addressDocument.road_address?.building_name ||
+          addressDocument.address.address_name,
+        address_name: addressDocument.address.address_name,
+        x: longitude.toString(),
+        y: latitude.toString(),
+        category_group_code: addressDocument.category_group_code || "",
+      };
+    }
+    return null;
+  } catch (error) {
+    console.error("리버스 지오코딩 중 오류 발생:", error);
+    return null;
+  }
+};
 
 const AddLocationModal: React.FC<AddLocationModalProps> = ({
   visible,
   onClose,
   day,
-  setLocationValue,
 }) => {
   const initialLocationState: LocationItem = {
-    locationId: 20,
     name: "",
     address: "",
     category: "",
-    visitTime: "",
+    visit_time: "",
     hashtag: "",
     thumbnail: "",
   };
 
+  const [mapSearchQuery, setMapSearchQuery] = useState("");
+  const [mapSearchResults, setMapSearchResults] = useState<SearchResult[]>([]);
+  const [mapMarkers, setMapMarkers] = useState<SearchResult[]>([]);
+  const tripId = useRecoilValue(tripIdState);
   const [newLocation, setNewLocation] = useState<AddLocationState>({
-    groupId: 1,
+    tripId,
     day,
     destination: "",
     locations: [initialLocationState],
   });
 
+  const mapViewRef = useRef<MapView>(null);
   const [isSearching, setIsSearching] = useState(false);
   const [searchResults, setSearchResults] = useState<SearchResult[]>([]);
   const [showSearchResults, setShowSearchResults] = useState(false);
   const [currentLocationIndex, setCurrentLocationIndex] = useState(0);
-  const { mutate } = addTripMutation();
+  const { mutate } = addTripMutation(tripId);
+
+  // 지도 선택 모드 상태 추가
+  const [isMapSelectionMode, setIsMapSelectionMode] = useState(false);
+
   const handleSearch = (text: string) => {
     updateLocationField(currentLocationIndex, "name", text);
     if (text.length >= 2) {
@@ -122,29 +169,85 @@ const AddLocationModal: React.FC<AddLocationModalProps> = ({
     }
   };
 
+  // 지도 선택 모드 토글
+  const toggleMapSelectionMode = () => {
+    setIsMapSelectionMode(!isMapSelectionMode);
+  };
+
+  const handleMapLocationSelect = (event: any) => {
+    const { latitude, longitude } = event.nativeEvent.coordinate;
+
+    // 현재 마커 목록에서 클릭한 위치와 가장 가까운 마커 찾기
+    const closestMarker = mapMarkers.reduce((closest: any, marker: any) => {
+      const markerLat = parseFloat(marker.y);
+      const markerLng = parseFloat(marker.x);
+      const distance = Math.sqrt(
+        Math.pow(markerLat - latitude, 2) + Math.pow(markerLng - longitude, 2)
+      );
+
+      return distance < (closest?.distance || Infinity)
+        ? { marker, distance }
+        : closest;
+    }, null);
+
+    if (closestMarker) {
+      // 가장 가까운 마커의 정보로 location 업데이트
+      updateLocationField(
+        currentLocationIndex,
+        "name",
+        closestMarker.marker.place_name
+      );
+      updateLocationField(
+        currentLocationIndex,
+        "address",
+        closestMarker.marker.address_name
+      );
+      updateLocationField(
+        currentLocationIndex,
+        "category",
+        categoryMap[closestMarker.marker.category_group_code] || "기타"
+      );
+
+      // 지도 선택 모드 종료
+      setIsMapSelectionMode(false);
+    } else {
+      // 검색 결과 마커가 없는 경우 기존 리버스 지오코딩 로직 사용
+      const reverseGeocode = async () => {
+        const locationInfo = await useReverseGeocode(latitude, longitude);
+        if (locationInfo) {
+          updateLocationField(
+            currentLocationIndex,
+            "name",
+            locationInfo.place_name
+          );
+          updateLocationField(
+            currentLocationIndex,
+            "address",
+            locationInfo.address_name
+          );
+          updateLocationField(
+            currentLocationIndex,
+            "category",
+            categoryMap[locationInfo.category_group_code] || "기타"
+          );
+
+          setIsMapSelectionMode(false);
+        }
+      };
+      reverseGeocode();
+    }
+  };
   const handleSubmit = () => {
     const currentLocation = newLocation.locations[currentLocationIndex];
     if (!currentLocation.name || !currentLocation.address) {
       alert("장소명과 주소는 필수입니다.");
       return;
     }
-
-    // 여기에 데이터 제출 로직 추가
-
-    const locationToSet = {
-      locationId: newLocation.locations[currentLocationIndex].locationId,
-      name: newLocation.locations[currentLocationIndex].name,
-      address: newLocation.locations[currentLocationIndex].address,
-      category: newLocation.locations[currentLocationIndex].category,
-      visitTime: newLocation.locations[currentLocationIndex].visitTime,
-      hashtag: newLocation.locations[currentLocationIndex].hashtag,
-      thumbnail: newLocation.locations[currentLocationIndex].thumbnail,
-    };
-    setLocationValue((prev) => ({ ...prev, locationToSet }));
+    console.log(newLocation);
     mutate({ body: newLocation });
     onClose();
     setNewLocation({
-      groupId: 0,
+      tripId,
       day,
       destination: "",
       locations: [initialLocationState],
@@ -153,6 +256,38 @@ const AddLocationModal: React.FC<AddLocationModalProps> = ({
   };
 
   const currentLocation = newLocation.locations[currentLocationIndex];
+
+  const handleMapSearch = (text: string) => {
+    setMapSearchQuery(text);
+    if (text.length >= 2) {
+      useDebouncedSearch({
+        searchQuery: text,
+        setIsSearching,
+        setSearchResults: setMapSearchResults,
+        setMapMarkers: setMapMarkers,
+      });
+    } else {
+      setMapSearchResults([]);
+      setMapMarkers([]);
+    }
+  };
+
+  const handleMapSearchResultSelect = (result: SearchResult) => {
+    // 선택된 장소로 MapView의 region 이동
+    mapViewRef.current?.animateToRegion({
+      latitude: parseFloat(result.y),
+      longitude: parseFloat(result.x),
+      latitudeDelta: 0.01,
+      longitudeDelta: 0.01,
+    });
+
+    // 검색 결과 마커 추가
+    setMapMarkers([result]);
+
+    // 검색 결과 초기화
+    setMapSearchQuery("");
+    setMapSearchResults([]);
+  };
 
   return (
     <Modal
@@ -232,6 +367,14 @@ const AddLocationModal: React.FC<AddLocationModalProps> = ({
               </View>
             </View>
 
+            {/* 지도로 선택 버튼 추가 */}
+            <TouchableOpacity
+              style={styles.mapSelectButton}
+              onPress={toggleMapSelectionMode}
+            >
+              <Text style={styles.mapSelectButtonText}>지도로 장소 선택</Text>
+            </TouchableOpacity>
+
             <FormField
               label="주소"
               value={currentLocation.address}
@@ -254,9 +397,9 @@ const AddLocationModal: React.FC<AddLocationModalProps> = ({
 
             <FormField
               label="방문 예정 시간"
-              value={currentLocation.visitTime}
+              value={currentLocation.visit_time}
               onChangeText={(text) =>
-                updateLocationField(currentLocationIndex, "visitTime", text)
+                updateLocationField(currentLocationIndex, "visit_time", text)
               }
               placeholder="예: 1시간"
             />
@@ -283,6 +426,69 @@ const AddLocationModal: React.FC<AddLocationModalProps> = ({
           <Footer onCancel={onClose} onSubmit={handleSubmit} />
         </View>
       </KeyboardAvoidingView>
+
+      {/* 지도 선택 모드일 때 전체 화면 MapView */}
+      {isMapSelectionMode && (
+        <Modal
+          visible={isMapSelectionMode}
+          animationType="slide"
+          transparent={false}
+        >
+          <View style={{ flex: 1 }}>
+            {/* 검색 input 추가 */}
+            <View style={styles.mapSearchContainer}>
+              <TextInput
+                style={styles.mapSearchInput}
+                placeholder="장소를 검색하세요"
+                value={mapSearchQuery}
+                onChangeText={handleMapSearch}
+              />
+              {mapSearchResults.length > 0 && (
+                <ScrollView style={styles.mapSearchResultsContainer}>
+                  {mapSearchResults.map((result) => (
+                    <TouchableOpacity
+                      key={result.id}
+                      style={styles.mapSearchResultItem}
+                      onPress={() => handleMapSearchResultSelect(result)}
+                    >
+                      <Text style={styles.mapSearchResultText}>
+                        {result.place_name}
+                      </Text>
+                      <Text style={styles.mapSearchResultSubtext}>
+                        {result.address_name}
+                      </Text>
+                    </TouchableOpacity>
+                  ))}
+                </ScrollView>
+              )}
+            </View>
+
+            <MapView
+              ref={mapViewRef}
+              style={{ flex: 1 }}
+              initialRegion={{
+                latitude: 37.5665, // 서울 기본 위치
+                longitude: 126.978,
+                latitudeDelta: 0.1,
+                longitudeDelta: 0.1,
+              }}
+              onPress={handleMapLocationSelect}
+            >
+              <MarkerList
+                markers={mapMarkers}
+                onMarkerPress={handleMapSearchResultSelect}
+              />
+            </MapView>
+
+            <TouchableOpacity
+              style={styles.closeMapButton}
+              onPress={toggleMapSelectionMode}
+            >
+              <Text>취소</Text>
+            </TouchableOpacity>
+          </View>
+        </Modal>
+      )}
     </Modal>
   );
 };

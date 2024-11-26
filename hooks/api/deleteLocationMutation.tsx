@@ -1,17 +1,28 @@
-import deleteLocation from "@/api/mockApi/trip/deleteLocation";
-import { useMutation } from "@tanstack/react-query";
-interface response {
+import deleteLocation from "@/api/trip/deleteLocation";
+import { queryKeys } from "@/constants/querykeys";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+
+interface Response {
   message: string;
 }
-const deleteLocationMutation = () => {
+
+const deleteLocationMutation = (tripId: number) => {
+  const queryClient = useQueryClient();
+
   return useMutation({
     mutationFn: deleteLocation,
-    onSuccess: (data: response) => {
+    onSuccess: (data: Response) => {
       alert(data.message);
+      if (tripId) {
+        queryClient.invalidateQueries({
+          queryKey: [queryKeys.getTrip, tripId],
+        });
+      }
     },
-    onError: (error) => {
-      alert(error);
+    onError: (error: Error) => {
+      alert(error.message);
     },
   });
 };
+
 export default deleteLocationMutation;

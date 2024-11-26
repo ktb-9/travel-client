@@ -1,66 +1,39 @@
-import { Location } from "@/types/viewTrip/viewTrip";
+import { Location, LocationsProps } from "@/types/viewTrip/viewTrip";
 import { Ionicons, MaterialIcons, AntDesign } from "@expo/vector-icons";
-import {
-  Animated,
-  Image,
-  Pressable,
-  Text,
-  TouchableOpacity,
-  View,
-  Alert,
-} from "react-native";
+import { Image, Text, TouchableOpacity, View, Alert } from "react-native";
 import { useEffect, useRef, useState } from "react";
 import { LinearGradient } from "expo-linear-gradient";
 import styles from "./styles";
 import EditModal from "../modal/editModal";
-import AddLocationModal from "./modal/AddLocationModal";
 import deleteLocationMutation from "@/hooks/api/deleteLocationMutation";
 import { useRouter } from "expo-router";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import { destinationState } from "@/recoil/destinationState";
+import tripIdState from "@/recoil/tripIdState";
 
-const Locations = (
-  location: Location,
-  day: number,
-  isAddModalVisible: boolean,
-  setIsAddModalVisible: (value: boolean) => void
-) => {
+const Locations: React.FC<LocationsProps> = ({ location, day, setDays }) => {
   const router = useRouter();
   const [, setLocation] = useRecoilState(destinationState);
-  const { mutate } = deleteLocationMutation();
-  const scaleAnim = useRef(new Animated.Value(1)).current;
-  const fadeAnim = useRef(new Animated.Value(0)).current;
+  const tripId = useRecoilValue(tripIdState);
+  const { mutate } = deleteLocationMutation(tripId);
   const [isEditModalVisible, setIsEditModalVisible] = useState(false);
-  const [locationValue, setLocationValue] = useState<Location>(() => location);
-  console.log(locationValue);
+  const [locationValue, setLocationValue] = useState<Location>(location);
+
   useEffect(() => {
-    Animated.timing(fadeAnim, {
-      toValue: 1,
-      duration: 400,
-      useNativeDriver: true,
-    }).start();
     setLocationValue(location);
-  }, []);
+  }, [location]);
 
-  const onPressIn = () => {
-    Animated.spring(scaleAnim, {
-      toValue: 0.97,
-      friction: 8,
-      tension: 100,
-      useNativeDriver: true,
-    }).start();
-  };
-
-  const onPressOut = () => {
-    Animated.spring(scaleAnim, {
-      toValue: 1,
-      friction: 8,
-      tension: 100,
-      useNativeDriver: true,
-    }).start();
-  };
   const onDelete = (locationId: number) => {
     mutate(locationId);
+
+    setDays((prev) =>
+      prev.map((value) => ({
+        ...value,
+        locations: value.locations.filter(
+          (item) => item.location_id !== locationId
+        ),
+      }))
+    );
   };
 
   const handleDelete = () => {
@@ -71,7 +44,7 @@ const Locations = (
       },
       {
         text: "삭제",
-        onPress: () => onDelete(location.locationId),
+        onPress: () => onDelete(location.location_id),
         style: "destructive",
       },
     ]);
@@ -94,26 +67,15 @@ const Locations = (
       </View>
     );
   };
+
   const handleWebView = () => {
     router.push("/locationInfo/locationInfo");
     setLocation(locationValue.name);
   };
+
   return (
-    <Animated.View
-      style={[
-        styles.container,
-        {
-          opacity: fadeAnim,
-          transform: [{ scale: scaleAnim }],
-        },
-      ]}
-    >
-      <Pressable
-        style={styles.locationCard}
-        onPressIn={onPressIn}
-        onPressOut={onPressOut}
-        android_ripple={{ color: "rgba(0, 0, 0, 0.05)" }}
-      >
+    <View style={styles.container}>
+      <View style={styles.locationCard}>
         <View style={styles.imageContainer}>
           <Image
             source={{ uri: locationValue.thumbnail }}
@@ -178,7 +140,7 @@ const Locations = (
             </LinearGradient>
           </TouchableOpacity>
         </View>
-      </Pressable>
+      </View>
 
       <EditModal
         visible={isEditModalVisible}
@@ -187,14 +149,7 @@ const Locations = (
         day={day}
         setLocationValue={setLocationValue}
       />
-
-      <AddLocationModal
-        visible={isAddModalVisible}
-        onClose={() => setIsAddModalVisible(false)}
-        day={day}
-        setLocationValue={setLocationValue}
-      />
-    </Animated.View>
+    </View>
   );
 };
 

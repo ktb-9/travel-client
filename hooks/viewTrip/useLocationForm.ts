@@ -9,10 +9,10 @@ export const useLocationForm = (
 ) => {
   const { mutate } = tripUpdateMutation();
   const [formData, setFormData] = useState({
-    locationId: initialLocation?.locationId || 0,
+    location_id: initialLocation?.location_id || 0,
     name: initialLocation?.name || "",
     address: initialLocation?.address || "",
-    visitTime: initialLocation?.visitTime || "",
+    visit_time: initialLocation?.visit_time || "",
     category: initialLocation?.category || "",
     hashtag: initialLocation?.hashtag || "",
     thumbnail: initialLocation?.thumbnail || "",
@@ -33,7 +33,6 @@ export const useLocationForm = (
     setLocationValue(updatedLocation);
     mutate({
       groupId: 1,
-      locationId: formData.locationId,
       body: updatedLocation,
     });
     await Promise.resolve();

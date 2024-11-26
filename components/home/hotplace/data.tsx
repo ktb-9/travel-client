@@ -1,4 +1,4 @@
-import { HotplaceState } from "@/types/common/main";
+import { HotplaceState } from "@/types/home/main";
 import jeju from "@/assets/images/jeju.gif";
 import busan from "@/assets/images/busan.gif";
 import yeosu from "@/assets/images/yeousu.png";

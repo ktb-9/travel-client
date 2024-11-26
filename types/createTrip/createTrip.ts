@@ -35,5 +35,4 @@ export interface ScheduleData {
   date: string;
   groupId: number;
   groupName: string;
-  days: DayPlan[];
 }

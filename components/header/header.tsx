@@ -7,9 +7,11 @@ import { useRouter } from "expo-router";
 import addGroupMutation from "@/hooks/api/addGroupMutation";
 import { useRecoilValue } from "recoil";
 import authState from "@/recoil/authState";
+import Button from "../common/Button/button";
 
 const Header = ({ toggle, isDark }: header) => {
   const userValue = useRecoilValue(authState);
+  console.log(userValue);
   const { mutate } = addGroupMutation();
   const router = useRouter();
   const profileImageUrl = userValue?.profileImage.replace(
@@ -42,42 +44,33 @@ const Header = ({ toggle, isDark }: header) => {
         </Text>
       </TouchableOpacity>
       <View style={styles.menu}>
-        <TouchableOpacity
-          testID="calendar"
+        <Button
+          variant="icon"
+          icon={{
+            name: "bag-check-outline",
+            size: 24,
+          }}
           onPress={() => router.push("/myTripList/myTripList")}
-          style={styles.addPlan}
-        >
-          <Ionicons
-            name="bag-check-outline"
-            size={24}
-            color={isDark ? "#FFF" : "#000"}
-          />
-        </TouchableOpacity>
-        <TouchableOpacity
-          testID="calendar"
+        />
+        <Button
+          variant="icon"
+          icon={{ name: "image", size: 24 }}
           onPress={() => router.push("/image/image")}
-          style={styles.addPlan}
-        >
-          <Ionicons name="image" size={24} color={isDark ? "#FFF" : "#000"} />
-        </TouchableOpacity>
-        <TouchableOpacity
-          testID="calendar"
+        />
+        <Button
+          variant="icon"
+          icon={{ name: "calendar", size: 24 }}
           onPress={createSchedule}
-          style={styles.addPlan}
-        >
-          <Ionicons
-            name="calendar"
-            size={24}
-            color={isDark ? "#FFF" : "#000"}
-          />
-        </TouchableOpacity>
-        <TouchableOpacity onPress={toggle} style={styles.button}>
-          <Ionicons
-            name={isDark ? "sunny" : "moon"}
-            size={24}
-            color={isDark ? "#FFF" : "#000"}
-          />
-        </TouchableOpacity>
+        />
+        <Button
+          variant="icon"
+          icon={{
+            name: isDark ? "sunny" : "moon",
+            size: 24,
+            color: isDark ? "#FFF" : "#000",
+          }}
+          onPress={toggle}
+        />
       </View>
     </View>
   );

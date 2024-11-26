@@ -8,6 +8,7 @@ import { useGroupSocket } from "@/api/group/useGroupSocket";
 import authState from "@/recoil/authState";
 import postLink from "@/api/group/postLink";
 import groupHostState from "@/recoil/groupHostState";
+import Button from "@/components/common/Button/button";
 type RouteParams = {
   id: string;
 };
@@ -26,9 +27,7 @@ const Invite = () => {
   return (
     <View style={styles.container}>
       <View style={styles.buttonWrapper}>
-        <TouchableOpacity style={styles.addCompanion} onPress={createLink}>
-          <Text style={styles.buttonText}>동행인 추가</Text>
-        </TouchableOpacity>
+        <Button variant="secondary" title="동행인 추가" onPress={createLink} />
       </View>
       <View style={styles.invitedWrapper}>
         <ScrollView contentContainerStyle={styles.listWrapper}>

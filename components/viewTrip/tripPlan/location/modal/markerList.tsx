@@ -1,15 +1,16 @@
-import styles from "@/app/map/styles";
-import { useHandleMarkerPress } from "@/hooks/map/useHandleMarkerPress";
-import { MarkerListProps } from "@/types/map/map";
-import { Ionicons } from "@expo/vector-icons";
-import { Text, View } from "react-native";
+import React from "react";
 import { Marker } from "react-native-maps";
+import { View, Text } from "react-native";
+import { Ionicons } from "@expo/vector-icons";
+import { SearchResult } from "@/types/map/map";
+import styles from "./styles";
 
-const MarkerList = ({
-  markers,
-  setSelectedPlace,
-  setShowModal,
-}: MarkerListProps) => {
+interface MarkerListProps {
+  markers: SearchResult[];
+  onMarkerPress?: (result: SearchResult) => void;
+}
+
+const MarkerList: React.FC<MarkerListProps> = ({ markers, onMarkerPress }) => {
   return (
     <>
       {markers.map((result, index) => (
@@ -19,9 +20,9 @@ const MarkerList = ({
             latitude: parseFloat(result.y),
             longitude: parseFloat(result.x),
           }}
-          onPress={() =>
-            useHandleMarkerPress({ result, setSelectedPlace, setShowModal })
-          }
+          onPress={() => onMarkerPress && onMarkerPress(result)}
+          title={result.place_name}
+          description={result.address_name}
         >
           <View style={styles.markerContainer}>
             <View style={styles.marker}>
@@ -35,4 +36,5 @@ const MarkerList = ({
     </>
   );
 };
+
 export default MarkerList;

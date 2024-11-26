@@ -209,19 +209,6 @@ const styles = StyleSheet.create({
   submitContainer: {
     alignItems: "center",
   },
-  submit: {
-    width: 90,
-    height: 25,
-    borderRadius: 20,
-    backgroundColor: "#B66CD9",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  submitText: {
-    color: "#ffffff",
-    fontWeight: "bold",
-  },
 });
 
 export default styles;

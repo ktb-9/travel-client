@@ -98,7 +98,7 @@ const EditModal = ({
           <View style={styles.inputGroup}>
             <FormField
               label="Visit Time"
-              value={formData.visitTime}
+              value={formData.visit_time}
               onChangeText={(text) =>
                 setFormData((prev) => ({ ...prev, visitTime: text }))
               }

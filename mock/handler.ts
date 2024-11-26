@@ -2,7 +2,7 @@
 import axios from "axios";
 import MockAdapter from "axios-mock-adapter";
 
-import { historyType, upCommingState } from "@/types/common/main";
+import { historyType, upCommingState } from "@/types/home/main";
 import { inviteDataState } from "@/types/createSchedule/createSchedule";
 import { historyData, upCommingData } from "./data/common/main";
 import { inviteData } from "./data/createSchedule.ts/createSchedule";
