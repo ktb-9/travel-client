@@ -27,6 +27,35 @@ const styles = StyleSheet.create({
   paginationDotActive: {
     backgroundColor: "rgba(59, 130, 246, 0.9)",
   },
+  emptyContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    paddingHorizontal: 20,
+    backgroundColor: "#F5F5F5",
+  },
+  emptyText: {
+    fontSize: 18,
+    color: "#666",
+    marginTop: 20,
+    marginBottom: 30,
+    textAlign: "center",
+  },
+  addDayButton: {
+    width: 100,
+    justifyContent: "center",
+    alignItems: "center",
+    paddingVertical: 20,
+    borderStyle: "dashed",
+    borderWidth: 2,
+    borderColor: "#007AFF",
+    borderRadius: 10,
+  },
+  addDayText: {
+    color: "#007AFF",
+    marginTop: 10,
+    fontWeight: "bold",
+  },
 });
 
 export default styles;

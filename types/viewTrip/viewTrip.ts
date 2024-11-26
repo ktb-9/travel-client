@@ -57,10 +57,9 @@ export interface AddLocationModalProps {
   visible: boolean;
   onClose: () => void;
   day: number;
-  setLocationValue: React.Dispatch<React.SetStateAction<Location>>;
+  initialPlace?: SearchResult; // 추가
 }
 export interface LocationItem {
-  locationId: number;
   name: string;
   address: string;
   category: string;
@@ -69,7 +68,7 @@ export interface LocationItem {
   thumbnail: string;
 }
 export interface AddLocationState {
-  groupId: number;
+  tripId: number;
   day: number;
   destination: string;
   locations: LocationItem[];

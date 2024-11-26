@@ -4,19 +4,28 @@ import { ScrollView, Text, TouchableOpacity, View } from "react-native";
 import { AntDesign, MaterialIcons } from "@expo/vector-icons";
 import Locations from "../location/Location";
 import { useState } from "react";
+import AddLocationModal from "../location/modal/AddLocationModal";
 
-const Day = (plan: planState) => {
+interface DayProps {
+  day: number;
+  destination: string;
+  locations: planState["locations"];
+}
+
+const Day: React.FC<DayProps> = ({ day, destination, locations }) => {
   const [isAddModalVisible, setIsAddModalVisible] = useState(false);
+  console.log(locations);
+
   return (
-    <View style={styles.dayContainer} key={plan.day}>
+    <View style={styles.dayContainer} key={day}>
       <View style={styles.dayHeader}>
         <View style={styles.dayInfo}>
-          <Text style={styles.dayText}>{plan.day} 일차</Text>
+          <Text style={styles.dayText}>{day} 일차</Text>
           <View style={styles.destinationContainer}>
             <MaterialIcons name="place" size={20} color="#4E5968" />
-            <Text style={styles.destinationText}>{plan.destination}</Text>
+            <Text style={styles.destinationText}>{destination}</Text>
             <View style={styles.badge}>
-              <Text style={styles.badgeText}>{plan.locations.length}곳</Text>
+              <Text style={styles.badgeText}>{locations.length}곳</Text>
             </View>
           </View>
         </View>
@@ -35,15 +44,10 @@ const Day = (plan: planState) => {
         contentContainerStyle={styles.scrollContent}
       >
         <View style={styles.locationsContainer}>
-          {plan.locations.map((location, idx) => (
+          {locations.map((location, idx) => (
             <View key={idx} style={styles.locationWrapper}>
-              {Locations(
-                location,
-                plan.day,
-                isAddModalVisible,
-                setIsAddModalVisible
-              )}
-              {idx < plan.locations.length - 1 && (
+              <Locations location={location} day={day} />
+              {idx < locations.length - 1 && (
                 <View style={styles.connector}>
                   <MaterialIcons name="more-vert" size={24} color="#ddd" />
                 </View>
@@ -52,7 +56,14 @@ const Day = (plan: planState) => {
           ))}
         </View>
       </ScrollView>
+
+      <AddLocationModal
+        visible={isAddModalVisible}
+        onClose={() => setIsAddModalVisible(false)}
+        day={day}
+      />
     </View>
   );
 };
+
 export default Day;

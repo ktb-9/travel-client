@@ -13,26 +13,27 @@ import { useEffect, useRef, useState } from "react";
 import { LinearGradient } from "expo-linear-gradient";
 import styles from "./styles";
 import EditModal from "../modal/editModal";
-import AddLocationModal from "./modal/AddLocationModal";
 import deleteLocationMutation from "@/hooks/api/deleteLocationMutation";
 import { useRouter } from "expo-router";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import { destinationState } from "@/recoil/destinationState";
+import tripIdState from "@/recoil/tripIdState";
 
-const Locations = (
-  location: Location,
-  day: number,
-  isAddModalVisible: boolean,
-  setIsAddModalVisible: (value: boolean) => void
-) => {
+interface LocationsProps {
+  location: Location;
+  day: number;
+}
+
+const Locations: React.FC<LocationsProps> = ({ location, day }) => {
   const router = useRouter();
   const [, setLocation] = useRecoilState(destinationState);
-  const { mutate } = deleteLocationMutation();
+  const tripId = useRecoilValue(tripIdState);
+  const { mutate } = deleteLocationMutation(tripId);
   const scaleAnim = useRef(new Animated.Value(1)).current;
   const fadeAnim = useRef(new Animated.Value(0)).current;
   const [isEditModalVisible, setIsEditModalVisible] = useState(false);
-  const [locationValue, setLocationValue] = useState<Location>(() => location);
-  console.log(locationValue);
+  const [locationValue, setLocationValue] = useState<Location>(location);
+
   useEffect(() => {
     Animated.timing(fadeAnim, {
       toValue: 1,
@@ -40,7 +41,7 @@ const Locations = (
       useNativeDriver: true,
     }).start();
     setLocationValue(location);
-  }, []);
+  }, [location]);
 
   const onPressIn = () => {
     Animated.spring(scaleAnim, {
@@ -59,6 +60,7 @@ const Locations = (
       useNativeDriver: true,
     }).start();
   };
+
   const onDelete = (locationId: number) => {
     mutate(locationId);
   };
@@ -71,7 +73,7 @@ const Locations = (
       },
       {
         text: "삭제",
-        onPress: () => onDelete(location.locationId),
+        onPress: () => onDelete(location.location_id),
         style: "destructive",
       },
     ]);
@@ -94,10 +96,12 @@ const Locations = (
       </View>
     );
   };
+
   const handleWebView = () => {
     router.push("/locationInfo/locationInfo");
     setLocation(locationValue.name);
   };
+
   return (
     <Animated.View
       style={[
@@ -184,13 +188,6 @@ const Locations = (
         visible={isEditModalVisible}
         onClose={() => setIsEditModalVisible(false)}
         location={locationValue}
-        day={day}
-        setLocationValue={setLocationValue}
-      />
-
-      <AddLocationModal
-        visible={isAddModalVisible}
-        onClose={() => setIsAddModalVisible(false)}
         day={day}
         setLocationValue={setLocationValue}
       />

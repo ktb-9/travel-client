@@ -1,4 +1,4 @@
-import { StyleSheet } from "react-native";
+import { Platform, StyleSheet } from "react-native";
 
 const styles = StyleSheet.create({
   modalContainer: {
@@ -191,6 +191,114 @@ const styles = StyleSheet.create({
   removeLocationText: {
     color: "#fff",
     fontWeight: "bold",
+  },
+
+  mapSelectButton: {
+    backgroundColor: "#4A90E2",
+    padding: 15,
+    borderRadius: 10,
+    alignItems: "center",
+    marginTop: 10,
+  },
+  mapSelectButtonText: {
+    color: "white",
+    fontWeight: "bold",
+  },
+  closeMapButton: {
+    position: "absolute",
+    bottom: 20,
+    left: 20,
+    right: 20,
+    backgroundColor: "white",
+    padding: 15,
+    borderRadius: 10,
+    alignItems: "center",
+  },
+  mapSearchContainer: {
+    position: "absolute",
+    top: 70,
+    left: 10,
+    right: 10,
+    zIndex: 10,
+    backgroundColor: "white",
+    borderRadius: 10,
+  },
+  mapSearchInput: {
+    height: 50,
+    borderWidth: 1,
+    borderColor: "#e0e0e0",
+    borderRadius: 10,
+    paddingHorizontal: 15,
+  },
+  mapSearchResultsContainer: {
+    position: "absolute",
+    top: "100%",
+    left: 0,
+    right: 0,
+    maxHeight: 200,
+    backgroundColor: "white",
+    borderWidth: 1,
+    borderColor: "#E0E0E0",
+    borderRadius: 8,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 3,
+  },
+  mapSearchResultItem: {
+    padding: 15,
+    borderBottomWidth: 1,
+    borderBottomColor: "#F0F0F0",
+  },
+  mapSearchResultText: {
+    fontSize: 16,
+    color: "#333",
+  },
+  mapSearchResultSubtext: {
+    fontSize: 14,
+    color: "#666",
+    marginTop: 5,
+  },
+  addressSubtext: {
+    color: "gray",
+    fontSize: 12,
+  },
+
+  markerContainer: {
+    alignItems: "center",
+  },
+  marker: {
+    backgroundColor: "#fff",
+    borderRadius: 20,
+    padding: 8,
+    ...Platform.select({
+      ios: {
+        shadowColor: "#000",
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+      },
+      android: {
+        elevation: 5,
+      },
+    }),
+  },
+  markerArrow: {
+    width: 0,
+    height: 0,
+    backgroundColor: "transparent",
+    borderStyle: "solid",
+    borderLeftWidth: 8,
+    borderRightWidth: 8,
+    borderTopWidth: 8,
+    borderLeftColor: "transparent",
+    borderRightColor: "transparent",
+    borderTopColor: "#fff",
+    marginTop: -1,
+  },
+  markerTitle: {
+    fontSize: 15,
   },
 });
 export default styles;

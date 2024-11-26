@@ -76,6 +76,20 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     fontFamily: "NotoBold",
   },
+  emptyLocationsContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    paddingVertical: 30,
+    backgroundColor: "#F5F5F5",
+    borderRadius: 10,
+  },
+  emptyLocationsText: {
+    marginTop: 10,
+    color: "#888",
+    fontSize: 16,
+    textAlign: "center",
+  },
 });
 
 export default styles;

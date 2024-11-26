@@ -3,7 +3,6 @@ import { Stack } from "expo-router";
 import { RecoilRoot as OriginalRecoilRoot } from "recoil";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { TextDecoder, TextEncoder } from "text-encoding";
-
 // TextEncoder와 TextDecoder 설정
 if (typeof global.TextEncoder === "undefined") {
   global.TextEncoder = TextEncoder;

@@ -9,3 +9,5 @@ export const queryKeys = {
   getMyTrip: ["getMyTrip"] as const,
   getPayment: ["getPayment"] as const,
 } as const;
+type QueryKeys = typeof queryKeys;
+export type QueryKey = QueryKeys[keyof QueryKeys];

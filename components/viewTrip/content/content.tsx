@@ -7,12 +7,12 @@ import {
 } from "react-native";
 import styles from "./styles";
 import { defaults } from "@/constants/default";
-import Group from "../group/group";
 import TripPlan from "../tripPlan/tripPlan";
 import { useRecoilValue } from "recoil";
 import tripIdState from "@/recoil/tripIdState";
 import { useMemo } from "react";
 import tripQuery from "@/hooks/api/tripQuery";
+import Group from "../group/group";
 
 const Content = () => {
   const tripId = useRecoilValue(tripIdState);
