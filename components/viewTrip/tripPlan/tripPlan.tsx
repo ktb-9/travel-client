@@ -83,6 +83,7 @@ const TripPlan: React.FC<TripPlanProps> = ({ data }) => {
             day={plan.day}
             destination={plan.destination}
             locations={plan.locations || []}
+            setDays={setDays}
           />
         ))}
       </ScrollView>

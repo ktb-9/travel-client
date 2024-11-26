@@ -10,12 +10,11 @@ interface DayProps {
   day: number;
   destination: string;
   locations: planState["locations"];
+  setDays: React.Dispatch<React.SetStateAction<planState[]>>;
 }
 
-const Day: React.FC<DayProps> = ({ day, destination, locations }) => {
+const Day: React.FC<DayProps> = ({ day, destination, locations, setDays }) => {
   const [isAddModalVisible, setIsAddModalVisible] = useState(false);
-  console.log(locations);
-
   return (
     <View style={styles.dayContainer} key={day}>
       <View style={styles.dayHeader}>
@@ -46,7 +45,7 @@ const Day: React.FC<DayProps> = ({ day, destination, locations }) => {
         <View style={styles.locationsContainer}>
           {locations.map((location, idx) => (
             <View key={idx} style={styles.locationWrapper}>
-              <Locations location={location} day={day} />
+              <Locations location={location} day={day} setDays={setDays} />
               {idx < locations.length - 1 && (
                 <View style={styles.connector}>
                   <MaterialIcons name="more-vert" size={24} color="#ddd" />

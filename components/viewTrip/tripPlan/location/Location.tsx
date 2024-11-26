@@ -1,4 +1,4 @@
-import { Location } from "@/types/viewTrip/viewTrip";
+import { Location, planState } from "@/types/viewTrip/viewTrip";
 import { Ionicons, MaterialIcons, AntDesign } from "@expo/vector-icons";
 import {
   Animated,
@@ -22,9 +22,10 @@ import tripIdState from "@/recoil/tripIdState";
 interface LocationsProps {
   location: Location;
   day: number;
+  setDays: React.Dispatch<React.SetStateAction<planState[]>>;
 }
 
-const Locations: React.FC<LocationsProps> = ({ location, day }) => {
+const Locations: React.FC<LocationsProps> = ({ location, day, setDays }) => {
   const router = useRouter();
   const [, setLocation] = useRecoilState(destinationState);
   const tripId = useRecoilValue(tripIdState);
@@ -60,9 +61,18 @@ const Locations: React.FC<LocationsProps> = ({ location, day }) => {
       useNativeDriver: true,
     }).start();
   };
-
+  console.log("location", locationValue);
   const onDelete = (locationId: number) => {
     mutate(locationId);
+
+    setDays((prev) =>
+      prev.map((value) => ({
+        ...value,
+        locations: value.locations.filter(
+          (item) => item.location_id !== locationId
+        ),
+      }))
+    );
   };
 
   const handleDelete = () => {
