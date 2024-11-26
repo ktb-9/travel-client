@@ -1,13 +1,13 @@
+import { axiosInstance } from "@/api/axiosinstance";
 import { END_POINTS } from "@/constants/api";
-import axios from "axios";
+
 interface dataState {
   groupId: number;
-  locationId: number;
   body: object;
 }
 
 const updateTrip = async ({ groupId, body }: dataState) => {
-  const { data } = await axios.put(END_POINTS.trip(groupId), body, {
+  const { data } = await axiosInstance.put(END_POINTS.trip(groupId), body, {
     headers: {
       "Skip-Auth": true, // 토큰 없이 요청을 보냄
     },

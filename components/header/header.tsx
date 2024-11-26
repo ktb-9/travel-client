@@ -1,16 +1,29 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { View, TouchableOpacity, Text, Image } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { header } from "@/types/header";
 import styles from "./styles";
 import { useRouter } from "expo-router";
+import addGroupMutation from "@/hooks/api/addGroupMutation";
 import { useRecoilValue } from "recoil";
-import { userInfoState_unique } from "@/recoil/authState";
+import authState from "@/recoil/authState";
+import Button from "../common/Button/button";
 
 const Header = ({ toggle, isDark }: header) => {
-  const userInfo = useRecoilValue(userInfoState_unique);
+  const userValue = useRecoilValue(authState);
+  console.log(userValue);
+  const { mutate } = addGroupMutation();
   const router = useRouter();
-  const profileImageUrl = userInfo.profileImage.replace("http://", "https://");
+  const profileImageUrl = userValue?.profileImage.replace(
+    "http://",
+    "https://"
+  );
+  const createSchedule = () => {
+    const body = {
+      name: userValue?.nickname,
+    };
+    mutate(body);
+  };
   return (
     <View style={styles.header}>
       <TouchableOpacity style={styles.profile}>
@@ -27,28 +40,37 @@ const Header = ({ toggle, isDark }: header) => {
             color: isDark ? "#fff" : "#000",
           }}
         >
-          {userInfo.nickname} <Text style={{ color: "#B4B2B2" }}>님</Text>
+          {userValue?.nickname}
         </Text>
       </TouchableOpacity>
       <View style={styles.menu}>
-        <TouchableOpacity
-          testID="calendar"
-          onPress={() => router.push("/Schedule/createSchedule")}
-          style={styles.addPlan}
-        >
-          <Ionicons
-            name="calendar"
-            size={24}
-            color={isDark ? "#FFF" : "#000"}
-          />
-        </TouchableOpacity>
-        <TouchableOpacity onPress={toggle} style={styles.button}>
-          <Ionicons
-            name={isDark ? "sunny" : "moon"}
-            size={24}
-            color={isDark ? "#FFF" : "#000"}
-          />
-        </TouchableOpacity>
+        <Button
+          variant="icon"
+          icon={{
+            name: "bag-check-outline",
+            size: 24,
+          }}
+          onPress={() => router.push("/myTripList/myTripList")}
+        />
+        <Button
+          variant="icon"
+          icon={{ name: "image", size: 24 }}
+          onPress={() => router.push("/image/image")}
+        />
+        <Button
+          variant="icon"
+          icon={{ name: "calendar", size: 24 }}
+          onPress={createSchedule}
+        />
+        <Button
+          variant="icon"
+          icon={{
+            name: isDark ? "sunny" : "moon",
+            size: 24,
+            color: isDark ? "#FFF" : "#000",
+          }}
+          onPress={toggle}
+        />
       </View>
     </View>
   );

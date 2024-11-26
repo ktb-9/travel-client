@@ -50,6 +50,22 @@ const styles = StyleSheet.create({
     width: "100%",
     justifyContent: "flex-end",
   },
+  addButton: {
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: "#6A40F4",
+    padding: 10,
+    width: "auto",
+    borderRadius: 13,
+    marginTop: 16,
+    justifyContent: "center",
+  },
+  addButtonText: {
+    color: "#fff",
+    fontSize: 12,
+    fontWeight: "bold",
+    fontFamily: "NotoBold",
+  },
 });
 
 export default styles;

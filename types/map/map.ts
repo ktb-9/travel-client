@@ -25,6 +25,7 @@ export interface debounceProps {
   searchQuery: string;
   setIsSearching: React.Dispatch<SetStateAction<boolean>>;
   setSearchResults: React.Dispatch<SetStateAction<SearchResult[]>>;
+  setMapMarkers?: React.Dispatch<React.SetStateAction<SearchResult[]>>;
 }
 export interface currentLocationProps {
   setCurrentLocation: React.Dispatch<

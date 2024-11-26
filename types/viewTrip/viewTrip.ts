@@ -7,10 +7,10 @@ export interface groupState {
   date: string;
 }
 export interface Location {
-  locationId: number;
+  location_id: number;
   name: string;
   address: string;
-  visitTime: string;
+  visit_time: string;
   thumbnail: string;
   category: string;
   hashtag: string;
@@ -57,19 +57,18 @@ export interface AddLocationModalProps {
   visible: boolean;
   onClose: () => void;
   day: number;
-  setLocationValue: React.Dispatch<React.SetStateAction<Location>>;
+  initialPlace?: SearchResult; // 추가
 }
 export interface LocationItem {
-  locationId: number;
   name: string;
   address: string;
   category: string;
-  visitTime: string;
+  visit_time: string;
   hashtag: string;
   thumbnail: string;
 }
 export interface AddLocationState {
-  groupId: number;
+  tripId: number;
   day: number;
   destination: string;
   locations: LocationItem[];
@@ -94,4 +93,9 @@ export interface addSearchResultsProps {
   isSearching: boolean;
   searchResults: SearchResult[];
   onSelectPlace: (place: SearchResult) => void;
+}
+export interface LocationsProps {
+  location: Location;
+  day: number;
+  setDays: React.Dispatch<React.SetStateAction<planState[]>>;
 }
