@@ -1,3 +1,4 @@
+import { DebouncedFunc } from "lodash";
 import { SetStateAction } from "react";
 
 export interface SearchResult {
@@ -75,4 +76,54 @@ export interface SearchBarProps {
     React.SetStateAction<CurrentLocation | null>
   >;
   setMarkers: React.Dispatch<React.SetStateAction<SearchResult[]>>;
+}
+export interface EditSearchProps {
+  setFormData: React.Dispatch<
+    React.SetStateAction<{
+      location_id: number;
+      name: string;
+      address: string;
+      visit_time: string;
+      category: string;
+      hashtag: string;
+      thumbnail: string;
+    }>
+  >;
+  setShowSearchResults: React.Dispatch<React.SetStateAction<boolean>>;
+  useDebouncedSearch: DebouncedFunc<
+    ({
+      searchQuery,
+      setIsSearching,
+      setSearchResults,
+    }: debounceProps) => Promise<void>
+  >;
+  setSearchResults: React.Dispatch<React.SetStateAction<SearchResult[]>>;
+  setIsSearching: React.Dispatch<React.SetStateAction<boolean>>;
+}
+export interface FormGroupProps {
+  formData: {
+    location_id: number;
+    name: string;
+    address: string;
+    visit_time: string;
+    category: string;
+    hashtag: string;
+    thumbnail: string;
+  };
+  setFormData: React.Dispatch<
+    React.SetStateAction<{
+      location_id: number;
+      name: string;
+      address: string;
+      visit_time: string;
+      category: string;
+      hashtag: string;
+      thumbnail: string;
+    }>
+  >;
+  handleSearch: (text: string) => void;
+  showSearchResults: boolean;
+  isSearching: boolean;
+  searchResults: SearchResult[];
+  handleSelectPlace: (place: SearchResult) => void;
 }

@@ -9,7 +9,7 @@ import {
   KeyboardAvoidingView,
   Platform,
 } from "react-native";
-import MapView, { Marker } from "react-native-maps";
+import MapView from "react-native-maps";
 import { MaterialIcons } from "@expo/vector-icons";
 import { useDebouncedSearch } from "@/hooks/map/useDebounceSearch";
 import { ImagePickerSection } from "./ImagePickerSection";

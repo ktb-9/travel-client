@@ -1,7 +1,7 @@
-import { DayProps, planState } from "@/types/viewTrip/viewTrip";
+import { DayProps } from "@/types/viewTrip/viewTrip";
 import styles from "./styles";
-import { ScrollView, Text, TouchableOpacity, View } from "react-native";
-import { AntDesign, MaterialIcons } from "@expo/vector-icons";
+import { ScrollView, View } from "react-native";
+import { MaterialIcons } from "@expo/vector-icons";
 import Locations from "../location/Location";
 import { useState } from "react";
 import AddLocationModal from "../location/modal/AddLocationModal";
