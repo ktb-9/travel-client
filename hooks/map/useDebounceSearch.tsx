@@ -1,7 +1,6 @@
 import { MAP_KEY } from "@/constants/api";
-import { debounceProps, SearchResult } from "@/types/map/map";
+import { debounceProps } from "@/types/map/map";
 import debounce from "lodash/debounce";
-import { SetStateAction } from "react";
 const KAKAO_API_KEY = MAP_KEY;
 
 export const useDebouncedSearch = debounce(

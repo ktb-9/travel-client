@@ -1,5 +1,7 @@
 import { DebouncedFunc } from "lodash";
 import { SetStateAction } from "react";
+import { AddLocationState, LocationItem } from "../viewTrip/viewTrip";
+import MapView from "react-native-maps";
 
 export interface SearchResult {
   id: string;
@@ -126,4 +128,70 @@ export interface FormGroupProps {
   isSearching: boolean;
   searchResults: SearchResult[];
   handleSelectPlace: (place: SearchResult) => void;
+}
+export interface LocationSearchProps {
+  currentLocationIndex: number;
+  setShowSearchResults: React.Dispatch<React.SetStateAction<boolean>>;
+  useDebouncedSearch: DebouncedFunc<
+    ({
+      searchQuery,
+      setIsSearching,
+      setSearchResults,
+    }: debounceProps) => Promise<void>
+  >;
+  setIsSearching: React.Dispatch<React.SetStateAction<boolean>>;
+  setSearchResults: React.Dispatch<React.SetStateAction<SearchResult[]>>;
+  setNewLocation: React.Dispatch<React.SetStateAction<AddLocationState>>;
+  setCurrentLocationIndex: React.Dispatch<React.SetStateAction<number>>;
+  newLocation: AddLocationState;
+}
+export interface MapLocationSearchProps {
+  isMapSelectionMode: true;
+  toggleMapSelectionMode: () => void;
+  setIsMapSelectionMode: React.Dispatch<React.SetStateAction<boolean>>;
+  updateLocationField: (
+    index: number,
+    field: keyof LocationItem,
+    value: string
+  ) => void;
+  currentLocationIndex: number;
+  setIsSearching: React.Dispatch<React.SetStateAction<boolean>>;
+}
+export interface MapStateProps {
+  mapMarkers: SearchResult[];
+  mapViewRef: React.RefObject<MapView>;
+  updateLocationField: (
+    index: number,
+    field: keyof LocationItem,
+    value: string
+  ) => void;
+  currentLocationIndex: number;
+  setIsMapSelectionMode: React.Dispatch<React.SetStateAction<boolean>>;
+  setMapSearchQuery: React.Dispatch<React.SetStateAction<string>>;
+  setIsSearching: React.Dispatch<React.SetStateAction<boolean>>;
+  setMapSearchResults: React.Dispatch<React.SetStateAction<SearchResult[]>>;
+  setMapMarkers: React.Dispatch<React.SetStateAction<SearchResult[]>>;
+}
+export interface AddLocationInputGroupState {
+  currentLocation: LocationItem;
+  updateLocationField: (
+    index: number,
+    field: keyof LocationItem,
+    value: string
+  ) => void;
+  currentLocationIndex: number;
+  handleSearch: (text: string) => void;
+  showSearchResults: boolean;
+  isSearching: boolean;
+  searchResults: SearchResult[];
+  handleSelectPlace: (place: SearchResult) => void;
+  toggleMapSelectionMode: () => void;
+  newLocation: AddLocationState;
+  removeLocation: (index: number) => void;
+}
+export interface LocationTabsProps {
+  newLocation: AddLocationState;
+  currentLocationIndex: number;
+  setCurrentLocationIndex: React.Dispatch<React.SetStateAction<number>>;
+  addNewLocation: () => void;
 }

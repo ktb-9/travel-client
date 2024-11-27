@@ -1,4 +1,5 @@
 import image from "@/assets/images/default.png";
+import { LocationItem } from "@/types/viewTrip/viewTrip";
 
 export const defaults = {
   image: image,
@@ -29,3 +30,11 @@ export const CATEGORY_COLORS: { [key: string]: string } = {
   간식: "#51CF66",
 };
 export const DEFAULT_COLOR = "#339AF0";
+export const initialLocationState: LocationItem = {
+  name: "",
+  address: "",
+  category: "",
+  visit_time: "",
+  hashtag: "",
+  thumbnail: "",
+};
