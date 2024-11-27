@@ -1,54 +1,25 @@
-import { planState, tripState } from "@/types/viewTrip/viewTrip";
-import {
-  Dimensions,
-  ScrollView,
-  View,
-  Text,
-  TouchableOpacity,
-} from "react-native";
+import { planState, TripPlanProps } from "@/types/viewTrip/viewTrip";
+import { ScrollView, View, Text, TouchableOpacity } from "react-native";
 import styles from "./styles";
 import { useEffect, useState } from "react";
 import Day from "./day/Day";
-import { useFonts } from "expo-font";
 import { MaterialIcons } from "@expo/vector-icons";
-
-const { width } = Dimensions.get("window");
-
-interface TripPlanProps {
-  data: tripState; // TripPlanProps의 data는 tripState 타입
-}
+import { useTripPlan } from "@/hooks/viewTrip/useTripPlan";
 
 const TripPlan: React.FC<TripPlanProps> = ({ data }) => {
-  const [fontsLoaded] = useFonts({
-    NotoBold: require("@/assets/fonts/NotoSansKR-Bold.ttf"),
-    robotoBold: require("@/assets/fonts/Roboto-Bold.ttf"),
-  });
-
   const [days, setDays] = useState<planState[]>([]); // days의 타입을 planState[]로 설정
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const { handleScroll, addDays } = useTripPlan({
+    days,
+    setDays,
+    setCurrentIndex,
+  });
 
   useEffect(() => {
     if (data.days) {
       setDays(data.days); // data.days로 days를 초기화
     }
   }, [data]);
-
-  const [currentIndex, setCurrentIndex] = useState(0);
-
-  const handleScroll = (event: any) => {
-    const nextIndex = Math.round(event.nativeEvent.contentOffset.x / width);
-    setCurrentIndex(nextIndex);
-  };
-
-  const addDays = () => {
-    const newDays = {
-      day: days.length + 1,
-      destination: "",
-      locations: [],
-    };
-    setDays((prev) => [...prev, newDays]);
-  };
-
-  if (!fontsLoaded) return null;
 
   return (
     <View style={styles.container}>

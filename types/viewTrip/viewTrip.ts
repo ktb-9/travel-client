@@ -99,3 +99,11 @@ export interface LocationsProps {
   day: number;
   setDays: React.Dispatch<React.SetStateAction<planState[]>>;
 }
+export interface TripPlanProps {
+  data: tripState; // TripPlanProps의 data는 tripState 타입
+}
+export interface useTripPlanProps {
+  days: planState[];
+  setDays: React.Dispatch<React.SetStateAction<planState[]>>;
+  setCurrentIndex: React.Dispatch<React.SetStateAction<number>>;
+}

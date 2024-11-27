@@ -4,6 +4,7 @@ import { groupState } from "@/types/viewTrip/viewTrip";
 import { useEffect, useState } from "react";
 import { Ionicons } from "@expo/vector-icons";
 import EditGroupModal from "./modal/EditModal";
+import Button from "@/components/common/Button/button";
 
 const Group = ({ data }: { data: groupState }) => {
   const [dataValue, setDataValue] = useState<groupState>({} as groupState);
@@ -15,9 +16,11 @@ const Group = ({ data }: { data: groupState }) => {
   return (
     <View style={styles.content}>
       <View style={styles.pencilContainer}>
-        <TouchableOpacity onPress={() => setIsEditModalVisible(true)}>
-          <Ionicons name="pencil" size={18} color="#fff" />
-        </TouchableOpacity>
+        <Button
+          variant="icon"
+          icon={{ name: "pencil", size: 18, color: "#fff" }}
+          onPress={() => setIsEditModalVisible(true)}
+        />
       </View>
       <View style={styles.circleContainer}>
         <View style={styles.circle}>

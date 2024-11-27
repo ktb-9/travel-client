@@ -11,7 +11,6 @@ import { Ionicons } from "@expo/vector-icons";
 import * as ImagePicker from "expo-image-picker";
 import { groupState } from "@/types/viewTrip/viewTrip";
 import styles from "./styles";
-import updateTripGroup from "@/api/mockApi/trip/updateTripGroup";
 import tripGroupUpdateMutation from "@/hooks/api/tripGroupUpdateMutation";
 interface EditGroupModalProps {
   isVisible: boolean;
