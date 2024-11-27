@@ -1,10 +1,4 @@
-import {
-  ActivityIndicator,
-  Image,
-  Text,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import { ActivityIndicator, Image, Text, View } from "react-native";
 import styles from "./styles";
 import { defaults } from "@/constants/default";
 import TripPlan from "../tripPlan/tripPlan";
@@ -14,7 +8,7 @@ import { useMemo } from "react";
 import tripQuery from "@/hooks/api/tripQuery";
 import Group from "../group/group";
 
-const Content = () => {
+const Infos = () => {
   const tripId = useRecoilValue(tripIdState);
   const { data, isLoading, isError } = tripQuery(tripId);
 
@@ -53,4 +47,4 @@ const Content = () => {
 
   return <View style={styles.container}>{renderContent}</View>;
 };
-export default Content;
+export default Infos;
