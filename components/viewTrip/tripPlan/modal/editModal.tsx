@@ -15,7 +15,6 @@ const EditModal = ({
   visible,
   onClose,
   location,
-  day,
   setLocationValue,
 }: EditModalProps) => {
   const { formData, setFormData, handleSubmit } = useLocationForm(

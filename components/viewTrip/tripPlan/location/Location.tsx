@@ -1,54 +1,26 @@
 import { Location, LocationsProps } from "@/types/viewTrip/viewTrip";
-import { Ionicons, MaterialIcons, AntDesign } from "@expo/vector-icons";
-import { Image, Text, TouchableOpacity, View, Alert } from "react-native";
-import { useEffect, useRef, useState } from "react";
-import { LinearGradient } from "expo-linear-gradient";
+import { Text, View } from "react-native";
+import { useEffect, useState } from "react";
 import styles from "./styles";
 import EditModal from "../modal/editModal";
-import deleteLocationMutation from "@/hooks/api/deleteLocationMutation";
 import { useRouter } from "expo-router";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { destinationState } from "@/recoil/destinationState";
 import tripIdState from "@/recoil/tripIdState";
+import { useTripDelete } from "@/hooks/viewTrip/useTripDelete";
+import { LocationCard } from "./LocationCard/LocationCard";
 
 const Locations: React.FC<LocationsProps> = ({ location, day, setDays }) => {
   const router = useRouter();
   const [, setLocation] = useRecoilState(destinationState);
   const tripId = useRecoilValue(tripIdState);
-  const { mutate } = deleteLocationMutation(tripId);
   const [isEditModalVisible, setIsEditModalVisible] = useState(false);
   const [locationValue, setLocationValue] = useState<Location>(location);
+  const { handleDelete } = useTripDelete({ location, setDays, tripId });
 
   useEffect(() => {
     setLocationValue(location);
   }, [location]);
-
-  const onDelete = (locationId: number) => {
-    mutate(locationId);
-
-    setDays((prev) =>
-      prev.map((value) => ({
-        ...value,
-        locations: value.locations.filter(
-          (item) => item.location_id !== locationId
-        ),
-      }))
-    );
-  };
-
-  const handleDelete = () => {
-    Alert.alert("장소 삭제", "이 장소를 삭제하시겠습니까?", [
-      {
-        text: "취소",
-        style: "cancel",
-      },
-      {
-        text: "삭제",
-        onPress: () => onDelete(location.location_id),
-        style: "destructive",
-      },
-    ]);
-  };
 
   const renderHashtags = () => {
     if (!locationValue.hashtag) return null;
@@ -75,73 +47,13 @@ const Locations: React.FC<LocationsProps> = ({ location, day, setDays }) => {
 
   return (
     <View style={styles.container}>
-      <View style={styles.locationCard}>
-        <View style={styles.imageContainer}>
-          <Image
-            source={{ uri: locationValue.thumbnail }}
-            style={styles.locationImage}
-          />
-          <LinearGradient
-            colors={["transparent", "rgba(0,0,0,0.7)"]}
-            style={styles.imageGradient}
-          />
-          <View style={styles.actionButtonsContainer}>
-            <TouchableOpacity
-              onPress={() => setIsEditModalVisible(true)}
-              style={styles.actionButton}
-            >
-              <Ionicons name="pencil" size={18} color="#fff" />
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={handleDelete}
-              style={[styles.actionButton, styles.deleteButton]}
-            >
-              <AntDesign name="delete" size={18} color="#fff" />
-            </TouchableOpacity>
-          </View>
-          <View style={styles.badgeContainer}>
-            <View style={styles.timeOverlay}>
-              <MaterialIcons name="access-time" size={14} color="#fff" />
-              <Text style={styles.visitTime}>{locationValue.visit_time}</Text>
-            </View>
-            <View style={styles.categoryBadge}>
-              <Text style={styles.categoryText}>{locationValue.category}</Text>
-            </View>
-          </View>
-        </View>
-
-        <View style={styles.locationContent}>
-          <View style={styles.locationHeader}>
-            <Text style={styles.locationName}>{locationValue.name}</Text>
-          </View>
-
-          {renderHashtags()}
-
-          <View style={styles.infoContainer}>
-            <View style={styles.addressContainer}>
-              <MaterialIcons name="location-on" size={16} color="#4B5563" />
-              <Text style={styles.address} numberOfLines={1}>
-                {locationValue.address}
-              </Text>
-            </View>
-          </View>
-          <TouchableOpacity
-            style={styles.footerContainer}
-            onPress={handleWebView}
-          >
-            <LinearGradient
-              colors={["#3B82F6", "#2563EB"]}
-              start={{ x: 0, y: 0 }}
-              end={{ x: 1, y: 0 }}
-              style={styles.footerGradient}
-            >
-              <Text style={styles.footerText}>자세히 보기</Text>
-              <MaterialIcons name="arrow-forward" size={20} color="#fff" />
-            </LinearGradient>
-          </TouchableOpacity>
-        </View>
-      </View>
-
+      <LocationCard
+        locationValue={locationValue}
+        setIsEditModalVisible={setIsEditModalVisible}
+        handleDelete={handleDelete}
+        renderHashtags={renderHashtags}
+        handleWebView={handleWebView}
+      />
       <EditModal
         visible={isEditModalVisible}
         onClose={() => setIsEditModalVisible(false)}
