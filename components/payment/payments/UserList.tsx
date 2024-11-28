@@ -1,31 +1,49 @@
-import { View, Text, TouchableOpacity, Image } from "react-native";
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  Image,
+  ActivityIndicator,
+} from "react-native";
 import styles from "./styles";
 import check from "@/assets/images/check.png";
 import checked from "@/assets/images/checked.png";
-import { PaymentType, UserListProps, UserType } from "@/types/payment/payment";
+import { UserListProps, UserType } from "@/types/payment/payment";
+import getPaymentMembersQuery from "@/hooks/api/getPaymentMembersQuery";
+import { useRecoilValue } from "recoil";
+import tripIdState from "@/recoil/tripIdState";
 
 const UserList: React.FC<UserListProps> = ({
   value,
   onPaymentUserCheck,
   onUserGroupAdd,
 }) => {
-  const users: UserType[] = [
-    { id: 1, name: "사공광열", isMe: true },
-    { id: 2, name: "카리나", isMe: false },
-    // 다른 사용자들 추가 가능
-  ];
+  const tripId = useRecoilValue(tripIdState);
+  const { data, isLoading, isError } = getPaymentMembersQuery(tripId);
+  if (isLoading) {
+    return <ActivityIndicator size="large" color="#0000ff" />;
+  }
+
+  if (isError || !data) {
+    return <Text>에러 트립</Text>;
+  }
 
   return (
     <View style={styles.nBbangSection}>
       <Text style={styles.nBbangTitle}>n빵 하기</Text>
       <View style={styles.userContainer}>
-        {users.map((user) => (
-          <View key={user.id} style={styles.userRow}>
+        {data.map((user: UserType) => (
+          <View key={user.user_id} style={styles.userRow}>
             <View style={styles.userInfo}>
-              <View style={styles.userAvatar} />
+              <Image
+                style={styles.userAvatar}
+                source={{
+                  uri: user.profile_image.replace("http://", "https://"),
+                }}
+              />
               <Text style={styles.userName}>
                 {user.isMe ? "(나) " : ""}
-                {user.name}
+                {user.nickname}
               </Text>
             </View>
             <View style={styles.checkContainer}>
@@ -33,11 +51,11 @@ const UserList: React.FC<UserListProps> = ({
                 <Text style={styles.checkLabel}>결제</Text>
                 <TouchableOpacity
                   style={styles.checkCircle}
-                  onPress={() => onPaymentUserCheck(user.id)}
+                  onPress={() => onPaymentUserCheck(user.user_id)}
                 >
                   <Image
                     style={styles.checked}
-                    source={value.pay === user.id ? checked : check}
+                    source={value.pay === user.user_id ? checked : check}
                   />
                 </TouchableOpacity>
               </View>
@@ -45,11 +63,13 @@ const UserList: React.FC<UserListProps> = ({
                 <Text style={styles.checkLabel}>n빵</Text>
                 <TouchableOpacity
                   style={styles.checkCircle}
-                  onPress={() => onUserGroupAdd(user.id)}
+                  onPress={() => onUserGroupAdd(user.user_id)}
                 >
                   <Image
                     style={styles.checked}
-                    source={value.group.includes(user.id) ? checked : check}
+                    source={
+                      value.group.includes(user.user_id) ? checked : check
+                    }
                   />
                 </TouchableOpacity>
               </View>

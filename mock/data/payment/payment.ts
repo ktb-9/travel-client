@@ -1,7 +1,7 @@
 export const getPayments = [
   {
     paymentId: 1,
-    groupId: 1,
+    tripId: 1,
     category: "술",
     date: "2024-11-16",
     description: "테스막창",
@@ -11,7 +11,7 @@ export const getPayments = [
   },
   {
     paymentId: 2,
-    groupId: 1,
+    tripId: 1,
     category: "간식",
     date: "2024-11-16",
     description: "초코빵",
@@ -21,7 +21,7 @@ export const getPayments = [
   },
   {
     paymentId: 3,
-    groupId: 1,
+    tripId: 1,
     category: "술",
     date: "2024-11-16",
     description: "막창",
@@ -31,7 +31,7 @@ export const getPayments = [
   },
   {
     paymentId: 4,
-    groupId: 1,
+    tripId: 1,
     category: "간식",
     date: "2024-11-16",
     description: "코코볼",
@@ -41,7 +41,7 @@ export const getPayments = [
   },
   {
     paymentId: 5,
-    groupId: 1,
+    tripId: 1,
     category: "카페",
     date: "2024-11-16",
     description: "아이스아메리카노",
@@ -51,7 +51,7 @@ export const getPayments = [
   },
   {
     paymentId: 6,
-    groupId: 1,
+    tripId: 1,
     category: "주스",
     date: "2024-11-16",
     description: "콜라",

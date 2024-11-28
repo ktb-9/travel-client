@@ -48,14 +48,14 @@ const Payments: React.FC<PaymentEditType> = ({ value, SetValue, index }) => {
   };
 
   const handleUserGroupAdd = (id: number) => {
-    SetValue((prev) =>
-      prev.map((item, i) =>
+    SetValue((prev: any) =>
+      prev.map((item: any, i: number) =>
         i === index
           ? {
               ...item,
-              group: item.group.includes(id)
-                ? item.group.filter((user) => user !== id)
-                : [...item.group, id],
+              group: item.group.some((user: any) => user.user_id === id)
+                ? item.group.filter((user: any) => user.user_id !== id)
+                : [...item.group, { user_id: id, nickname: "" }],
             }
           : item
       )

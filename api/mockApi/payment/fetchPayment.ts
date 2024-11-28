@@ -1,12 +1,8 @@
+import { axiosInstance } from "@/api/axiosinstance";
 import { END_POINTS } from "@/constants/api";
-import axios from "axios";
 
-const fetchPayment = async (groupId: number) => {
-  const { data } = await axios.get(END_POINTS.payment(groupId), {
-    headers: {
-      "Skip-Auth": true, // 토큰 없이 요청을 보냄
-    },
-  });
+const fetchPayment = async (tripId: number) => {
+  const { data } = await axiosInstance.get(END_POINTS.payment(tripId));
   return data;
 };
 export default fetchPayment;

@@ -6,10 +6,14 @@ import addIcon from "@/assets/images/plus.png";
 import { PaymentState } from "@/types/payment/payment";
 import SubmitButton from "../payments/SubmitButton";
 import addPaymentsMutation from "@/hooks/api/addPaymentsMutation";
+import { useRecoilValue } from "recoil";
+import tripIdState from "@/recoil/tripIdState";
 const Content = () => {
   const { mutate } = addPaymentsMutation();
+  const tripId = useRecoilValue(tripIdState);
   const [value, SetValue] = useState<PaymentState[]>([
     {
+      tripId: tripId,
       category: "",
       description: "",
       date: "",
@@ -20,6 +24,7 @@ const Content = () => {
   ]);
   const addPayments = () => {
     const newValue: PaymentState = {
+      tripId: tripId,
       category: "",
       description: "",
       date: "",

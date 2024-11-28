@@ -1,11 +1,16 @@
-import updatePayment from "@/api/mockApi/payment/updatePayment";
-import { useMutation } from "@tanstack/react-query";
+import updatePayment from "@/api/payment/updatePayment";
+import { queryKeys } from "@/constants/querykeys";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
-const updatePaymentsMutation = () => {
+const updatePaymentsMutation = (tripId: number) => {
+  const queryClient = useQueryClient();
   return useMutation({
     mutationFn: updatePayment,
     onSuccess: (data: { message: string }) => {
       alert(data.message);
+      queryClient.invalidateQueries({
+        queryKey: [...queryKeys.getPayment, tripId],
+      });
     },
     onError: (error) => {
       alert(error);
