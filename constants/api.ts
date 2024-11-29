@@ -16,6 +16,7 @@ export const END_POINTS = {
   GETPAYMENTMEMBER: (tripId: number) => `payment/members/${tripId}`,
   POSTPAYMENT: "payment",
   PAYMENT: (tripId: number) => `payment/${tripId}`,
+  DELETEPAYMENT: (paymentId: number) => `payment/${paymentId}`,
 } as const;
 
 export const NETWORK = {

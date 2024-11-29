@@ -1,13 +1,10 @@
 import { END_POINTS } from "@/constants/api";
-import axios from "axios";
+import { axiosInstance } from "../axiosinstance";
 
 const deletePayment = async (paymentId: number) => {
-  console.log(paymentId);
-  const { data } = await axios.delete(END_POINTS.payment(paymentId), {
-    headers: {
-      "Skip-Auth": true, // 토큰 없이 요청을 보냄
-    },
-  });
+  const { data } = await axiosInstance.delete(
+    END_POINTS.DELETEPAYMENT(paymentId)
+  );
   return data;
 };
 export default deletePayment;
