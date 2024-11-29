@@ -12,6 +12,7 @@ import * as ImagePicker from "expo-image-picker";
 import { groupState } from "@/types/viewTrip/viewTrip";
 import styles from "./styles";
 import tripGroupUpdateMutation from "@/hooks/api/tripGroupUpdateMutation";
+import uploadGroupThumbnail from "@/api/group/uploadGroupThumbnail";
 interface EditGroupModalProps {
   isVisible: boolean;
   onClose: () => void;
@@ -28,7 +29,7 @@ const EditGroupModal = ({
   const [groupName, setGroupName] = useState(groupData.groupName);
   const [date, setDate] = useState(groupData.date);
   const [thumbnail, setThumbnail] = useState(groupData.groupThumbnail);
-
+  console.log(groupData);
   const handleImagePick = async () => {
     const permissionResult =
       await ImagePicker.requestMediaLibraryPermissionsAsync();
@@ -45,8 +46,28 @@ const EditGroupModal = ({
       quality: 1,
     });
 
-    if (!result.canceled) {
-      setThumbnail(result.assets[0].uri);
+    if (!result.canceled && result.assets[0].uri) {
+      await uploadThumbnail(result.assets[0].uri);
+    }
+  };
+
+  const uploadThumbnail = async (imageUri: string) => {
+    try {
+      const formData = new FormData();
+      formData.append("thumbnail", {
+        uri: imageUri,
+        type: "image/jpeg",
+        name: "thumbnail.jpg",
+      } as any);
+
+      const response = await uploadGroupThumbnail(formData, groupData.group_id);
+
+      setThumbnail(response.thumbnailUrl);
+
+      alert(response.message);
+    } catch (error) {
+      console.error("섭네일 업로드 에러:", error);
+      alert("썸네일 업로드 실패");
     }
   };
 
@@ -54,7 +75,7 @@ const EditGroupModal = ({
     const data = { ...groupData, groupName, date, groupThumbnail: thumbnail };
 
     setDataValue(data);
-    mutate({ groupId: groupData.groupId, body: data });
+    mutate({ groupId: groupData.group_id, body: data });
     onClose();
   };
   const { mutate } = tripGroupUpdateMutation();

@@ -1,7 +1,7 @@
 import { SearchResult } from "../map/map";
 
 export interface groupState {
-  groupId: number;
+  group_id: number;
   groupThumbnail?: any;
   groupName?: string;
   date: string;
@@ -87,6 +87,7 @@ export interface addFormFieldProps {
 }
 export interface ImagePickerSectionProps {
   thumbnail: string;
+  locationId: number;
   onImageSelect: (uri: string) => void;
 }
 export interface addSearchResultsProps {

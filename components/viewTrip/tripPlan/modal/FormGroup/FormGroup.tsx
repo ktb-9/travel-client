@@ -14,10 +14,12 @@ const FormGroup = ({
   searchResults,
   handleSelectPlace,
 }: FormGroupProps) => {
+  console.log(formData);
   return (
     <>
       <ImagePickerSection
         thumbnail={formData.thumbnail}
+        locationId={formData.location_id}
         onImageSelect={(uri) =>
           setFormData((prev) => ({ ...prev, thumbnail: uri }))
         }
