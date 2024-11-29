@@ -12,11 +12,13 @@ import getPaymentsQuery from "@/hooks/api/getPaymentsQuery";
 import useCalculatePayment from "@/hooks/payment/useCalculatePayment";
 import Graph from "./graph/graph";
 import { Feather } from "@expo/vector-icons";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import paymentState from "@/recoil/paymentState";
+import tripIdState from "@/recoil/tripIdState";
 
 const Payment = () => {
-  const { data, isLoading, isError } = getPaymentsQuery(1);
+  const tripId = useRecoilValue(tripIdState);
+  const { data, isLoading, isError } = getPaymentsQuery(tripId);
   const [, setState] = useRecoilState(paymentState);
   const router = useRouter();
 
@@ -35,11 +37,12 @@ const Payment = () => {
       </View>
     );
   }
+  console.log(JSON.stringify(data));
 
-  const value = useCalculatePayment(data.data, 1);
+  const value = useCalculatePayment(data, 1);
   const handleEdit = () => {
     router.push("/paymentEdit/payment");
-    setState(data.data);
+    setState(data);
   };
   return (
     <SafeAreaView style={styles.safeArea}>

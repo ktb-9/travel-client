@@ -4,6 +4,7 @@ export const queryKeys = {
   hotplace: ["hotplace"] as const,
   getGroup: ["getGroup"] as const,
   getMember: ["getMember"] as const,
+  getPaymentMember: ["getPaymentMember"] as const,
   getInvite: ["getInvite"] as const,
   getTrip: ["getTrip"] as const,
   getMyTrip: ["getMyTrip"] as const,

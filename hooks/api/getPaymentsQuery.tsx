@@ -1,11 +1,11 @@
-import fetchPayment from "@/api/mockApi/payment/fetchPayment";
+import fetchPayment from "@/api/payment/fetchPayment";
 import { queryKeys } from "@/constants/querykeys";
 import { useQuery } from "@tanstack/react-query";
 
-const getPaymentsQuery = (groupId: number) => {
+const getPaymentsQuery = (tripId: number) => {
   return useQuery({
     queryKey: queryKeys.getPayment,
-    queryFn: () => fetchPayment(groupId),
+    queryFn: () => fetchPayment(tripId),
   });
 };
 export default getPaymentsQuery;

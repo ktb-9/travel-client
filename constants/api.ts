@@ -13,8 +13,10 @@ export const END_POINTS = {
   trip: (tripId: number) => `trip/${tripId}`,
   ADDLOCATION: "trip/location",
   MYTRIP: "trip/mytrip",
-  postPayment: "/api/payment",
-  payment: (groupId: number) => `/api/payment/${groupId}`,
+  GETPAYMENTMEMBER: (tripId: number) => `payment/members/${tripId}`,
+  POSTPAYMENT: "payment",
+  PAYMENT: (tripId: number) => `payment/${tripId}`,
+  DELETEPAYMENT: (paymentId: number) => `payment/${paymentId}`,
 } as const;
 
 export const NETWORK = {

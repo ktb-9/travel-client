@@ -1,4 +1,4 @@
-import postPayment from "@/api/mockApi/payment/postPayment";
+import postPayment from "@/api/payment/postPayment";
 import { useMutation } from "@tanstack/react-query";
 
 const addPaymentsMutation = () => {

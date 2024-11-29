@@ -17,7 +17,7 @@ const TripPlan: React.FC<TripPlanProps> = ({ data }) => {
 
   useEffect(() => {
     if (data.days) {
-      setDays(data.days); // data.days로 days를 초기화
+      setDays(data.days);
     }
   }, [data]);
 
