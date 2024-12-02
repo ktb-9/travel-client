@@ -1,8 +1,7 @@
-import { Image, Text, TouchableOpacity, View } from "react-native";
+import { Image, Text, View } from "react-native";
 import styles from "./styles";
 import { groupState } from "@/types/viewTrip/viewTrip";
 import { useEffect, useState } from "react";
-import { Ionicons } from "@expo/vector-icons";
 import EditGroupModal from "./modal/EditModal";
 import Button from "@/components/common/Button/button";
 
@@ -25,7 +24,7 @@ const Group = ({ data }: { data: groupState }) => {
       <View style={styles.circleContainer}>
         <View style={styles.circle}>
           <Image
-            source={dataValue.groupThumbnail || ""}
+            source={{ uri: dataValue.groupThumbnail || "" }}
             style={styles.image}
             resizeMode="cover"
           />
