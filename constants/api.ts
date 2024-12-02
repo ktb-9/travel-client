@@ -7,7 +7,10 @@ export const END_POINTS = {
   LOGIN: "/auth/oauth/kakao/callback",
   SCHEDULE: "trip",
   ADDGROUP: "/group",
+  UPDATEBACKGROUND_URL: (groupId: number) =>
+    `group/background/upload/${groupId}`,
   GETGROUP: (groupId: number) => `group/${groupId}`,
+  UPDATEGROUP: (tripId: number) => `group/${tripId}`,
   GETMEMBER: (groupId: number) => `group/${groupId}/members`,
   UPDATEGROUPTHUMBNAIL: (groupId: number) => `group/upload/${groupId}`,
   POSTLINK: (groupId: number) => `group/invite/${groupId}`,

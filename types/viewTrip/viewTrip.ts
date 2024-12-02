@@ -90,6 +90,13 @@ export interface ImagePickerSectionProps {
   locationId: number;
   onImageSelect: (uri: string) => void;
 }
+export interface BackgroundSelectionModalProps {
+  visible: boolean;
+  onClose: () => void;
+  onSelectBackground: (backgroundUri: string) => void;
+  groupId: number;
+}
+
 export interface addSearchResultsProps {
   isSearching: boolean;
   searchResults: SearchResult[];
