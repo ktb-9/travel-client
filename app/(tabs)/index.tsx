@@ -15,14 +15,14 @@ export default function LoginScreen() {
   const [showWebView, setShowWebView] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const router = useRouter();
-  const checkToken = async () => {
-    const tokensString = await AsyncStorage.getItem(TOKEN_KEY);
+  // const checkToken = async () => {
+  //   const tokensString = await AsyncStorage.getItem(TOKEN_KEY);
 
-    if (tokensString != undefined) router.push("/home/home");
-  };
-  useEffect(() => {
-    checkToken();
-  }, []);
+  //   if (tokensString != undefined) router.push("/home/home");
+  // };
+  // useEffect(() => {
+  //   checkToken();
+  // }, []);
   const [, setUser] = useRecoilState(authState);
 
   const handleKakaoLogin = () => {
