@@ -3,15 +3,7 @@ import styles from "./styles";
 import upCommingQuery from "@/hooks/api/upCommingQuery";
 
 const UpComming = () => {
-  const { data, isLoading, isError } = upCommingQuery();
-
-  if (isLoading) {
-    return <ActivityIndicator size="large" color="#0000ff" />;
-  }
-
-  if (isError || !data) {
-    return <Text>에러 로딩 업커밍</Text>;
-  }
+  const { data } = upCommingQuery();
 
   return (
     <View style={styles.container}>

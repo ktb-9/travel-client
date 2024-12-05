@@ -1,6 +1,6 @@
 import fetchUpcomming from "@/api/mockApi/main/upComming";
 import { queryKeys } from "@/constants/querykeys";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useSuspenseQuery } from "@tanstack/react-query";
 interface upCommingResponse {
   data: {
     destination: string;
@@ -11,7 +11,7 @@ interface upCommingResponse {
   };
 }
 const upCommingQuery = () => {
-  return useQuery<upCommingResponse, Error>({
+  return useSuspenseQuery<upCommingResponse, Error>({
     queryKey: queryKeys.upcomming,
     queryFn: fetchUpcomming,
   });

@@ -15,11 +15,10 @@ import { useRecoilState } from "recoil";
 import tripIdState from "@/recoil/tripIdState";
 
 const Content = () => {
-  const { data, isLoading, isError } = useMyTripGroupQuery();
+  const { data } = useMyTripGroupQuery();
   const [, setTripId] = useRecoilState(tripIdState);
   const router = useRouter();
 
-  // Memoize the handleTrip function
   const handleTrip = useCallback(
     (trip_id: number) => {
       router.push(`/trip/${trip_id}`);
@@ -28,7 +27,6 @@ const Content = () => {
     [router, setTripId]
   );
 
-  // Memoize the trip list with all necessary dependencies
   const renderTripList = useMemo(() => {
     if (!data) return null;
 
@@ -68,23 +66,6 @@ const Content = () => {
       </TouchableOpacity>
     ));
   }, [data, handleTrip]); // Added handleTrip to dependencies
-
-  if (isLoading) {
-    return (
-      <View style={styles.loadingContainer}>
-        <ActivityIndicator size="large" color="#3B82F6" />
-      </View>
-    );
-  }
-
-  if (isError || !data) {
-    return (
-      <View style={styles.errorContainer}>
-        <Ionicons name="alert-circle" size={48} color="#EF4444" />
-        <Text style={styles.errorText}>데이터를 불러올 수 없습니다</Text>
-      </View>
-    );
-  }
 
   return (
     <ScrollView
