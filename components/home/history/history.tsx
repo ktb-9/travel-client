@@ -1,11 +1,5 @@
 import React, { useRef, useState } from "react";
-import {
-  View,
-  Text,
-  Animated,
-  Dimensions,
-  ActivityIndicator,
-} from "react-native";
+import { View, Text, Animated, Dimensions } from "react-native";
 import styles from "./styles";
 import { useFonts } from "expo-font";
 import hotPlaceQuery from "@/hooks/api/hotPlaceQuery";
@@ -29,15 +23,8 @@ const History = () => {
     robotoBold: require("@/assets/fonts/Roboto-Bold.ttf"),
   });
 
-  const { data, isLoading, isError } = hotPlaceQuery();
+  const { data } = hotPlaceQuery();
 
-  if (isLoading) {
-    return <ActivityIndicator size="large" color="#0000ff" />;
-  }
-
-  if (isError || !data) {
-    return <Text>에러 로딩 업커밍</Text>;
-  }
   if (!fontsLoaded) return null;
   return (
     <View style={styles.container}>

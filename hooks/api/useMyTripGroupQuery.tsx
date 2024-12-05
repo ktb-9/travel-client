@@ -1,9 +1,9 @@
 import fetchMyTripGroup from "@/api/trip/fetchMyTripGroup";
 import { queryKeys } from "@/constants/querykeys";
-import { useQuery } from "@tanstack/react-query";
+import { useSuspenseQuery } from "@tanstack/react-query";
 
 const useMyTripGroupQuery = () => {
-  return useQuery({
+  return useSuspenseQuery({
     queryKey: queryKeys.getMyTrip,
     queryFn: fetchMyTripGroup,
   });

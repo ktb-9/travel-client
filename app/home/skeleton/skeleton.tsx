@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from "react";
-import { View, Animated, Dimensions } from "react-native";
+import { View, Animated, Dimensions, ViewStyle } from "react-native";
 import { useTheme } from "@/hooks/useTheme";
 
 const { width } = Dimensions.get("window");
@@ -42,7 +42,7 @@ const Skeleton: React.FC = () => {
   };
 
   // Shimmer overlay
-  const shimmerOverlay = {
+  const shimmerOverlay: Animated.WithAnimatedObject<ViewStyle> = {
     position: "absolute",
     top: 0,
     left: 0,

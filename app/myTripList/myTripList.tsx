@@ -1,16 +1,24 @@
 import { SafeAreaView, ScrollView, Text, View } from "react-native";
 import styles from "./styles";
-import Header from "@/components/myTripList/header/header";
-import Content from "@/components/myTripList/content/content";
+const Header = React.lazy(
+  () => import("@/components/myTripList/header/header")
+);
+const Content = React.lazy(
+  () => import("@/components/myTripList/content/content")
+);
+import React, { Suspense } from "react";
+import MyTripListSkeleton from "@/components/myTripList/skeleton/skeleton";
 
 const myTripList = () => {
   return (
-    <SafeAreaView style={styles.container} testID="safe-area-view">
-      <Header />
-      <ScrollView contentContainerStyle={styles.content}>
-        <Content />
-      </ScrollView>
-    </SafeAreaView>
+    <Suspense fallback={<MyTripListSkeleton />}>
+      <SafeAreaView style={styles.container} testID="safe-area-view">
+        <Header />
+        <ScrollView contentContainerStyle={styles.content}>
+          <Content />
+        </ScrollView>
+      </SafeAreaView>
+    </Suspense>
   );
 };
 export default myTripList;
