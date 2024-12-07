@@ -25,7 +25,10 @@ const ViewTrip = () => {
   return (
     <SafeAreaView style={styles.container}>
       <Suspense fallback={<TripLoading />}>
-        <Header onPress={() => router.push("/home/home")} title="여행 일정" />
+        <Header
+          onPress={() => router.push("/myTripList/myTripList")}
+          title="여행 일정"
+        />
         <ScrollView contentContainerStyle={styles.content}>
           <Suspense fallback={<Skeleton />}>
             <Infos />

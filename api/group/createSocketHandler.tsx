@@ -1,6 +1,9 @@
 import { Socket, io } from "socket.io-client";
 import { AXIOS_BASE_URL } from "@/constants/api";
 import { Moment } from "moment";
+import { useRouter } from "expo-router";
+import { Alert } from "react-native";
+import { SetterOrUpdater } from "recoil";
 
 interface DateRange {
   start: string | null;
@@ -30,6 +33,8 @@ interface SocketHandlerProps {
   setSocket: (socket: Socket | undefined) => void;
   userId: number;
   groupId: number;
+  router: ReturnType<typeof useRouter>;
+  setTripId: SetterOrUpdater<number>;
 }
 
 const createSocketHandler = ({
@@ -38,6 +43,8 @@ const createSocketHandler = ({
   setSocket,
   userId,
   groupId,
+  router,
+  setTripId,
 }: SocketHandlerProps) => {
   let socket: Socket | undefined;
 
@@ -58,7 +65,6 @@ const createSocketHandler = ({
 
   return {
     connect: () => {
-      // Create new socket connection
       const newSocket = io(AXIOS_BASE_URL, {
         transports: ["websocket"],
         reconnection: true,
@@ -77,8 +83,22 @@ const createSocketHandler = ({
         // Join the group room after connection
         newSocket.emit("joinGroup", groupId);
 
-        // Request initial calendar data
         newSocket.emit("getCalendarDates", { groupId });
+
+        newSocket.on(
+          "redirectToTrip",
+          (data: { tripId: number; message: string }) => {
+            setTripId(data.tripId);
+            if (router && router.push) {
+              alert(data.tripId);
+              router.push(`/trip/${data.tripId}`);
+            } else {
+              // 대체 방안
+              console.error("Router not initialized");
+              Alert.alert("알림", "페이지 이동에 실패했습니다.");
+            }
+          }
+        );
       });
 
       newSocket.on("disconnect", () => {
