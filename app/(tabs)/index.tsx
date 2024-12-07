@@ -1,4 +1,3 @@
-// Frontend (React Native)
 import React, { useEffect, useState } from "react";
 import { View, TouchableOpacity, Text, StyleSheet, Image } from "react-native";
 import { WebView } from "react-native-webview";
