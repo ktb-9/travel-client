@@ -30,7 +30,7 @@ const ViewTrip = () => {
         queryKey: queryKeys.getPayment,
       });
     } catch (error) {
-      console.error("Failed to refresh data:", error);
+      console.error("새로고침 실패 :", error);
     } finally {
       setRefreshing(false); // 새로고침 상태 종료
     }

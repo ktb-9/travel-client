@@ -8,14 +8,18 @@ import tripQuery from "@/hooks/api/tripQuery";
 import Group from "../group/group";
 import { BackgroundChangeButton } from "./BackroundChangeButton/BackroundChangeButton";
 import BackgroundSelectionModal from "./Modal/ImagePickerSection";
+import { defaults } from "@/constants/default";
+
 const Infos = () => {
   const tripId = useRecoilValue(tripIdState);
   const { data, isLoading, isError } = tripQuery(tripId);
   const [backgroundUri, setBackgroundUri] = useState("");
   const [isModalVisible, setModalVisible] = useState(false);
   useEffect(() => {
-    if (data && data.backgroundUrl) {
+    if (data?.backgroundUrl) {
       setBackgroundUri(data.backgroundUrl);
+    } else {
+      setBackgroundUri(defaults.bg);
     }
   }, [data]);
   const renderContent = useMemo(() => {

@@ -1,8 +1,8 @@
-import image from "@/assets/images/default.png";
 import { LocationItem } from "@/types/viewTrip/viewTrip";
 
 export const defaults = {
-  image: image,
+  bg: "https://assetkungya.s3.ap-northeast-2.amazonaws.com/image/IMG_5969.HEIC",
+  gt: "https://assetkungya.s3.ap-northeast-2.amazonaws.com/image/logo.png",
 } as const;
 export const categoryMap: { [key: string]: string } = {
   MT1: "대형마트",

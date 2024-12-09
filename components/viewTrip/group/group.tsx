@@ -4,6 +4,7 @@ import { groupState } from "@/types/viewTrip/viewTrip";
 import { useEffect, useState } from "react";
 import EditGroupModal from "./modal/EditModal";
 import Button from "@/components/common/Button/button";
+import { defaults } from "@/constants/default";
 
 const Group = ({ data }: { data: groupState }) => {
   const [dataValue, setDataValue] = useState<groupState>({} as groupState);
@@ -24,7 +25,7 @@ const Group = ({ data }: { data: groupState }) => {
       <View style={styles.circleContainer}>
         <View style={styles.circle}>
           <Image
-            source={{ uri: dataValue.groupThumbnail || "" }}
+            source={{ uri: dataValue.groupThumbnail || defaults.gt }}
             style={styles.image}
             resizeMode="cover"
           />
