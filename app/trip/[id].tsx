@@ -1,5 +1,5 @@
 import React, { useState, useEffect, Suspense } from "react";
-import { SafeAreaView, ScrollView, View } from "react-native";
+import { RefreshControl, SafeAreaView, ScrollView, View } from "react-native";
 import styles from "./styles";
 import Header from "@/components/common/Header/header";
 import { useRouter } from "expo-router";
@@ -10,10 +10,31 @@ const Payment = React.lazy(
 );
 import TripLoading from "./tripLoading/tripLoading";
 import Skeleton from "./skeleton/skeleton";
+import { useQueryClient } from "@tanstack/react-query";
+import { queryKeys } from "@/constants/querykeys";
 
 const ViewTrip = () => {
   const router = useRouter();
   const [isReady, setIsReady] = useState(false);
+  const [refreshing, setRefreshing] = useState(false);
+  const queryClient = useQueryClient();
+  const onRefresh = async () => {
+    setRefreshing(true); // 새로고침 상태 시작
+
+    try {
+      await queryClient.invalidateQueries({
+        queryKey: queryKeys.getTrip,
+      });
+      // 데이터를 무효화하고 다시 가져오기
+      await queryClient.invalidateQueries({
+        queryKey: queryKeys.getPayment,
+      });
+    } catch (error) {
+      console.error("Failed to refresh data:", error);
+    } finally {
+      setRefreshing(false); // 새로고침 상태 종료
+    }
+  };
   useEffect(() => {
     // 최소 2초 동안 로딩 상태 유지
     const timer = setTimeout(() => {
@@ -29,7 +50,12 @@ const ViewTrip = () => {
           onPress={() => router.push("/myTripList/myTripList")}
           title="여행 일정"
         />
-        <ScrollView contentContainerStyle={styles.content}>
+        <ScrollView
+          contentContainerStyle={styles.content}
+          refreshControl={
+            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+          }
+        >
           <Suspense fallback={<Skeleton />}>
             <Infos />
             <Payment />
