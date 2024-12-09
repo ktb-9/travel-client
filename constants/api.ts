@@ -9,6 +9,7 @@ export const END_POINTS = {
   ADDGROUP: "/group",
   UPDATEBACKGROUND_URL: (groupId: number) =>
     `group/background/upload/${groupId}`,
+  GETPREVIOUSGROUP: "/previous",
   GETGROUP: (groupId: number) => `group/${groupId}`,
   UPDATEGROUP: (tripId: number) => `group/${tripId}`,
   GETMEMBER: (groupId: number) => `group/${groupId}/members`,

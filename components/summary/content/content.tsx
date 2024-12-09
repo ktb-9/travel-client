@@ -17,7 +17,7 @@ const Content = () => {
   return (
     <View style={styles.container}>
       <View style={styles.background}>
-        <Image source={defaults.image} style={styles.image} />
+        <Image source={{ uri: defaults.bg }} style={styles.image} />
         <View style={styles.overlay} />
       </View>
       <View style={styles.summaryContainer}>

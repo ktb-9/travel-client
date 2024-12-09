@@ -4,7 +4,8 @@ import { View } from "react-native";
 import { SearchResults } from "../SearchResults/SearchResults";
 import { FormGroupProps } from "@/types/map/map";
 import styles from "./styles";
-
+import DateTimePicker from "@react-native-community/datetimepicker";
+import useDateTimePicker from "@/hooks/viewTrip/useDateTimePicker";
 const FormGroup = ({
   formData,
   setFormData,
@@ -14,7 +15,9 @@ const FormGroup = ({
   searchResults,
   handleSelectPlace,
 }: FormGroupProps) => {
-  console.log(formData);
+  const { parseTimeToStringDate, handleDateTimeChange } = useDateTimePicker({
+    setFormData,
+  });
   return (
     <>
       <ImagePickerSection
@@ -52,13 +55,16 @@ const FormGroup = ({
       </View>
 
       <View style={styles.inputGroup}>
-        <FormField
-          label="Visit Time"
-          value={formData.visit_time}
-          onChangeText={(text) =>
-            setFormData((prev) => ({ ...prev, visitTime: text }))
+        <DateTimePicker
+          value={
+            formData.visit_time
+              ? parseTimeToStringDate(formData.visit_time)
+              : new Date()
           }
-          placeholder="방문 시간을 입력해주세요..."
+          mode="time"
+          display="spinner"
+          onChange={handleDateTimeChange}
+          locale="ko-KR"
         />
       </View>
 

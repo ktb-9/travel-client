@@ -6,6 +6,8 @@ import { AddLocationInputGroupState } from "@/types/map/map";
 import styles from "./styles";
 import Button from "@/components/common/Button/button";
 import { FormField } from "@/components/common/FormField/FormField";
+import DateTimePicker from "@react-native-community/datetimepicker";
+import useAddDateTimePicker from "@/hooks/viewTrip/useAddDateTimePicker";
 
 const AddLocationInputGroup = ({
   currentLocation,
@@ -20,6 +22,10 @@ const AddLocationInputGroup = ({
   newLocation,
   removeLocation,
 }: AddLocationInputGroupState) => {
+  const { parseTimeToStringDate, handleDateTimeChange } = useAddDateTimePicker(
+    (formattedTime) =>
+      updateLocationField(currentLocationIndex, "visit_time", formattedTime)
+  );
   return (
     <>
       <ImagePickerSection
@@ -72,6 +78,17 @@ const AddLocationInputGroup = ({
           updateLocationField(currentLocationIndex, "category", text)
         }
         placeholder="카테고리를 입력하세요"
+      />
+      <DateTimePicker
+        value={
+          currentLocation.visit_time
+            ? parseTimeToStringDate(currentLocation.visit_time)
+            : new Date()
+        }
+        mode="time"
+        display="spinner"
+        onChange={handleDateTimeChange}
+        locale="ko-KR"
       />
 
       <FormField

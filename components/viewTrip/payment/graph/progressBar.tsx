@@ -1,5 +1,5 @@
 import React from "react";
-import { View, StyleSheet } from "react-native";
+import { View } from "react-native";
 import { CATEGORY_COLORS, DEFAULT_COLOR } from "@/constants/default";
 import { styles } from "./styles";
 
@@ -10,14 +10,13 @@ type ProgressBarProps = {
 
 export const ProgressBar = ({ category, width }: ProgressBarProps) => {
   const widthValue = typeof width === "string" ? parseFloat(width) : width;
-
   return (
     <View style={styles.progressBar}>
       <View
         style={[
           styles.progressFill,
           {
-            width: widthValue,
+            width: `${widthValue}%`,
             backgroundColor: CATEGORY_COLORS[category] || DEFAULT_COLOR,
           },
         ]}

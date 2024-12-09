@@ -6,6 +6,7 @@ import Button from "@/components/common/Button/button";
 import Badge from "../Badge/Badge";
 import LocationInfo from "../LocationInfo/LocationInfo";
 import LocationCardFooter from "../LocationCardFooter/LocationCardFooter";
+import { defaults } from "@/constants/default";
 
 export const LocationCard = ({
   locationValue,
@@ -18,7 +19,7 @@ export const LocationCard = ({
     <View style={styles.locationCard}>
       <View style={styles.imageContainer}>
         <Image
-          source={{ uri: locationValue.thumbnail }}
+          source={{ uri: locationValue.thumbnail || defaults.gt }}
           style={styles.locationImage}
         />
         <LinearGradient

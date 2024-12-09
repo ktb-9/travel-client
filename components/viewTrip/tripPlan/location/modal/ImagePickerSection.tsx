@@ -3,9 +3,9 @@ import { TouchableOpacity, Image, View, Text } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
 import * as ImagePicker from "expo-image-picker";
 import styles from "./styles";
-import { ImagePickerSectionProps } from "@/types/viewTrip/viewTrip";
+import { AddImagePickerSectionProps } from "@/types/viewTrip/viewTrip";
 
-export const ImagePickerSection: React.FC<ImagePickerSectionProps> = ({
+export const ImagePickerSection: React.FC<AddImagePickerSectionProps> = ({
   thumbnail,
   onImageSelect,
 }) => {

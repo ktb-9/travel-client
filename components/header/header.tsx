@@ -1,6 +1,5 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { View, TouchableOpacity, Text, Image } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
 import { header } from "@/types/header";
 import styles from "./styles";
 import { useRouter } from "expo-router";
@@ -8,11 +7,11 @@ import addGroupMutation from "@/hooks/api/addGroupMutation";
 import { useRecoilValue } from "recoil";
 import authState from "@/recoil/authState";
 import Button from "../common/Button/button";
-
+import List from "./List/List";
 const Header = ({ toggle, isDark }: header) => {
   const userValue = useRecoilValue(authState);
-  console.log(userValue);
   const { mutate } = addGroupMutation();
+  const [modalVisible, setModalVisible] = useState(false);
   const router = useRouter();
   const profileImageUrl = userValue?.profileImage.replace(
     "http://",
@@ -44,6 +43,21 @@ const Header = ({ toggle, isDark }: header) => {
         </Text>
       </TouchableOpacity>
       <View style={styles.menu}>
+        <>
+          <Button
+            variant="icon"
+            icon={{
+              name: "calendar",
+              size: 24,
+              color: "green",
+            }}
+            onPress={() => {
+              // 모달 열기
+              setModalVisible(true);
+            }}
+          />
+          <List modalVisible={modalVisible} setModalVisible={setModalVisible} />
+        </>
         <Button
           variant="icon"
           icon={{

@@ -90,6 +90,10 @@ export interface ImagePickerSectionProps {
   locationId: number;
   onImageSelect: (uri: string) => void;
 }
+export interface AddImagePickerSectionProps {
+  thumbnail: string;
+  onImageSelect: (uri: string) => void;
+}
 export interface BackgroundSelectionModalProps {
   visible: boolean;
   onClose: () => void;
