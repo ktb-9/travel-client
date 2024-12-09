@@ -3,12 +3,9 @@ import { Modal, View, ScrollView } from "react-native";
 import { useDebouncedSearch } from "@/hooks/map/useDebounceSearch";
 import styles from "./styles";
 import { SearchResult } from "@/types/map/map";
-import { SearchResults } from "./SearchResults/SearchResults";
-import { FormField } from "../../../common/FormField/FormField";
 import { ModalHeader } from "./ModalHeader";
 import { useLocationForm } from "@/hooks/viewTrip/useLocationForm";
 import { EditModalProps } from "@/types/viewTrip/viewTrip";
-import { ImagePickerSection } from "./ImagePickerSection";
 import { useEditSerachPlace } from "@/hooks/viewTrip/useEditSearchPlace";
 import FormGroup from "./FormGroup/FormGroup";
 

@@ -26,8 +26,9 @@ export const categoryMap: { [key: string]: string } = {
 };
 export const CATEGORIES = ["카페", "식당", "술", "간식"];
 export const CATEGORY_COLORS: { [key: string]: string } = {
-  술: "#5C7CFA",
-  간식: "#51CF66",
+  술: "#FF6B6B",
+  간식: "#FFB323",
+  카페: "#4ECDC4",
 };
 export const DEFAULT_COLOR = "#339AF0";
 export const initialLocationState: LocationItem = {
