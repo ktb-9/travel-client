@@ -90,7 +90,6 @@ const createSocketHandler = ({
           (data: { tripId: number; message: string }) => {
             setTripId(data.tripId);
             if (router && router.push) {
-              alert(data.tripId);
               router.push(`/trip/${data.tripId}`);
             } else {
               // 대체 방안
@@ -110,7 +109,6 @@ const createSocketHandler = ({
         console.error("Socket 에러:", error.message);
       });
 
-      // Calendar event listeners
       newSocket.on(
         "calendarDatesList",
         (data: { groupId: number; calendarData: CalendarData[] }) => {

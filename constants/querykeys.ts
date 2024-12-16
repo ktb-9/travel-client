@@ -1,6 +1,7 @@
 export const queryKeys = {
   example: ["example"] as const,
   upcomming: ["upcomming"] as const,
+  history: ["history"] as const,
   hotplace: ["hotplace"] as const,
   getGroup: ["getGroup"] as const,
   getMember: ["getMember"] as const,

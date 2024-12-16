@@ -6,6 +6,7 @@ export const MAP_KEY = process.env.EXPO_PUBLIC_MAP_KEY;
 export const END_POINTS = {
   LOGIN: "/auth/oauth/kakao/callback",
   GETUPCOMMING: "/trip/upcomming",
+  HISTORY: "history",
   SCHEDULE: "trip",
   ADDGROUP: "/group",
   UPDATEBACKGROUND_URL: (groupId: number) =>
