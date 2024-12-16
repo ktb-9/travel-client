@@ -11,7 +11,7 @@ const updatePaymentsMutation = (tripId: number) => {
     onSuccess: (data: { message: string }) => {
       alert(data.message);
       queryClient.invalidateQueries({
-        queryKey: queryKeys.getPayment,
+        queryKey: [queryKeys.getPayment, tripId],
       });
       router.back();
     },

@@ -5,6 +5,7 @@ export const AXIOS_BASE_URL = process.env.EXPO_PUBLIC_AXIOS_BASE_URL;
 export const MAP_KEY = process.env.EXPO_PUBLIC_MAP_KEY;
 export const END_POINTS = {
   LOGIN: "/auth/oauth/kakao/callback",
+  GETUPCOMMING: "/trip/upcomming",
   SCHEDULE: "trip",
   ADDGROUP: "/group",
   UPDATEBACKGROUND_URL: (groupId: number) =>
@@ -23,6 +24,7 @@ export const END_POINTS = {
   POSTPAYMENT: "payment",
   PAYMENT: (tripId: number) => `payment/${tripId}`,
   DELETEPAYMENT: (paymentId: number) => `payment/${paymentId}`,
+  GETANALYSIS: (tripId: number) => `analysis/${tripId}`,
 } as const;
 
 export const NETWORK = {

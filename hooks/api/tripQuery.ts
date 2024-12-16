@@ -4,7 +4,7 @@ import { useSuspenseQuery } from "@tanstack/react-query";
 
 const tripQuery = (tripId: number) => {
   return useSuspenseQuery({
-    queryKey: [...queryKeys.getTrip, tripId],
+    queryKey: [queryKeys.getTrip, tripId],
     queryFn: () => fetchTrip(tripId),
   });
 };

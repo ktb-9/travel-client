@@ -144,22 +144,45 @@ const styles = StyleSheet.create({
       },
     }),
   },
+
+  memberAmounts: {
+    flex: 1,
+    paddingLeft: 16,
+  },
+  memberPaid: {
+    fontSize: 14,
+    color: "#666",
+    textAlign: "right",
+    marginBottom: 2,
+  },
+  memberShould: {
+    fontSize: 14,
+    color: "#666",
+    textAlign: "right",
+    marginBottom: 4,
+  },
+  memberBalance: {
+    fontSize: 16,
+    fontWeight: "600",
+    textAlign: "right",
+  },
+  // 기존 memberInfo 수정
+  memberInfo: {
+    flex: 1,
+  },
+  // 기존 memberItem 수정
   memberItem: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
     marginBottom: 12,
     paddingVertical: 8,
     borderBottomWidth: 1,
     borderBottomColor: "#f1f3f5",
   },
-  memberInfo: {
-    flexDirection: "row",
-    alignItems: "center",
-  },
+  // 기존 memberName 수정
   memberName: {
     fontSize: 16,
-    marginRight: 8,
+    fontWeight: "500",
+    color: "#333",
+    marginBottom: 4,
   },
   memberPercentage: {
     fontSize: 14,
@@ -168,6 +191,7 @@ const styles = StyleSheet.create({
   memberAmount: {
     fontSize: 16,
     fontWeight: "500",
+    color: "#333",
   },
 });
 export default styles;

@@ -9,10 +9,11 @@ import Group from "../group/group";
 import { BackgroundChangeButton } from "./BackroundChangeButton/BackroundChangeButton";
 import BackgroundSelectionModal from "./Modal/ImagePickerSection";
 import { defaults } from "@/constants/default";
+import React from "react";
 
 const Infos = () => {
   const tripId = useRecoilValue(tripIdState);
-  const { data, isLoading, isError } = tripQuery(tripId);
+  const { data } = tripQuery(tripId);
   const [backgroundUri, setBackgroundUri] = useState("");
   const [isModalVisible, setModalVisible] = useState(false);
   useEffect(() => {
@@ -52,22 +53,6 @@ const Infos = () => {
       </>
     );
   }, [data, backgroundUri, isModalVisible]);
-
-  if (isLoading) {
-    return (
-      <View style={styles.container}>
-        <ActivityIndicator size="large" color="#0000ff" />
-      </View>
-    );
-  }
-
-  if (isError || !data) {
-    return (
-      <View style={styles.container}>
-        <Text>에러 트립</Text>
-      </View>
-    );
-  }
 
   return <View style={styles.container}>{renderContent}</View>;
 };
