@@ -1,4 +1,4 @@
-import { ScrollView, Text, View, Image, TouchableOpacity } from "react-native";
+import { ScrollView, Text, View, Image } from "react-native";
 import styles from "./styles";
 import leader from "@/assets/images/leader.png";
 import companion from "@/assets/images/companion.png";
@@ -9,6 +9,9 @@ import authState from "@/recoil/authState";
 import postLink from "@/api/group/postLink";
 import groupHostState from "@/recoil/groupHostState";
 import Button from "@/components/common/Button/button";
+import * as Clipboard from "expo-clipboard";
+import { useState } from "react";
+import Toast from "./Toast/Toast";
 type RouteParams = {
   id: string;
 };
@@ -19,9 +22,17 @@ const Invite = () => {
   const decodedId = decodeURIComponent(encodedId); // URL 디코딩
   const userValue = useRecoilValue(authState);
   const { socket, members } = useGroupSocket(parseInt(decodedId), userValue.id);
+  const [toastVisible, setToastVisible] = useState(false);
   const createLink = async () => {
-    const response = await postLink(groupState.group_id);
-    console.log(response);
+    try {
+      const response = await postLink(groupState.group_id);
+      if (response) {
+        await Clipboard.setStringAsync(response.inviteLink); // 변경된 부분
+        setToastVisible(true);
+      }
+    } catch (error) {
+      console.error("Failed to create or copy link:", error);
+    }
   };
 
   return (
@@ -50,6 +61,11 @@ const Invite = () => {
           ))}
         </ScrollView>
       </View>
+      <Toast
+        visible={toastVisible}
+        message="링크가 복사되었습니다"
+        onHide={() => setToastVisible(false)}
+      />
     </View>
   );
 };

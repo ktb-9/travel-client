@@ -1,8 +1,7 @@
 export const BASE_URL = process.env.EXPO_PUBLIC_BASE_URL;
 export const REDIRECT_URI: any = process.env.EXPO_PUBLIC_REDIRECT_URI;
-export const WEB = process.env.EXPO_PUBLIC_WEB || "http://localhost:3000";
-export const AXIOS_BASE_URL =
-  process.env.EXPO_PUBLIC_AXIOS_BASE_URL || "http://localhost:8000";
+export const WEB = "http://localhost:3000";
+export const AXIOS_BASE_URL = "http://localhost:8000";
 export const MAP_KEY = process.env.EXPO_PUBLIC_MAP_KEY;
 export const END_POINTS = {
   LOGIN: "/auth/oauth/kakao/callback",
