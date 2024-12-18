@@ -12,9 +12,12 @@ import TripLoading from "./tripLoading/tripLoading";
 import Skeleton from "./skeleton/skeleton";
 import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "@/constants/querykeys";
+import { useRecoilValue } from "recoil";
+import tripIdState from "@/recoil/tripIdState";
 
 const ViewTrip = () => {
   const router = useRouter();
+  const tripId = useRecoilValue(tripIdState);
   const [isReady, setIsReady] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
   const queryClient = useQueryClient();
@@ -23,11 +26,11 @@ const ViewTrip = () => {
 
     try {
       await queryClient.invalidateQueries({
-        queryKey: queryKeys.getTrip,
+        queryKey: [queryKeys.getTrip, tripId],
       });
       // 데이터를 무효화하고 다시 가져오기
       await queryClient.invalidateQueries({
-        queryKey: queryKeys.getPayment,
+        queryKey: [queryKeys.getPayment, tripId],
       });
     } catch (error) {
       console.error("새로고침 실패 :", error);

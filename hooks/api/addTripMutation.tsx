@@ -11,7 +11,7 @@ const addTripMutation = (tripId: number) => {
     onSuccess: (data: response) => {
       alert(data.message);
       queryClient.invalidateQueries({
-        queryKey: [...queryKeys.getTrip, tripId],
+        queryKey: [queryKeys.getTrip, tripId],
       });
     },
     onError: (error) => {

@@ -4,7 +4,7 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 
 const getGroupQuery = (groupId: number) => {
   return useQuery({
-    queryKey: queryKeys.getGroup,
+    queryKey: [queryKeys.getGroup, groupId],
     queryFn: () => fetchGroup(groupId),
   });
 };

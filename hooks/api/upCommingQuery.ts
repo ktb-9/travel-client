@@ -1,13 +1,14 @@
-import fetchUpcomming from "@/api/mockApi/main/upComming";
+import fetchUpcomming from "@/api/main/upComming";
 import { queryKeys } from "@/constants/querykeys";
-import { useQuery, useSuspenseQuery } from "@tanstack/react-query";
+import { useSuspenseQuery } from "@tanstack/react-query";
 interface upCommingResponse {
-  data: {
+  0: {
     destination: string;
-    thumbnail: any;
-    day: string;
-    nickname: string;
-    groupThumbnail: any;
+    background_url: string;
+    date: string;
+    group_name: string;
+    group_thumbnail: any;
+    trip_id: number;
   };
 }
 const upCommingQuery = () => {

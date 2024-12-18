@@ -4,7 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 
 const getPaymentMembersQuery = (tripId: number) => {
   return useQuery({
-    queryKey: [...queryKeys.getPaymentMember, tripId],
+    queryKey: [queryKeys.getPaymentMember, tripId],
     queryFn: () => fetchPaymentMembers(tripId),
   });
 };

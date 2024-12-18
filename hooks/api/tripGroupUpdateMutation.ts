@@ -11,7 +11,7 @@ const tripGroupUpdateMutation = (tripId: number) => {
     onSuccess: (data: dataState) => {
       alert(data.message);
       queryClient.invalidateQueries({
-        queryKey: [...queryKeys.getTrip, tripId],
+        queryKey: [queryKeys.getTrip, tripId],
       });
     },
     onError: (error) => {

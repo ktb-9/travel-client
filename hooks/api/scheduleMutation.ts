@@ -1,5 +1,6 @@
 import postSchedule from "@/api/createTrip/postSchedule";
-import { useMutation } from "@tanstack/react-query";
+import { queryKeys } from "@/constants/querykeys";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Socket } from "socket.io-client";
 
 interface TripState {
@@ -12,16 +13,20 @@ interface MessageState {
 }
 
 const scheduleMutations = (groupId: number, socket: Socket | undefined) => {
+  const queryClient = useQueryClient();
   return useMutation({
     mutationFn: postSchedule,
     onSuccess: (data: MessageState) => {
-      // Broadcast trip creation to all group members
+      // 브로디 캐스팅 전체에게 전달
       if (socket && socket.connected) {
         socket.emit("tripCreated", {
           groupId: groupId,
           tripId: data.trip.trip_id,
         });
       }
+      queryClient.invalidateQueries({
+        queryKey: queryKeys.getPrevious,
+      });
     },
     onError: (error) => {
       console.error(error);

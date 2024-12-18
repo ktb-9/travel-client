@@ -4,7 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 
 const getMemberQuery = (groupId: number) => {
   return useQuery({
-    queryKey: queryKeys.getMember,
+    queryKey: [queryKeys.getMember, groupId],
     queryFn: () => fetchMember(groupId),
   });
 };
