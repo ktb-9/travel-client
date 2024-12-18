@@ -1,4 +1,3 @@
-// Frontend (React Native)
 import React, { useEffect, useState } from "react";
 import { View, TouchableOpacity, Text, StyleSheet, Image } from "react-native";
 import { WebView } from "react-native-webview";
@@ -17,7 +16,6 @@ export default function LoginScreen() {
   const router = useRouter();
   const checkToken = async () => {
     const tokensString = await AsyncStorage.getItem(TOKEN_KEY);
-    console.log(tokensString);
 
     if (tokensString != undefined) router.push("/home/home");
   };

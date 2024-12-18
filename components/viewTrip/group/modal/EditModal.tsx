@@ -6,13 +6,15 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Ionicons } from "@expo/vector-icons";
 import * as ImagePicker from "expo-image-picker";
 import { groupState } from "@/types/viewTrip/viewTrip";
 import styles from "./styles";
-import updateTripGroup from "@/api/mockApi/trip/updateTripGroup";
 import tripGroupUpdateMutation from "@/hooks/api/tripGroupUpdateMutation";
+import uploadGroupThumbnail from "@/api/group/uploadGroupThumbnail";
+import { useRecoilValue } from "recoil";
+import tripIdState from "@/recoil/tripIdState";
 interface EditGroupModalProps {
   isVisible: boolean;
   onClose: () => void;
@@ -26,10 +28,15 @@ const EditGroupModal = ({
   groupData,
   setDataValue,
 }: EditGroupModalProps) => {
-  const [groupName, setGroupName] = useState(groupData.groupName);
-  const [date, setDate] = useState(groupData.date);
-  const [thumbnail, setThumbnail] = useState(groupData.groupThumbnail);
-
+  const [groupName, setGroupName] = useState("");
+  const [date, setDate] = useState("");
+  const [thumbnail, setThumbnail] = useState("");
+  const tripId = useRecoilValue(tripIdState);
+  useEffect(() => {
+    setGroupName(groupData.groupName || "");
+    setDate(groupData.date);
+    setThumbnail(groupData.groupThumbnail);
+  }, [groupData]);
   const handleImagePick = async () => {
     const permissionResult =
       await ImagePicker.requestMediaLibraryPermissionsAsync();
@@ -46,8 +53,28 @@ const EditGroupModal = ({
       quality: 1,
     });
 
-    if (!result.canceled) {
-      setThumbnail(result.assets[0].uri);
+    if (!result.canceled && result.assets[0].uri) {
+      await uploadThumbnail(result.assets[0].uri);
+    }
+  };
+
+  const uploadThumbnail = async (imageUri: string) => {
+    try {
+      const formData = new FormData();
+      formData.append("thumbnail", {
+        uri: imageUri,
+        type: "image/jpeg",
+        name: "thumbnail.jpg",
+      } as any);
+
+      const response = await uploadGroupThumbnail(formData, groupData.group_id);
+
+      setThumbnail(response.thumbnailUrl);
+
+      alert(response.message);
+    } catch (error) {
+      console.error("섭네일 업로드 에러:", error);
+      alert("썸네일 업로드 실패");
     }
   };
 
@@ -55,10 +82,10 @@ const EditGroupModal = ({
     const data = { ...groupData, groupName, date, groupThumbnail: thumbnail };
 
     setDataValue(data);
-    mutate({ groupId: groupData.groupId, body: data });
+    mutate({ tripId: tripId, body: data });
     onClose();
   };
-  const { mutate } = tripGroupUpdateMutation();
+  const { mutate } = tripGroupUpdateMutation(tripId);
   return (
     <Modal
       visible={isVisible}

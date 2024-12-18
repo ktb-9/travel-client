@@ -21,7 +21,7 @@ export const CommonExpenseItem = ({
         <Text style={styles.expenseText}>{expense.category}</Text>
         {expense.to && (
           <View style={styles.toTag}>
-            <Text style={styles.toTagText}>{expense.to}번에게</Text>
+            <Text style={styles.toTagText}>{expense.to} 에게</Text>
           </View>
         )}
       </View>

@@ -1,21 +1,45 @@
-import React from "react";
-import { SafeAreaView, Text, ScrollView } from "react-native";
+import React, { Suspense, useState } from "react";
+import { RefreshControl, SafeAreaView, ScrollView } from "react-native";
 import Header from "@/components/header/header";
 import { useTheme } from "@/hooks/useTheme";
-import HotPlace from "@/components/home/hotplace/hotplace";
-import UpComming from "@/components/home/upcomming/upcomming";
-import History from "@/components/home/history/history";
-import Intro from "@/components/home/intro/intro";
 import styles from "./styles";
+import Skeleton from "./skeleton/skeleton";
+import { useQueryClient } from "@tanstack/react-query";
+import { queryKeys } from "@/constants/querykeys";
+const Intro = React.lazy(() => import("@/components/home/intro/intro"));
+const UpComming = React.lazy(
+  () => import("@/components/home/upcomming/upcomming")
+);
+const HotPlace = React.lazy(
+  () => import("@/components/home/hotplace/hotplace")
+);
+const History = React.lazy(() => import("@/components/home/history/history"));
 
 export default function HomeScreen() {
   const { isDarkMode, toggleTheme } = useTheme();
+  const [refreshing, setRefreshing] = useState(false);
+  const queryClient = useQueryClient();
+  const onRefresh = async () => {
+    setRefreshing(true);
+    try {
+      await queryClient.invalidateQueries({
+        queryKey: queryKeys.upcomming,
+      });
+      await queryClient.invalidateQueries({
+        queryKey: queryKeys.history,
+      });
+    } catch (error) {
+      console.error("새로고침 실패 :", error);
+    } finally {
+      setRefreshing(false);
+    }
+  };
+
   if (__DEV__) {
     require("../../mock/handler");
   }
 
   return (
-    //컨테이너
     <SafeAreaView
       style={[
         styles.container,
@@ -24,13 +48,21 @@ export default function HomeScreen() {
     >
       {/* 헤더 */}
       <Header toggle={toggleTheme} isDark={isDarkMode} />
-      {/* 컴포넌트 */}
-      <ScrollView contentContainerStyle={styles.content}>
-        <Intro />
-        <UpComming />
-        <HotPlace />
-        <History />
-      </ScrollView>
+
+      {/* Suspense Wrapper */}
+      <Suspense fallback={<Skeleton />}>
+        <ScrollView
+          contentContainerStyle={styles.content}
+          refreshControl={
+            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+          }
+        >
+          <Intro />
+          <UpComming />
+          <HotPlace />
+          <History />
+        </ScrollView>
+      </Suspense>
     </SafeAreaView>
   );
 }

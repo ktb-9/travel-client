@@ -1,21 +1,32 @@
+import { END_POINTS, TOKEN_KEY } from "@/constants/api";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { axiosInstance } from "../axiosinstance";
-import { ACCESS_TOKEN_KEY, REFRESH_TOKEN_KEY } from "../../constants/api";
-import { useRecoilValue } from "recoil";
-import { userInfoState_unique } from "@/recoil/authState";
 
-// 새 토큰 반환
 async function postNewToken() {
-  const userInfo = useRecoilValue(userInfoState_unique);
+  const tokensString = await AsyncStorage.getItem(TOKEN_KEY);
+  const tokens = tokensString ? JSON.parse(tokensString) : null;
+
+  if (!tokens || !tokens.refreshToken) {
+    throw new Error("토큰이 존재하지 않음");
+  }
+
   const requestData = {
-    user_id: userInfo.userId,
-    refreshToken: localStorage.getItem(REFRESH_TOKEN_KEY),
+    refreshToken: tokens.refreshToken, // user_id 제거
   };
-  const response = await axiosInstance.post(
-    "/api/v1/auth/refresh",
-    requestData
-  );
+
+  const response = await axiosInstance.post(END_POINTS.REFRESH, requestData, {
+    headers: {
+      "Skip-Auth": true, // 토큰 없이 요청을 보냄
+    },
+  });
   const { accessToken } = response.data;
-  localStorage.setItem(ACCESS_TOKEN_KEY, accessToken);
+
+  const newTokens = {
+    ...tokens,
+    accessToken,
+  };
+
+  await AsyncStorage.setItem(TOKEN_KEY, JSON.stringify(newTokens));
   return { accessToken };
 }
 export default postNewToken;

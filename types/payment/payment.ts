@@ -1,4 +1,5 @@
 export interface PaymentState {
+  tripId: number;
   category: string;
   description: string;
   date: string;
@@ -7,7 +8,7 @@ export interface PaymentState {
   group: number[];
 }
 export interface PaymentEditState {
-  groupId: number;
+  tripId: number;
   paymentId: number;
   category: string;
   description: string;
@@ -40,15 +41,27 @@ export interface categoryModalState {
 }
 
 export interface UserType {
-  id: number;
-  name: string;
+  user_id: number;
+  nickname: string;
   isMe?: boolean;
+  profile_image: string;
+}
+export interface UserEditType {
+  user_id: number;
+  group?: Array<{ user_id: number }>;
+  nickname: string;
+  isMe?: boolean;
+  profile_image: string;
+}
+export interface groupMemberType {
+  user_id: string;
 }
 export interface UserListProps {
   value: PaymentType["value"];
   onPaymentUserCheck: (id: number) => void;
   onUserGroupAdd: (id: number) => void;
 }
+
 export interface PaymentInputProps {
   value: PaymentType["value"];
   onInputChange: (field: string, value: string) => void;
@@ -58,7 +71,7 @@ export interface PaymentInputProps {
 export type ExpenseDetail = {
   type: "개인" | "공통";
   price: number;
-  to: number | null;
+  to: string | undefined;
 };
 
 export type ExpenseResult = {
@@ -75,5 +88,5 @@ export type PersonalExpense = {
 export type CommonExpense = {
   category: string;
   price: number;
-  to: number | null;
+  to: string | undefined;
 };

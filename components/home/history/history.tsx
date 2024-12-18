@@ -1,27 +1,16 @@
 import React, { useRef, useState } from "react";
-import {
-  View,
-  Text,
-  Animated,
-  Dimensions,
-  ActivityIndicator,
-} from "react-native";
+import { View, Text, Animated, Dimensions } from "react-native";
 import styles from "./styles";
 import { useFonts } from "expo-font";
-import hotPlaceQuery from "@/hooks/api/hotPlaceQuery";
 import renderItem from "./renderItem";
+import getHistoryQuery from "@/hooks/api/getHistoryQuery";
+import { HistoryData } from "@/types/home/history";
+
 const { width } = Dimensions.get("window");
 
 const CARD_WIDTH = width * 0.42;
 const SPACING = 20;
 
-type HotplaceData = {
-  id: string;
-  destination: any;
-  mainDescription: string;
-  subDescription: string;
-  hashTag: string;
-};
 const History = () => {
   const scrollX = useRef(new Animated.Value(0)).current;
   const [fontsLoaded] = useFonts({
@@ -29,15 +18,8 @@ const History = () => {
     robotoBold: require("@/assets/fonts/Roboto-Bold.ttf"),
   });
 
-  const { data, isLoading, isError } = hotPlaceQuery();
-
-  if (isLoading) {
-    return <ActivityIndicator size="large" color="#0000ff" />;
-  }
-
-  if (isError || !data) {
-    return <Text>에러 로딩 업커밍</Text>;
-  }
+  const { data } = getHistoryQuery();
+  console.log(data);
   if (!fontsLoaded) return null;
   return (
     <View style={styles.container}>
@@ -61,7 +43,7 @@ const History = () => {
           { useNativeDriver: true }
         )}
       >
-        {data.data.map((item: HotplaceData, index: number) =>
+        {data.map((item: HistoryData, index: number) =>
           renderItem({ item, index, scrollX })
         )}
       </Animated.ScrollView>

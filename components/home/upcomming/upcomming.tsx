@@ -1,22 +1,33 @@
-import { Image, Text, View, ActivityIndicator } from "react-native";
+import {
+  Image,
+  Text,
+  View,
+  ActivityIndicator,
+  TouchableOpacity,
+} from "react-native";
 import styles from "./styles";
 import upCommingQuery from "@/hooks/api/upCommingQuery";
+import { defaults } from "@/constants/default";
+import useDday from "@/hooks/home/useDday";
+import { useRouter } from "expo-router";
+import { useRecoilState } from "recoil";
+import tripIdState from "@/recoil/tripIdState";
 
 const UpComming = () => {
-  const { data, isLoading, isError } = upCommingQuery();
-
-  if (isLoading) {
-    return <ActivityIndicator size="large" color="#0000ff" />;
-  }
-
-  if (isError || !data) {
-    return <Text>에러 로딩 업커밍</Text>;
-  }
-
+  const router = useRouter();
+  const { data } = upCommingQuery();
+  console.log(data[0].trip_id);
+  const [, setTrip] = useRecoilState(tripIdState);
   return (
-    <View style={styles.container}>
+    <TouchableOpacity
+      style={styles.container}
+      onPress={() => {
+        router.push(`/trip/${data[0].trip_id}`);
+        setTrip(data[0].trip_id);
+      }}
+    >
       <Image
-        source={data.data.thumbnail}
+        source={{ uri: data[0].background_url || defaults.bg }}
         style={styles.image}
         resizeMode="cover"
       />
@@ -25,19 +36,18 @@ const UpComming = () => {
         <View style={styles.circleContainer}>
           <View style={styles.circle}>
             <Image
-              source={data.data.groupThumbnail}
+              source={{ uri: data[0].group_thumbnail || defaults.gt }}
               style={styles.image}
               resizeMode="cover"
             />
           </View>
         </View>
-        <Text style={styles.nickname}>{data.data.nickname}</Text>
+        <Text style={styles.nickname}>{data[0].group_name}</Text>
       </View>
       <View style={styles.footer}>
-        <Text style={styles.day}>{data.data.day}</Text>
-        <Text style={styles.destination}>{data.data.destination}</Text>
+        <Text style={styles.day}>{useDday(data[0].date)}</Text>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 export default UpComming;

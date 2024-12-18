@@ -49,6 +49,10 @@ const Header = () => {
 
     newSocket.on("disconnect", (reason) => {
       console.log("Socket disconnected:", reason);
+      newSocket.emit("leaveGroup", {
+        groupId: parseInt(decodedId),
+        userId: userValue.id,
+      });
     });
 
     // Event handlers

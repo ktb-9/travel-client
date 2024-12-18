@@ -1,7 +1,8 @@
-import image from "@/assets/images/default.png";
+import { LocationItem } from "@/types/viewTrip/viewTrip";
 
 export const defaults = {
-  image: image,
+  bg: "https://assetkungya.s3.ap-northeast-2.amazonaws.com/image/IMG_5969.HEIC",
+  gt: "https://assetkungya.s3.ap-northeast-2.amazonaws.com/image/logo.png",
 } as const;
 export const categoryMap: { [key: string]: string } = {
   MT1: "대형마트",
@@ -25,7 +26,16 @@ export const categoryMap: { [key: string]: string } = {
 };
 export const CATEGORIES = ["카페", "식당", "술", "간식"];
 export const CATEGORY_COLORS: { [key: string]: string } = {
-  술: "#5C7CFA",
-  간식: "#51CF66",
+  술: "#FF6B6B",
+  간식: "#FFB323",
+  카페: "#4ECDC4",
 };
 export const DEFAULT_COLOR = "#339AF0";
+export const initialLocationState: LocationItem = {
+  name: "",
+  address: "",
+  category: "",
+  visit_time: "",
+  hashtag: "",
+  thumbnail: "",
+};

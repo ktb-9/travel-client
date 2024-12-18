@@ -1,7 +1,7 @@
 import { SearchResult } from "../map/map";
 
 export interface groupState {
-  groupId: number;
+  group_id: number;
   groupThumbnail?: any;
   groupName?: string;
   date: string;
@@ -87,8 +87,20 @@ export interface addFormFieldProps {
 }
 export interface ImagePickerSectionProps {
   thumbnail: string;
+  locationId: number;
   onImageSelect: (uri: string) => void;
 }
+export interface AddImagePickerSectionProps {
+  thumbnail: string;
+  onImageSelect: (uri: string) => void;
+}
+export interface BackgroundSelectionModalProps {
+  visible: boolean;
+  onClose: () => void;
+  onSelectBackground: (backgroundUri: string) => void;
+  groupId: number;
+}
+
 export interface addSearchResultsProps {
   isSearching: boolean;
   searchResults: SearchResult[];
@@ -98,4 +110,39 @@ export interface LocationsProps {
   location: Location;
   day: number;
   setDays: React.Dispatch<React.SetStateAction<planState[]>>;
+}
+export interface TripPlanProps {
+  data: tripState; // TripPlanProps의 data는 tripState 타입
+}
+export interface useTripPlanProps {
+  days: planState[];
+  setDays: React.Dispatch<React.SetStateAction<planState[]>>;
+  setCurrentIndex: React.Dispatch<React.SetStateAction<number>>;
+}
+export interface DayHeaderProps {
+  day: number;
+  destination: string;
+  locations: planState["locations"];
+  setIsAddModalVisible: React.Dispatch<React.SetStateAction<boolean>>;
+}
+export interface DayProps {
+  day: number;
+  destination: string;
+  locations: planState["locations"];
+  setDays: React.Dispatch<React.SetStateAction<planState[]>>;
+}
+export interface tripDeleteProps {
+  location: Location;
+  setDays: React.Dispatch<React.SetStateAction<planState[]>>;
+  tripId: number;
+}
+export interface LocationCardProps {
+  locationValue: Location;
+  setIsEditModalVisible: React.Dispatch<React.SetStateAction<boolean>>;
+  handleDelete: () => void;
+  renderHashtags: () => React.JSX.Element | null;
+  handleWebView: () => void;
+}
+export interface LocationValueProps {
+  locationValue: Location;
 }

@@ -1,7 +1,8 @@
 import Header from "@/components/payment/header/header";
-import { SafeAreaView, ScrollView, Text, View } from "react-native";
+import { SafeAreaView, ScrollView } from "react-native";
 import styles from "./styles";
 import Content from "@/components/payment/content/content";
+
 const Payment = () => {
   return (
     <SafeAreaView style={styles.container}>

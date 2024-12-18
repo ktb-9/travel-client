@@ -12,7 +12,6 @@ import renderOverlappingDates from "./renderOverlappingDates";
 import renderTripOptions from "./renderTripOption";
 import useFindOverlappingDates from "@/hooks/useFindOverlappingDates";
 import { useRecoilState, useRecoilValue } from "recoil";
-import { createSchdeuleState } from "@/recoil/createSchdeuleState";
 import { useRouter } from "expo-router";
 import { OverlappingDates, UserDateRanges } from "@/types/calendar/calendar";
 import { useCalendarState } from "@/reducers/useCalendarState";
@@ -21,6 +20,7 @@ import createSocketHandler from "../../../api/group/createSocketHandler";
 import authState from "@/recoil/authState";
 import Button from "@/components/common/Button/button";
 import scheduleMutations from "@/hooks/api/scheduleMutation";
+import tripIdState from "@/recoil/tripIdState";
 
 interface CalendarProps {
   groupName: string;
@@ -29,7 +29,6 @@ interface CalendarProps {
 
 const Calendar = ({ groupName, groupId }: CalendarProps) => {
   const router = useRouter();
-  const [, setSchedule] = useRecoilState(createSchdeuleState);
   const { state, actions } = useCalendarState();
   const [overlappingDates, setOverlappingDates] = useState<OverlappingDates[]>(
     []
@@ -43,6 +42,7 @@ const Calendar = ({ groupName, groupId }: CalendarProps) => {
     {}
   );
   const userValue = useRecoilValue(authState);
+  const [, setTripId] = useRecoilState(tripIdState);
 
   const pastelColors = [
     "#FFB3B3",
@@ -83,6 +83,8 @@ const Calendar = ({ groupName, groupId }: CalendarProps) => {
       setSocket,
       userId: userValue.id,
       groupId,
+      router,
+      setTripId,
     });
 
     socketHandlerRef.current = handler;
@@ -117,7 +119,7 @@ const Calendar = ({ groupName, groupId }: CalendarProps) => {
       mutate(body);
     }
   };
-  const { mutate } = scheduleMutations();
+  const { mutate } = scheduleMutations(groupId, socket);
 
   return (
     <SafeAreaView style={styles.container}>

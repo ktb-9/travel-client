@@ -1,5 +1,5 @@
-import deletePayment from "@/api/mockApi/payment/deletePayment";
-import { useMutation } from "@tanstack/react-query";
+import deletePayment from "@/api/payment/deletePayment";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 const deletePaymentsMutation = () => {
   return useMutation({

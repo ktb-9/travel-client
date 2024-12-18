@@ -34,26 +34,7 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 16,
   },
-  inputGroup: {
-    marginBottom: 20,
-    zIndex: 1, // Added for search results positioning
-  },
-  searchInputGroup: {
-    marginBottom: 20,
-    zIndex: 2, // Higher z-index for search field
-  },
-  label: {
-    fontSize: 14,
-    color: "#666",
-    marginBottom: 8,
-  },
-  input: {
-    borderWidth: 1,
-    borderColor: "#ddd",
-    borderRadius: 8,
-    padding: 12,
-    fontSize: 16,
-  },
+
   categoryPicker: {
     flexDirection: "row",
     alignItems: "center",
