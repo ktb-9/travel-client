@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { Location } from "@/types/viewTrip/viewTrip";
 import tripUpdateMutation from "../api/tripUpdateMutation";
+import { useRecoilValue } from "recoil";
+import groupIdState from "@/recoil/groupIdState";
 
 export const useLocationForm = (
   initialLocation: Location,
@@ -8,6 +10,7 @@ export const useLocationForm = (
   setLocationValue: React.Dispatch<React.SetStateAction<Location>>
 ) => {
   const { mutate } = tripUpdateMutation();
+  const groupId = useRecoilValue(groupIdState);
   const [formData, setFormData] = useState({
     location_id: initialLocation?.location_id || 0,
     name: initialLocation?.name || "",
@@ -32,7 +35,7 @@ export const useLocationForm = (
 
     setLocationValue(updatedLocation);
     mutate({
-      groupId: 1,
+      groupId: groupId,
       body: updatedLocation,
     });
     await Promise.resolve();

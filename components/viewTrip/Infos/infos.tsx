@@ -1,7 +1,7 @@
 import { ActivityIndicator, Image, Text, View } from "react-native";
 import styles from "./styles";
 import TripPlan from "../tripPlan/tripPlan";
-import { useRecoilValue } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import tripIdState from "@/recoil/tripIdState";
 import { useEffect, useMemo, useState } from "react";
 import tripQuery from "@/hooks/api/tripQuery";
@@ -10,18 +10,21 @@ import { BackgroundChangeButton } from "./BackroundChangeButton/BackroundChangeB
 import BackgroundSelectionModal from "./Modal/ImagePickerSection";
 import { defaults } from "@/constants/default";
 import React from "react";
+import groupIdState from "@/recoil/groupIdState";
 
 const Infos = () => {
   const tripId = useRecoilValue(tripIdState);
   const { data } = tripQuery(tripId);
   const [backgroundUri, setBackgroundUri] = useState("");
   const [isModalVisible, setModalVisible] = useState(false);
+  const [, setGroupId] = useRecoilState(groupIdState);
   useEffect(() => {
     if (data?.backgroundUrl) {
       setBackgroundUri(data.backgroundUrl);
     } else {
       setBackgroundUri(defaults.bg);
     }
+    setGroupId(data.group_id);
   }, [data]);
   const renderContent = useMemo(() => {
     if (!data) return null;

@@ -16,18 +16,17 @@ import tripIdState from "@/recoil/tripIdState";
 const UpComming = () => {
   const router = useRouter();
   const { data } = upCommingQuery();
-  console.log(data[0].trip_id);
   const [, setTrip] = useRecoilState(tripIdState);
   return (
     <TouchableOpacity
       style={styles.container}
       onPress={() => {
         router.push(`/trip/${data[0].trip_id}`);
-        setTrip(data[0].trip_id);
+        setTrip(data[0]?.trip_id);
       }}
     >
       <Image
-        source={{ uri: data[0].background_url || defaults.bg }}
+        source={{ uri: data[0]?.background_url || defaults.bg }}
         style={styles.image}
         resizeMode="cover"
       />
@@ -36,16 +35,16 @@ const UpComming = () => {
         <View style={styles.circleContainer}>
           <View style={styles.circle}>
             <Image
-              source={{ uri: data[0].group_thumbnail || defaults.gt }}
+              source={{ uri: data[0]?.group_thumbnail || defaults.gt }}
               style={styles.image}
               resizeMode="cover"
             />
           </View>
         </View>
-        <Text style={styles.nickname}>{data[0].group_name}</Text>
+        <Text style={styles.nickname}>{data[0]?.group_name}</Text>
       </View>
       <View style={styles.footer}>
-        <Text style={styles.day}>{useDday(data[0].date)}</Text>
+        <Text style={styles.day}>{useDday(data[0]?.date)}</Text>
       </View>
     </TouchableOpacity>
   );
