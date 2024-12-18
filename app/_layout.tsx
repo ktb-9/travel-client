@@ -1,8 +1,11 @@
 import React from "react";
-import { Stack } from "expo-router";
+import { Stack, useRouter } from "expo-router";
 import { RecoilRoot as OriginalRecoilRoot } from "recoil";
 import { TextDecoder, TextEncoder } from "text-encoding";
 import QueryClientProvider from "@/provider/QueryClientProvider";
+import ErrorBoundary from "@/components/ErrorBoundary/ErrorBoundary";
+import Error from "@/components/Error/Error";
+import Toast from "react-native-toast-message"; // 추가
 // TextEncoder와 TextDecoder 설정
 if (typeof global.TextEncoder === "undefined") {
   global.TextEncoder = TextEncoder;
@@ -15,11 +18,15 @@ const RecoilRoot: React.FC<React.PropsWithChildren> = OriginalRecoilRoot as any;
 
 export default function RootLayout() {
   return (
-    <QueryClientProvider>
-      <RecoilRoot>
-        {/* 상단 탭 없애기 */}
-        <Stack screenOptions={{ headerShown: false }} />
-      </RecoilRoot>
-    </QueryClientProvider>
+    <>
+      <ErrorBoundary Fallback={Error}>
+        <QueryClientProvider>
+          <RecoilRoot>
+            <Stack screenOptions={{ headerShown: false }} />
+          </RecoilRoot>
+        </QueryClientProvider>
+      </ErrorBoundary>
+      <Toast />
+    </>
   );
 }

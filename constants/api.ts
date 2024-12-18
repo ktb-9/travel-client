@@ -5,6 +5,7 @@ export const AXIOS_BASE_URL = process.env.EXPO_PUBLIC_AXIOS_BASE_URL;
 export const MAP_KEY = process.env.EXPO_PUBLIC_MAP_KEY;
 export const END_POINTS = {
   LOGIN: "/auth/oauth/kakao/callback",
+  REFRESH: "/auth/refresh",
   GETUPCOMMING: "/trip/upcomming",
   HISTORY: "history",
   SCHEDULE: "trip",
@@ -44,20 +45,6 @@ export const HTTP_STATUS_CODE = {
   INTERNAL_SERVER_ERROR: 500,
 } as const;
 
-export const ERROR_CODE = {
-  DUPLICATED_NICKNAME: 1013,
-  LARGE_IMAGE_FILE: 5001,
-  TOKEN_ERROR_RANGE: 9000,
-  INVALID_REFRESH_TOKEN: 9101,
-  INVALID_ACCESS_TOKEN: 9102,
-  EXPIRED_REFRESH_TOKEN: 9103,
-  EXPIRED_ACCESS_TOKEN: 9104,
-  INVALID_TOKEN_VALIDATE: 9105,
-  NULL_REFRESH_TOKEN: 9106,
-  UNAUTHORIZED: 9201,
-  UNEXPECTED_TOKEN_ERROR: 9999,
-} as const;
-
 export const HTTP_ERROR_MESSAGE = {
   [HTTP_STATUS_CODE.NOT_FOUND]: {
     HEADING: "길을 잃었나요?",
@@ -74,6 +61,13 @@ export const HTTP_ERROR_MESSAGE = {
     BODY: "확인 후 다시 시도해주세요.",
     BUTTON: "홈으로 가기",
   },
+} as const;
+
+// 토스트용 에러 메시지
+export const TOAST_MESSAGES = {
+  409: "이미 존재하는 데이터입니다.",
+  422: "입력 값을 확인해주세요.",
+  403: "접근 권한이 없습니다.",
 } as const;
 
 export const ERROR_MESSAGE = "오류가 발생했습니다. 잠시 후 다시 시도해주세요.";
