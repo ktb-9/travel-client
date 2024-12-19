@@ -67,6 +67,8 @@ export interface PaymentInputProps {
   onInputChange: (field: string, value: string) => void;
   onCategorySelect: (category: string) => void;
   onDateSelect: (date: Date) => void;
+  isDropdownVisible: boolean;
+  setDropdownVisible: React.Dispatch<React.SetStateAction<boolean>>;
 }
 export type ExpenseDetail = {
   type: "개인" | "공통";

@@ -1,29 +1,76 @@
 import { StyleSheet, Dimensions } from "react-native";
-import Constants from "expo-constants";
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: "#ffffff",
+    alignItems: "center",
+    justifyContent: "space-between",
+    paddingVertical: 60,
+  },
+
+  logoContainer: {
+    flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    paddingTop: Constants.statusBarHeight,
+    marginBottom: 40,
   },
+
+  logo: {
+    width: 200,
+    height: 200,
+    resizeMode: "contain",
+  },
+
+  appName: {
+    fontSize: 24,
+    fontWeight: "bold",
+    color: "#333333",
+    marginTop: 16,
+  },
+
+  loginContainer: {
+    position: "absolute",
+    top: "80%",
+    width: "100%",
+    paddingHorizontal: 40,
+  },
+
   kakaoButton: {
-    padding: 15,
-    borderRadius: 30,
-    width: "80%", // 버튼 너비
+    backgroundColor: "#FEE500",
+    borderRadius: 12,
+    flexDirection: "row",
     alignItems: "center",
-    overflow: "hidden",
+    justifyContent: "center",
+    paddingVertical: 12,
+    paddingHorizontal: 20,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
   },
-  buttonText: {
-    color: "#000", // 텍스트 색상 추가 (선택 사항)
-  },
-  errorText: {
-    color: "red",
-    marginBottom: 20,
-  },
+
   kakaoImage: {
-    width: "100%", // 버튼 너비에 맞춤
-    height: 40, // 버튼 높이에 맞춤
+    width: 24,
+    height: 24,
+    marginRight: 8,
+  },
+
+  kakaoText: {
+    color: "#000000",
+    fontSize: 16,
+    fontWeight: "600",
+  },
+
+  errorText: {
+    color: "#ff3b30",
+    marginTop: 8,
+    textAlign: "center",
   },
 });
+
 export default styles;

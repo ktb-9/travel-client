@@ -6,13 +6,14 @@ import getGroupQuery from "@/hooks/api/getGroupQuery";
 import { RouteProp, useRoute } from "@react-navigation/native";
 import styles from "./styles";
 import Calendar from "../calendar/calendar";
-type RouteParams = {
+import { useLocalSearchParams } from "expo-router";
+type Params = {
   id: string;
 };
 const Content = () => {
   const [groupName, setGroupName] = useState("");
-  const route = useRoute<RouteProp<{ params: RouteParams }, "params">>();
-  const encodedId = route.params?.id;
+  const params = useLocalSearchParams<Params>();
+  const encodedId = params.id; // params에서 직접 id 접근
   const decodedId = decodeURIComponent(encodedId); // URL 디코딩
   const { data, isLoading, isError } = getGroupQuery(parseInt(decodedId));
 

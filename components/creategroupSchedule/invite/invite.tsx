@@ -12,12 +12,13 @@ import Button from "@/components/common/Button/button";
 import * as Clipboard from "expo-clipboard";
 import { useState } from "react";
 import Toast from "./Toast/Toast";
-type RouteParams = {
+import { useLocalSearchParams } from "expo-router";
+type Params = {
   id: string;
 };
 const Invite = () => {
-  const route = useRoute<RouteProp<{ params: RouteParams }, "params">>();
-  const encodedId = route.params?.id;
+  const params = useLocalSearchParams<Params>();
+  const encodedId = params.id;
   const groupState = useRecoilValue(groupHostState);
   const decodedId = decodeURIComponent(encodedId); // URL 디코딩
   const userValue = useRecoilValue(authState);

@@ -6,7 +6,9 @@ import PaymentInput from "./PaymentInput";
 import UserList from "./UserList";
 import { PaymentType } from "@/types/payment/payment";
 import { Ionicons } from "@expo/vector-icons";
+import { useState } from "react";
 const Payments: React.FC<PaymentType> = ({ value, SetValue, index }) => {
+  const [isDropdownVisible, setDropdownVisible] = useState(false);
   const handleInputChange = (field: string, text: string) => {
     SetValue((prev) =>
       prev.map((item, i) =>
@@ -26,6 +28,7 @@ const Payments: React.FC<PaymentType> = ({ value, SetValue, index }) => {
         i === index ? { ...item, category: category } : item
       )
     );
+    setDropdownVisible(false);
   };
 
   const handleDateSelect = (date: Date) => {
@@ -73,6 +76,8 @@ const Payments: React.FC<PaymentType> = ({ value, SetValue, index }) => {
         onInputChange={handleInputChange}
         onCategorySelect={handleCategorySelect}
         onDateSelect={handleDateSelect}
+        isDropdownVisible={isDropdownVisible}
+        setDropdownVisible={setDropdownVisible}
       />
       <UserList
         value={value}

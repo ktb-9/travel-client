@@ -3,9 +3,12 @@ import styles from "./styles";
 import tripQuery from "@/hooks/api/tripQuery";
 import { defaults } from "@/constants/default";
 import Summary from "../summary/summary";
+import { useRecoilValue } from "recoil";
+import tripIdState from "@/recoil/tripIdState";
 
 const Content = () => {
-  const { data, isLoading, isError } = tripQuery(1);
+  const tripId = useRecoilValue(tripIdState);
+  const { data, isLoading, isError } = tripQuery(tripId);
   if (isLoading) {
     return <ActivityIndicator size="large" color="#0000ff" />;
   }
@@ -17,7 +20,10 @@ const Content = () => {
   return (
     <View style={styles.container}>
       <View style={styles.background}>
-        <Image source={{ uri: defaults.bg }} style={styles.image} />
+        <Image
+          source={{ uri: data.backgroundUrl || defaults.bg }}
+          style={styles.image}
+        />
         <View style={styles.overlay} />
       </View>
       <View style={styles.summaryContainer}>

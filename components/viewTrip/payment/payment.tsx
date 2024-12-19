@@ -37,7 +37,7 @@ const Payment = () => {
       </View>
     );
   }
-  console.log(JSON.stringify(data));
+  console.log("hello", JSON.stringify(data));
 
   const value = useCalculatePayment(data, 1);
   const handleEdit = () => {

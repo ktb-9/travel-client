@@ -14,14 +14,14 @@ export default function LoginScreen() {
   const [showWebView, setShowWebView] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const router = useRouter();
-  const checkToken = async () => {
-    const tokensString = await AsyncStorage.getItem(TOKEN_KEY);
+  // const checkToken = async () => {
+  //   const tokensString = await AsyncStorage.getItem(TOKEN_KEY);
 
-    if (tokensString != undefined) router.push("/home/home");
-  };
-  useEffect(() => {
-    checkToken();
-  }, []);
+  //   if (tokensString != undefined) router.push("/home/home");
+  // };
+  // useEffect(() => {
+  //   checkToken();
+  // }, []);
   const [, setUser] = useRecoilState(authState);
 
   const handleKakaoLogin = () => {
@@ -53,14 +53,24 @@ export default function LoginScreen() {
 
   return (
     <View style={styles.container}>
-      {error && <Text style={styles.errorText}>{error}</Text>}
-      <TouchableOpacity
-        testID="kakao"
-        style={styles.kakaoButton}
-        onPress={handleKakaoLogin}
-      >
-        <Image source={kakao} style={styles.kakaoImage} />
-      </TouchableOpacity>
+      <View style={styles.logoContainer}>
+        <Image
+          source={require("@/assets/images/logo.png")}
+          style={styles.logo}
+        />
+        <Text style={styles.appName}>리플 트립</Text>
+      </View>
+
+      <View style={styles.loginContainer}>
+        {error && <Text style={styles.errorText}>{error}</Text>}
+        <TouchableOpacity
+          testID="kakao"
+          style={styles.kakaoButton}
+          onPress={handleKakaoLogin}
+        >
+          <Text style={styles.kakaoText}>카카오로 시작하기</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 }

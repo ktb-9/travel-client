@@ -4,6 +4,7 @@ import { MaterialIcons } from "@expo/vector-icons";
 import * as ImagePicker from "expo-image-picker";
 import styles from "./styles";
 import { AddImagePickerSectionProps } from "@/types/viewTrip/viewTrip";
+import uploadNewLocationThumbnail from "@/api/trip/uploadNewLocationThumbnail";
 
 export const ImagePickerSection: React.FC<AddImagePickerSectionProps> = ({
   thumbnail,
@@ -18,7 +19,27 @@ export const ImagePickerSection: React.FC<AddImagePickerSectionProps> = ({
     });
 
     if (!result.canceled && result.assets[0].uri) {
-      onImageSelect(result.assets[0].uri);
+      await uploadThumbnail(result.assets[0].uri);
+    }
+  };
+
+  const uploadThumbnail = async (imageUri: string) => {
+    try {
+      const formData = new FormData();
+      formData.append("thumbnail", {
+        uri: imageUri,
+        type: "image/jpeg",
+        name: "thumbnail.jpg",
+      } as any);
+
+      const response = await uploadNewLocationThumbnail(formData);
+
+      onImageSelect(response.thumbnailUrl);
+
+      alert(response.message);
+    } catch (error) {
+      console.error("섭네일 업로드 에러:", error);
+      alert("썸네일 업로드 실패");
     }
   };
 

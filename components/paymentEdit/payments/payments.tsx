@@ -7,7 +7,9 @@ import UserList from "./UserList";
 import { PaymentEditType } from "@/types/payment/payment";
 import { Ionicons } from "@expo/vector-icons";
 import deletePaymentsMutation from "@/hooks/api/deletePaymentsMutation";
+import { useState } from "react";
 const Payments: React.FC<PaymentEditType> = ({ value, SetValue, index }) => {
+  const [isDropdownVisible, setDropdownVisible] = useState(false);
   const deleteMutation = deletePaymentsMutation();
   const handleInputChange = (field: string, text: string) => {
     SetValue((prev) =>
@@ -28,6 +30,7 @@ const Payments: React.FC<PaymentEditType> = ({ value, SetValue, index }) => {
         i === index ? { ...item, category: category } : item
       )
     );
+    setDropdownVisible(false);
   };
 
   const handleDateSelect = (date: Date) => {
@@ -80,6 +83,8 @@ const Payments: React.FC<PaymentEditType> = ({ value, SetValue, index }) => {
         onInputChange={handleInputChange}
         onCategorySelect={handleCategorySelect}
         onDateSelect={handleDateSelect}
+        isDropdownVisible={isDropdownVisible}
+        setDropdownVisible={setDropdownVisible}
       />
       <UserList
         value={value}

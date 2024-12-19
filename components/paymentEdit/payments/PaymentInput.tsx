@@ -12,8 +12,9 @@ const PaymentInput: React.FC<PaymentInputProps> = ({
   onInputChange,
   onCategorySelect,
   onDateSelect,
+  isDropdownVisible,
+  setDropdownVisible,
 }) => {
-  const [isDropdownVisible, setDropdownVisible] = useState(false);
   const [isDatePickerVisible, setDatePickerVisible] = useState(false);
   const [selectedDate, setSelectedDate] = useState(
     value.date ? new Date(value.date) : new Date()
@@ -25,7 +26,7 @@ const PaymentInput: React.FC<PaymentInputProps> = ({
     setSelectedDate(date);
     onDateSelect(date);
   };
-
+  console.log(value);
   return (
     <View style={styles.inputContainer}>
       <TouchableOpacity
@@ -46,7 +47,7 @@ const PaymentInput: React.FC<PaymentInputProps> = ({
 
       <TextInput
         style={styles.bankInput}
-        placeholder="세부사항(은행곡)"
+        placeholder="세부사항(ex 은행골)"
         placeholderTextColor="#999"
         value={value.description || ""}
         onChangeText={(text) => onInputChange("description", text)}

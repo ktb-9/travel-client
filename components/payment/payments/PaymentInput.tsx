@@ -6,17 +6,23 @@ import styles from "./styles";
 import CategoryModal from "./modal/modal";
 import DatePickerModal from "./modal/dateModal";
 import { PaymentInputProps } from "@/types/payment/payment";
+import { useRecoilValue } from "recoil";
+import { groupDateState } from "@/recoil/groupDateState";
 
 const PaymentInput: React.FC<PaymentInputProps> = ({
   value,
   onInputChange,
   onCategorySelect,
   onDateSelect,
+  isDropdownVisible,
+  setDropdownVisible,
 }) => {
-  const [isDropdownVisible, setDropdownVisible] = useState(false);
   const [isDatePickerVisible, setDatePickerVisible] = useState(false);
+  const dateValue = useRecoilValue(groupDateState);
   const [selectedDate, setSelectedDate] = useState(
-    value.date ? new Date(value.date) : new Date()
+    value.date
+      ? new Date(value.date)
+      : new Date(dateValue.split("~")[0].replace(/\./g, "-"))
   );
 
   const formatDate = (date: Date) => date.toISOString().split("T")[0];
@@ -46,7 +52,7 @@ const PaymentInput: React.FC<PaymentInputProps> = ({
 
       <TextInput
         style={styles.bankInput}
-        placeholder="세부사항(은행곡)"
+        placeholder="세부사항(ex 은행골)"
         placeholderTextColor="#999"
         value={value.description || ""}
         onChangeText={(text) => onInputChange("description", text)}

@@ -5,12 +5,16 @@ import { useEffect, useState } from "react";
 import EditGroupModal from "./modal/EditModal";
 import Button from "@/components/common/Button/button";
 import { defaults } from "@/constants/default";
+import { useRecoilState } from "recoil";
+import { groupDateState } from "@/recoil/groupDateState";
 
 const Group = ({ data }: { data: groupState }) => {
   const [dataValue, setDataValue] = useState<groupState>({} as groupState);
+  const [, setDate] = useRecoilState(groupDateState);
   useEffect(() => {
     setDataValue(data);
-  }, []);
+    setDate(data.date);
+  }, [data]);
 
   const [isEditModalVisible, setIsEditModalVisible] = useState(false);
   return (

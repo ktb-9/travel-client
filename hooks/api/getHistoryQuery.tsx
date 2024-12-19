@@ -4,7 +4,7 @@ import { useSuspenseQuery } from "@tanstack/react-query";
 
 const getHistoryQuery = () => {
   return useSuspenseQuery({
-    queryKey: [queryKeys.history],
+    queryKey: queryKeys.history,
     queryFn: fetchHistory,
   });
 };

@@ -3,22 +3,20 @@ import { useState, useEffect } from "react";
 import styles from "./styles";
 import { useFonts } from "expo-font";
 import { Ionicons } from "@expo/vector-icons";
-import { useRouter } from "expo-router";
+import { useLocalSearchParams, useRouter } from "expo-router";
 import { io, Socket } from "socket.io-client";
-import { RouteProp, useRoute } from "@react-navigation/native";
 import { useRecoilValue } from "recoil";
 import authState from "@/recoil/authState";
 import { AXIOS_BASE_URL } from "@/constants/api";
-type RouteParams = {
+type Params = {
   id: string;
 };
 const Header = () => {
   const router = useRouter();
+  const params = useLocalSearchParams<Params>(); // useRoute 대신 useLocalSearchParams 사용
   const [userRole, setUserRole] = useState<string>("");
   const [socket, setSocket] = useState<Socket | null>(null);
-  const route = useRoute<RouteProp<{ params: RouteParams }, "params">>();
-  const encodedId = route.params?.id;
-
+  const encodedId = params.id; // params에서 직접 id 접근
   const decodedId = decodeURIComponent(encodedId); // URL 디코딩
   const userValue = useRecoilValue(authState);
 

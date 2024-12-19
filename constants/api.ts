@@ -21,6 +21,7 @@ export const END_POINTS = {
   POSTLINK: (groupId: number) => `group/invite/${groupId}`,
   trip: (tripId: number) => `trip/${tripId}`,
   ADDLOCATION: "trip/location",
+  UPDATENEWLOCATIONTHUMBNAIL: `trip/upload/`,
   UPDATELOCATIONTHUMBNAIL: (locationId: number) => `trip/upload/${locationId}`,
   MYTRIP: "trip/mytrip",
   GETPAYMENTMEMBER: (tripId: number) => `payment/members/${tripId}`,
