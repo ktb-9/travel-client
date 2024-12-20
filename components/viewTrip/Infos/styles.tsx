@@ -1,5 +1,5 @@
 import { Dimensions, StyleSheet } from "react-native";
-const { height } = Dimensions.get("window");
+const { height, width } = Dimensions.get("window");
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -9,6 +9,7 @@ const styles = StyleSheet.create({
   background: {
     width: "100%",
     height: 300,
+    position: "relative",
   },
   overlay: {
     position: "absolute",
@@ -61,6 +62,47 @@ const styles = StyleSheet.create({
   planContainer: {
     width: "100%",
     height: 600,
+  },
+  membersContainer: {
+    position: "absolute",
+    bottom: 56,
+    left: 10,
+    flexDirection: "row",
+    gap: 3,
+    alignItems: "center",
+    width: "auto",
+  },
+  memberProfileContainer: {
+    width: 25,
+    height: 25,
+    borderRadius: 12.5,
+    borderWidth: 2,
+    borderColor: "white",
+  },
+  memberProfileImage: {
+    width: "100%",
+    height: "100%",
+    borderRadius: 20,
+  },
+  memberCountBadge: {
+    backgroundColor: "#007bff",
+    borderRadius: 15,
+    paddingHorizontal: 10,
+    paddingVertical: 2,
+    marginLeft: "auto",
+  },
+  memberCountText: {
+    color: "white",
+    fontWeight: "bold",
+  },
+  buttonContainer: {
+    position: "absolute",
+    bottom: 50,
+
+    width: "100%",
+    flexDirection: "row",
+    justifyContent: "flex-end",
+    paddingRight: 10,
   },
 });
 

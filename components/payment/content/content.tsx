@@ -36,7 +36,6 @@ const Content = () => {
   };
   const handleSubmit = () => {
     // 지출 등록 로직 구현
-
     mutate(value);
   };
   return (

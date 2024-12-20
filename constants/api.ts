@@ -29,6 +29,7 @@ export const END_POINTS = {
   PAYMENT: (tripId: number) => `payment/${tripId}`,
   DELETEPAYMENT: (paymentId: number) => `payment/${paymentId}`,
   GETANALYSIS: (tripId: number) => `analysis/${tripId}`,
+  LEAVEGROUP: (tripId: number) => `delete/leave/${tripId}`,
 } as const;
 
 export const NETWORK = {

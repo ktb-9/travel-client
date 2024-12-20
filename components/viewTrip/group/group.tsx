@@ -10,6 +10,7 @@ import { groupDateState } from "@/recoil/groupDateState";
 
 const Group = ({ data }: { data: groupState }) => {
   const [dataValue, setDataValue] = useState<groupState>({} as groupState);
+
   const [, setDate] = useRecoilState(groupDateState);
   useEffect(() => {
     setDataValue(data);
@@ -37,6 +38,7 @@ const Group = ({ data }: { data: groupState }) => {
       </View>
       <Text style={styles.nickname}>{dataValue.groupName}</Text>
       <Text style={styles.day}>{dataValue.date}</Text>
+
       <EditGroupModal
         isVisible={isEditModalVisible}
         onClose={() => setIsEditModalVisible(false)}

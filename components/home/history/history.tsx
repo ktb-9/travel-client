@@ -2,9 +2,9 @@ import React, { useRef, useState } from "react";
 import { View, Text, Animated, Dimensions } from "react-native";
 import styles from "./styles";
 import { useFonts } from "expo-font";
-import renderItem from "./renderItem";
 import getHistoryQuery from "@/hooks/api/getHistoryQuery";
 import { HistoryData } from "@/types/home/history";
+import RenderItem from "./renderItem";
 
 const { width } = Dimensions.get("window");
 
@@ -43,9 +43,14 @@ const History = () => {
           { useNativeDriver: true }
         )}
       >
-        {data.map((item: HistoryData, index: number) =>
-          renderItem({ item, index, scrollX })
-        )}
+        {data.map((item: HistoryData, index: number) => (
+          <RenderItem
+            key={item.tripId}
+            item={item}
+            index={index}
+            scrollX={scrollX}
+          />
+        ))}
       </Animated.ScrollView>
     </View>
   );
