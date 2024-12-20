@@ -15,13 +15,17 @@ import getPaymentMembersQuery from "@/hooks/api/getPaymentMembersQuery";
 import { AddMemberButton } from "./AddMemberButton/AddMemberButton";
 import { LeaveRoomButton } from "./LeaveRoomButton/LeaveRoomButton";
 import leaveGroupMutation from "@/hooks/api/leaveGroupMutation";
+import postLink from "@/api/group/postLink";
+import * as Clipboard from "expo-clipboard";
+import Toast from "./Toast/Toast";
 
 const Infos = () => {
   const tripId = useRecoilValue(tripIdState);
+  const [toastVisible, setToastVisible] = useState(false);
   const { data } = tripQuery(tripId);
   const [backgroundUri, setBackgroundUri] = useState("");
   const [isModalVisible, setModalVisible] = useState(false);
-  const [, setGroupId] = useRecoilState(groupIdState);
+  const [groupId, setGroupId] = useRecoilState(groupIdState);
   const { data: groupMembers } = getPaymentMembersQuery(tripId);
   const { mutate: leaveGroup } = leaveGroupMutation(tripId);
 
@@ -34,9 +38,16 @@ const Infos = () => {
     setGroupId(data.group_id);
   }, [data]);
 
-  const handleAddMember = () => {
-    // TODO: 멤버 추가 로직 구현
-    console.log("Add member clicked");
+  const handleAddMember = async () => {
+    try {
+      const response = await postLink(groupId);
+      if (response) {
+        await Clipboard.setStringAsync(response.inviteLink); // 변경된 부분
+        setToastVisible(true);
+      }
+    } catch (error) {
+      console.error("링크 생성 실패", error);
+    }
   };
 
   const handleLeaveRoom = () => {
@@ -110,7 +121,16 @@ const Infos = () => {
     );
   }, [data, backgroundUri, isModalVisible, groupMembers]);
 
-  return <View style={styles.container}>{renderContent}</View>;
+  return (
+    <>
+      <Toast
+        visible={toastVisible}
+        message="링크가 복사되었습니다"
+        onHide={() => setToastVisible(false)}
+      />
+      <View style={styles.container}>{renderContent}</View>
+    </>
+  );
 };
 
 export default Infos;

@@ -20,6 +20,7 @@ export const END_POINTS = {
   UPDATEGROUPTHUMBNAIL: (groupId: number) => `group/upload/${groupId}`,
   POSTLINK: (groupId: number) => `group/invite/${groupId}`,
   trip: (tripId: number) => `trip/${tripId}`,
+  EXISTINGGROUP: (groupId: number) => `trip/exist/${groupId}`,
   ADDLOCATION: "trip/location",
   UPDATENEWLOCATIONTHUMBNAIL: `trip/upload/`,
   UPDATELOCATIONTHUMBNAIL: (locationId: number) => `trip/upload/${locationId}`,

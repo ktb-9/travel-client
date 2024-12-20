@@ -3,7 +3,6 @@ import styles from "./styles";
 import leader from "@/assets/images/leader.png";
 import companion from "@/assets/images/companion.png";
 import { useRecoilValue } from "recoil";
-import { RouteProp, useRoute } from "@react-navigation/native";
 import { useGroupSocket } from "@/api/group/useGroupSocket";
 import authState from "@/recoil/authState";
 import postLink from "@/api/group/postLink";
@@ -11,7 +10,7 @@ import groupHostState from "@/recoil/groupHostState";
 import Button from "@/components/common/Button/button";
 import * as Clipboard from "expo-clipboard";
 import { useState } from "react";
-import Toast from "./Toast/Toast";
+import Toast from "../../common/Toast/Toast";
 import { useLocalSearchParams } from "expo-router";
 type Params = {
   id: string;

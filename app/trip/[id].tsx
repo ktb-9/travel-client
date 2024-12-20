@@ -32,6 +32,9 @@ const ViewTrip = () => {
       await queryClient.invalidateQueries({
         queryKey: [queryKeys.getPayment, tripId],
       });
+      await queryClient.invalidateQueries({
+        queryKey: [queryKeys.getPaymentMember, tripId],
+      });
     } catch (error) {
       console.error("새로고침 실패 :", error);
     } finally {
