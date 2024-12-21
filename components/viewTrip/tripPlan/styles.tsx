@@ -5,6 +5,7 @@ const styles = StyleSheet.create({
     marginTop: -50,
     flex: 1,
     backgroundColor: "#f5f5f5",
+    alignItems: "center",
   },
   pagination: {
     flexDirection: "row",

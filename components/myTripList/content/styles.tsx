@@ -110,6 +110,28 @@ const styles = StyleSheet.create({
     marginLeft: 4,
     fontWeight: "500",
   },
+  legendContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: 16,
+    marginLeft: 4,
+  },
+  legendItem: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginRight: 16, // gap 대신 marginRight 사용
+  },
+  legendDot: {
+    // 함수 대신 일반 스타일 객체로 변경
+    width: 12,
+    height: 12,
+    borderRadius: 6,
+  },
+  legendText: {
+    fontSize: 14,
+    color: "#6B7280",
+    marginLeft: 8, // legendItem 내부 간격을 위해 추가
+  },
 });
 
 export default styles;

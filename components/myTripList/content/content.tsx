@@ -1,10 +1,4 @@
-import {
-  ActivityIndicator,
-  Text,
-  TouchableOpacity,
-  View,
-  ScrollView,
-} from "react-native";
+import { Text, TouchableOpacity, View, ScrollView } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import useMyTripGroupQuery from "@/hooks/api/useMyTripGroupQuery";
 import styles from "./styles";
@@ -38,7 +32,12 @@ const Content = () => {
         onPress={() => handleTrip(trip.trip_id)}
       >
         <View style={styles.tripHeader}>
-          <View style={styles.tripIconContainer}>
+          <View
+            style={{
+              ...styles.tripIconContainer,
+              backgroundColor: trip.finish ? "#22C55E" : "#3B82F6",
+            }}
+          >
             <Ionicons name="airplane" size={20} color="#FFFFFF" />
           </View>
           <Text style={styles.tripName} numberOfLines={1}>
@@ -65,7 +64,7 @@ const Content = () => {
         </View>
       </TouchableOpacity>
     ));
-  }, [data, handleTrip]); // Added handleTrip to dependencies
+  }, [data, handleTrip]);
 
   return (
     <ScrollView
@@ -73,6 +72,17 @@ const Content = () => {
       contentContainerStyle={styles.contentContainer}
     >
       <Text style={styles.title}>나의 여행</Text>
+      {/* 상태 표시 범례 추가 */}
+      <View style={styles.legendContainer}>
+        <View style={styles.legendItem}>
+          <View style={[styles.legendDot, { backgroundColor: "#22C55E" }]} />
+          <Text style={styles.legendText}>완료</Text>
+        </View>
+        <View style={styles.legendItem}>
+          <View style={[styles.legendDot, { backgroundColor: "#3B82F6" }]} />
+          <Text style={styles.legendText}>진행중</Text>
+        </View>
+      </View>
       {renderTripList}
     </ScrollView>
   );

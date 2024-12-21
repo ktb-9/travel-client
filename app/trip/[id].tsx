@@ -2,7 +2,7 @@ import React, { useState, useEffect, Suspense } from "react";
 import { RefreshControl, SafeAreaView, ScrollView, View } from "react-native";
 import styles from "./styles";
 import Header from "@/components/common/Header/header";
-import { useRouter } from "expo-router";
+import { Stack, useRouter } from "expo-router";
 import Button from "@/components/common/Button/button";
 const Infos = React.lazy(() => import("@/components/viewTrip/Infos/infos"));
 const Payment = React.lazy(
@@ -50,32 +50,39 @@ const ViewTrip = () => {
   }, []);
   if (!isReady) return <TripLoading />;
   return (
-    <SafeAreaView style={styles.container}>
-      <Suspense fallback={<TripLoading />}>
-        <Header
-          onPress={() => router.push("/myTripList/myTripList")}
-          title="여행 일정"
-        />
-        <ScrollView
-          contentContainerStyle={styles.content}
-          refreshControl={
-            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-          }
-        >
-          <Suspense fallback={<Skeleton />}>
-            <Infos />
-            <Payment />
-          </Suspense>
-        </ScrollView>
-        <View style={{ alignItems: "center" }}>
-          <Button
-            variant="primary"
-            title="여행 종료"
-            onPress={() => router.push("/summary/Summary")}
+    <>
+      <Stack.Screen
+        options={{
+          gestureEnabled: false,
+        }}
+      />
+      <SafeAreaView style={styles.container}>
+        <Suspense fallback={<TripLoading />}>
+          <Header
+            onPress={() => router.push("/myTripList/myTripList")}
+            title="여행 일정"
           />
-        </View>
-      </Suspense>
-    </SafeAreaView>
+          <ScrollView
+            contentContainerStyle={styles.content}
+            refreshControl={
+              <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+            }
+          >
+            <Suspense fallback={<Skeleton />}>
+              <Infos />
+              <Payment />
+            </Suspense>
+          </ScrollView>
+          <View style={{ alignItems: "center" }}>
+            <Button
+              variant="primary"
+              title="여행 종료"
+              onPress={() => router.push("/summary/Summary")}
+            />
+          </View>
+        </Suspense>
+      </SafeAreaView>
+    </>
   );
 };
 
